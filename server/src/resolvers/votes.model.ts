@@ -11,7 +11,7 @@ class VotesResult {
   @Field()
   chamber: string
 
-  @Field(type => [Vote])
+  @Field(() => [Vote])
   votes: Vote[]
 }
 
