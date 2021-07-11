@@ -4,6 +4,10 @@ service: backend
 
 frameworkVersion: "2"
 
+plugins:
+  - serverless-offline
+  - serverless-dynamodb-local
+
 custom:
   votesTableName: "votes-table-${self:provider.stage}"
 
@@ -12,17 +16,13 @@ provider:
   runtime: nodejs12.x
   lambdaHashingVersion: "20201221"
   stage: dev
+  region: us-east-1
   iam:
     role:
       statements:
         - Effect: Allow
           Action:
             - dynamodb:Query
-            - dynamodb:Scan
-            - dynamodb:GetItem
-            - dynamodb:PutItem
-            - dynamodb:UpdateItem
-            - dynamodb:DeleteItem
             - dynamodb:BatchWriteItem
           Resource:
             - Fn::GetAtt: [VotesTable, Arn]
@@ -31,10 +31,20 @@ provider:
     API_KEY: ${param:proPublicaAPIKey}
 
 functions:
-  pullVotes:
-    handler: handler.run
+  syncVotes:
+    handler: votes-sync.handler.run
     events:
-      - schedule: rate(2 hours)
+      - schedule: cron(0 8,16 ? * * *)
+  graphql:
+    handler: graphql.handler
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+      - http:
+          path: graphql
+          method: get
 
 resources:
   Resources:
