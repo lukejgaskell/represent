@@ -142,7 +142,8 @@
                     "dynamodb:GetItem",
                     "dynamodb:PutItem",
                     "dynamodb:UpdateItem",
-                    "dynamodb:DeleteItem"
+                    "dynamodb:DeleteItem",
+                    "dynamodb:BatchWriteItem"
                   ],
                   "Resource": [
                     {
@@ -226,7 +227,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/backend/dev/1625978869891-2021-07-11T04:47:49.891Z/backend.zip"
+          "S3Key": "serverless/backend/dev/1625979413472-2021-07-11T04:56:53.472Z/backend.zip"
         },
         "Handler": "s_pullVotes.handler",
         "Runtime": "nodejs12.x",
@@ -250,14 +251,14 @@
         "PullVotesLogGroup"
       ]
     },
-    "PullVotesLambdaVersionFTpMTawbYfUCJHC7ykS7rtchpKCqjH9btvYAyPQK3I": {
+    "PullVotesLambdaVersionvtpXXyIL4eLvHdOAgURxIg01bmLogRoWJOjEscw": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "PullVotesLambdaFunction"
         },
-        "CodeSha256": "5JCn0EK6gSGjru77DJfVh9KO3BYnRvsCvYkLLVPSpYk="
+        "CodeSha256": "2Kao2M/xOpqV1LV3Ud0J94ZSOe2BUEf7fbMv2bdlRvU="
       }
     },
     "PullVotesEventsRuleSchedule1": {
@@ -361,7 +362,7 @@
     "PullVotesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "PullVotesLambdaVersionFTpMTawbYfUCJHC7ykS7rtchpKCqjH9btvYAyPQK3I"
+        "Ref": "PullVotesLambdaVersionvtpXXyIL4eLvHdOAgURxIg01bmLogRoWJOjEscw"
       },
       "Export": {
         "Name": "sls-backend-dev-PullVotesLambdaFunctionQualifiedArn"

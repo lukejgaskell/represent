@@ -23,6 +23,7 @@ provider:
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
+            - dynamodb:BatchWriteItem
           Resource:
             - Fn::GetAtt: [VotesTable, Arn]
   environment:

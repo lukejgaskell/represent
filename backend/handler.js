@@ -31,6 +31,8 @@ module.exports.run = async (event, context) => {
         },
       })
       .promise()
+
+    console.info(`Cron function "${context.functionName}" is finished`)
   } catch (e) {
     console.info(`error while running the function`, e)
   }
