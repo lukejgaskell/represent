@@ -1,4 +1,4 @@
-const { gql } = require("apollo-server-lambda")
+import { gql } from "apollo-server-lambda"
 export default gql`
   type Query {
     getVotes(yearMonth: string!): VotesReponse
