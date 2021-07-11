@@ -21,22 +21,67 @@ const type_graphql_1 = require("type-graphql");
 const votes_model_1 = require("./votes.model");
 const config_1 = __importDefault(require("../config"));
 let VotesResolver = class VotesResolver {
-    votes(offset = 0) {
-        console.log("resolver called");
+    votes({ offset }) {
         return axios_1.default
             .get(`${config_1.default.apiBaseUrl}/house/votes/recent.json`, {
             headers: { "X-API-Key": config_1.default.apiKey },
             params: { offset },
         })
-            .then(res => res.data);
+            .then(res => res.data)
+            .then((data) => {
+            return {
+                chamber: data.results.chamber,
+                offset: data.results.offset,
+                count: data.results.num_results,
+                items: data.results.votes.map(v => {
+                    return {
+                        result: v.result,
+                        billTitle: v.bill.title,
+                        description: v.description,
+                        rollCall: v.roll_call,
+                        date: v.date,
+                        time: v.time,
+                        voteType: v.vote_type,
+                        question: v.question,
+                        billId: v.bill.bill_id,
+                        republican: {
+                            yes: v.republican.yes,
+                            no: v.republican.no,
+                            present: v.republican.present,
+                            notVoting: v.republican.not_voting,
+                            majorityPosition: v.republican.majority_position,
+                        },
+                        democratic: {
+                            yes: v.democratic.yes,
+                            no: v.democratic.no,
+                            present: v.democratic.present,
+                            notVoting: v.democratic.not_voting,
+                            majorityPosition: v.democratic.majority_position,
+                        },
+                        independent: {
+                            yes: v.independent.yes,
+                            no: v.independent.no,
+                            present: v.independent.present,
+                            notVoting: v.independent.not_voting,
+                        },
+                        total: {
+                            yes: v.total.yes,
+                            no: v.total.no,
+                            present: v.total.present,
+                            notVoting: v.total.not_voting,
+                        },
+                    };
+                }),
+            };
+        });
     }
 };
 __decorate([
     type_graphql_1.Query(() => votes_model_1.VotesResponse),
-    __param(0, type_graphql_1.Arg("offset")),
+    __param(0, type_graphql_1.Args()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [votes_model_1.GetVotesArgs]),
+    __metadata("design:returntype", Promise)
 ], VotesResolver.prototype, "votes", null);
 VotesResolver = __decorate([
     type_graphql_1.Resolver()

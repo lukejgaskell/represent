@@ -9,42 +9,120 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VotesResponse = void 0;
+exports.GetVotesArgs = exports.VotesResponse = void 0;
 const type_graphql_1 = require("type-graphql");
-let Vote = class Vote {
+let Tally = class Tally {
+};
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", Number)
+], Tally.prototype, "yes", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", Number)
+], Tally.prototype, "no", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", Number)
+], Tally.prototype, "present", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", Number)
+], Tally.prototype, "notVoting", void 0);
+__decorate([
+    type_graphql_1.Field(() => String, { nullable: true }),
+    __metadata("design:type", String)
+], Tally.prototype, "majorityPosition", void 0);
+Tally = __decorate([
+    type_graphql_1.ObjectType()
+], Tally);
+let Items = class Items {
 };
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
-], Vote.prototype, "description", void 0);
-Vote = __decorate([
-    type_graphql_1.ObjectType()
-], Vote);
-let VotesResult = class VotesResult {
-};
+], Items.prototype, "result", void 0);
+__decorate([
+    type_graphql_1.Field(() => String, { nullable: true }),
+    __metadata("design:type", String)
+], Items.prototype, "billTitle", void 0);
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
-], VotesResult.prototype, "chamber", void 0);
+], Items.prototype, "description", void 0);
 __decorate([
-    type_graphql_1.Field(type => [Vote]),
-    __metadata("design:type", Array)
-], VotesResult.prototype, "votes", void 0);
-VotesResult = __decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", Number)
+], Items.prototype, "rollCall", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], Items.prototype, "date", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], Items.prototype, "time", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], Items.prototype, "voteType", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], Items.prototype, "question", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", String)
+], Items.prototype, "billId", void 0);
+__decorate([
+    type_graphql_1.Field(() => Tally),
+    __metadata("design:type", Tally)
+], Items.prototype, "republican", void 0);
+__decorate([
+    type_graphql_1.Field(() => Tally),
+    __metadata("design:type", Tally)
+], Items.prototype, "democratic", void 0);
+__decorate([
+    type_graphql_1.Field(() => Tally),
+    __metadata("design:type", Tally)
+], Items.prototype, "independent", void 0);
+__decorate([
+    type_graphql_1.Field(() => Tally),
+    __metadata("design:type", Tally)
+], Items.prototype, "total", void 0);
+Items = __decorate([
     type_graphql_1.ObjectType()
-], VotesResult);
+], Items);
 let VotesResponse = class VotesResponse {
 };
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
-], VotesResponse.prototype, "status", void 0);
+], VotesResponse.prototype, "chamber", void 0);
 __decorate([
     type_graphql_1.Field(),
-    __metadata("design:type", VotesResult)
-], VotesResponse.prototype, "results", void 0);
+    __metadata("design:type", Number)
+], VotesResponse.prototype, "offset", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    __metadata("design:type", Number)
+], VotesResponse.prototype, "count", void 0);
+__decorate([
+    type_graphql_1.Field(() => [Items]),
+    __metadata("design:type", Array)
+], VotesResponse.prototype, "items", void 0);
 VotesResponse = __decorate([
     type_graphql_1.ObjectType()
 ], VotesResponse);
 exports.VotesResponse = VotesResponse;
+let GetVotesArgs = class GetVotesArgs {
+};
+__decorate([
+    type_graphql_1.Field(() => type_graphql_1.Int, { defaultValue: 0 }),
+    __metadata("design:type", Number)
+], GetVotesArgs.prototype, "offset", void 0);
+GetVotesArgs = __decorate([
+    type_graphql_1.ArgsType()
+], GetVotesArgs);
+exports.GetVotesArgs = GetVotesArgs;
 //# sourceMappingURL=votes.model.js.map
