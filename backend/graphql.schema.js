@@ -1,48 +1,48 @@
 const { gql } = require("apollo-server-lambda")
 module.exports.schema = gql`
   type Query {
-    getVotes(yearMonth: string!): VotesReponse
+    getVotes(yearMonth: String!): VotesReponse
   }
 
   type VotesReponse {
     items: [Vote!]!
-    count: number!
+    count: Int!
   }
 
   type RollCounts {
-    yes: number
-    no: number
-    present: number
-    not_voting: number
-    majority_position: string
+    yes: Int
+    no: Int
+    present: Int
+    not_voting: Int
+    majority_position: String
   }
 
   type Bill {
-    bill_id: string
-    number: string
-    sponsor_id: string
-    api_uri: string
-    title: string
-    latest_action: string
+    bill_id: String
+    Int: String
+    sponsor_id: String
+    api_uri: String
+    title: String
+    latest_action: String
   }
 
   type Vote {
-    congress: number
-    chamber: string
-    session: number
-    roll_call: number
-    source: string
-    url: string
-    vote_uri: string
+    congress: Int
+    chamber: String
+    session: Int
+    roll_call: Int
+    source: String
+    url: String
+    vote_uri: String
     bill: bill
     amendment: object
-    question: string
-    question_text: string
-    description: string
-    vote_type: string
-    date: string
-    time: string
-    result: string
+    question: String
+    question_text: String
+    description: String
+    vote_type: String
+    date: String
+    time: String
+    result: String
     democratic: RollCounts
     republican: RollCounts
     independent: RollCounts
