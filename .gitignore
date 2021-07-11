@@ -4,7 +4,6 @@ node_modules
 .cache/
 
 # Build directory
-public/
 
 # misc
 .DS_Store
