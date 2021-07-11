@@ -5,7 +5,6 @@ const getVotes = async yearMonth => {
   const result = await dbClient
     .query({
       TableName: process.env.VOTES_TABLE,
-      IndexName: "Index",
       KeyConditionExpression: "yearMonth = :yearMonth",
       ExpressionAttributeValues: {
         ":yearMonth": yearMonth,
