@@ -1,4 +1,4 @@
-import { DynamoDB } from "aws-sdk"
+const { DynamoDB } = require("aws-sdk")
 const dbClient = new DynamoDB.DocumentClient()
 
 const getVotes = async yearMonth => {
@@ -16,7 +16,7 @@ const getVotes = async yearMonth => {
   return { items: result.Items, count: result.Count }
 }
 
-export default {
+module.exports.resolvers = {
   Query: {
     getVotes: (root, args) => getVotes(args.yearMonth),
   },
