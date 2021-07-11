@@ -35,7 +35,6 @@ module.exports.schema = gql`
     url: String
     vote_uri: String
     bill: bill
-    amendment: object
     question: String
     question_text: String
     description: String
