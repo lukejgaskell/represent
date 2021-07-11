@@ -1,7 +1,6 @@
 import { DynamoDB } from "aws-sdk"
 const dbClient = new DynamoDB.DocumentClient()
 
-// This method just inserts the user's first name into the greeting message.
 const getVotes = async yearMonth => {
   const result = await dbClient
     .query({
