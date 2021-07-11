@@ -34,7 +34,7 @@ module.exports.schema = gql`
     source: String
     url: String
     vote_uri: String
-    bill: bill
+    bill: Bill
     question: String
     question_text: String
     description: String
