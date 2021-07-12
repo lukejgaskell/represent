@@ -1,8 +1,8 @@
 const { gql } = require("apollo-server-lambda")
 module.exports.schema = gql`
   type Query {
-    votes(yearMonth: String!): VotesReponse
-    members(chamber: String!): MembersResponse
+    votes(page: Int!, pageSize: Int!): VotesReponse
+    members(page: Int!, pageSize: Int!): MembersResponse
   }
 
   type VotesReponse {

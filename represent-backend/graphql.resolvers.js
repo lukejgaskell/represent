@@ -1,38 +1,39 @@
-const { DynamoDB } = require("aws-sdk")
-const dbClient = new DynamoDB.DocumentClient()
+const { createClient } = require("@supabase/supabase-js")
 
-const getVotes = async yearMonth => {
-  const result = await dbClient
-    .query({
-      TableName: process.env.VOTES_TABLE,
-      KeyConditionExpression: "yearMonth = :yearMonth",
-      ExpressionAttributeValues: {
-        ":yearMonth": yearMonth,
-      },
-    })
-    .promise()
+const supabase = createClient(
+  "https://ijxfwjuurxppacepegmf.supabase.co",
+  process.env.SUPABASE_SERVICE_KEY
+)
 
-  return { items: result.Items, count: result.Count }
+const getVotes = async (page, pageSize) => {
+  const start = (page - 1) * pageSize
+  const end = page * pageSize
+  const { data, error, count } = await supabase
+    .from("votes")
+    .select()
+    .range(start, end)
+
+  const items = data.map(v => v.metadata)
+
+  return { items, total: count }
 }
 
-const getMembers = async chamber => {
-  const result = await dbClient
-    .query({
-      TableName: process.env.MEMBERS_TABLE,
-      KeyConditionExpression: "chamber = :chamber",
-      ExpressionAttributeValues: {
-        ":chamber": chamber,
-      },
-      Limit: 20,
-    })
-    .promise()
+const getMembers = async (page, pageSize) => {
+  const start = (page - 1) * pageSize
+  const end = page * pageSize
+  const { data, error, count } = await supabase
+    .from("votes")
+    .select()
+    .range(start, end)
 
-  return { items: result.Items, count: result.Count }
+  const items = data.map(v => v.metadata)
+
+  return { items, total: count }
 }
 
 module.exports.resolvers = {
   Query: {
-    votes: (root, args) => getVotes(args.yearMonth),
-    members: (root, args) => getMembers(args.chamber),
+    votes: (root, args) => getVotes(args.page, args.pageSize),
+    members: (root, args) => getMembers(args.page, args.pageSize),
   },
 }
