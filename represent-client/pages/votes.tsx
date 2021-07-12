@@ -10,7 +10,7 @@ const fetcher = (query: any) =>
 	)
 
 const Votes = () => {
-	const [page, setPage] = useState(0)
+	const [page, setPage] = useState(1)
 	const { data, error } = useSWR(
 		`query {
 			votes(page: ${page}, pageSize: 25) {

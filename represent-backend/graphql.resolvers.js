@@ -22,11 +22,11 @@ const getMembers = async (page, pageSize) => {
   const start = (page - 1) * pageSize
   const end = page * pageSize
   const { data, error, count } = await supabase
-    .from("votes")
+    .from("members")
     .select()
     .range(start, end)
 
-  const items = data.map(v => v.metadata)
+  const items = data.map(m => m.metadata)
 
   return { items, count: count || 1 }
 }

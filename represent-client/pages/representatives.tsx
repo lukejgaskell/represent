@@ -10,7 +10,7 @@ const fetcher = (query: any) =>
 	)
 
 const Representatives = () => {
-	const [page, setPage] = useState(0)
+	const [page, setPage] = useState(1)
 	const { data, error } = useSWR(
 		`query {
 			members(page: ${page}, pageSize: 25) {
