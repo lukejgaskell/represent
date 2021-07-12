@@ -1,5 +1,6 @@
 import Page from '@/components/page'
 import supabase from '@/services/supabase.service'
+import Link from 'next/link'
 import { useState } from 'react'
 
 const Signup = () => {
@@ -91,12 +92,7 @@ const Signup = () => {
 							</div>
 						</div>
 						<p className='text-center my-4'>
-							<a
-								href='/login'
-								className='text-grey-dark text-sm no-underline hover:text-grey-darker'
-							>
-								I already have an account
-							</a>
+							<Link href='/login'>I already have an account</Link>
 						</p>
 					</div>
 				</div>
@@ -104,4 +100,15 @@ const Signup = () => {
 		</Page>
 	)
 }
+
+export async function getServerSideProps({ req }: { req: any }) {
+	const { user } = await supabase.auth.api.getUserByCookie(req)
+
+	if (user) {
+		return { props: {}, redirect: { destination: '/', permanent: false } }
+	}
+
+	return { props: {} }
+}
+
 export default Signup

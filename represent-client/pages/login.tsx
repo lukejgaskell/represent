@@ -1,7 +1,8 @@
 import Page from '@/components/page'
 import supabase from '@/services/supabase.service'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 const Login = () => {
 	const [email, setEmail] = useState('')
@@ -69,12 +70,7 @@ const Login = () => {
 							</div>
 						</div>
 						<p className='text-center my-4'>
-							<a
-								href='/signup'
-								className='text-grey-dark text-sm no-underline hover:text-grey-darker'
-							>
-								Create an account
-							</a>
+							<Link href='/signup'>Create an account</Link>
 						</p>
 					</div>
 				</div>
