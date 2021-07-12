@@ -17,6 +17,6 @@ const getVotes = async yearMonth => {
 
 module.exports.resolvers = {
   Query: {
-    getVotes: (root, args) => getVotes(args.yearMonth),
+    votes: (root, args) => getVotes(args.yearMonth),
   },
 }
