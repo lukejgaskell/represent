@@ -27,6 +27,12 @@ provider:
             - dynamodb:BatchWriteItem
           Resource:
             - Fn::GetAtt: [VotesTable, Arn]
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:BatchWriteItem
+          Resource:
+            - Fn::GetAtt: [MembersTable, Arn]
   environment:
     VOTES_TABLE: ${self:custom.votesTableName}
     MEMBERS_TABLE: ${self:custom.membersTableName}
