@@ -30,7 +30,7 @@ const Representatives = () => {
 				{!data && <h2>Loading...</h2>}
 				{data && (
 					<ul className='p-10'>
-						{data.representatives.items.map((r: any, index: number) => (
+						{data.members.items.map((r: any, index: number) => (
 							<div
 								key={index}
 								className='w-full lg:max-w-full lg:flex mt-2 mb-2'
