@@ -6,11 +6,6 @@ frameworkVersion: "2"
 
 plugins:
   - serverless-offline
-  - serverless-dynamodb-local
-
-custom:
-  votesTableName: "votes-table-${self:provider.stage}"
-  membersTableName: "members-table-${self:provider.stage}"
 
 provider:
   name: aws
@@ -18,24 +13,8 @@ provider:
   lambdaHashingVersion: "20201221"
   stage: dev
   region: us-east-1
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - dynamodb:Query
-            - dynamodb:BatchWriteItem
-          Resource:
-            - Fn::GetAtt: [VotesTable, Arn]
-        - Effect: Allow
-          Action:
-            - dynamodb:Query
-            - dynamodb:BatchWriteItem
-          Resource:
-            - Fn::GetAtt: [MembersTable, Arn]
   environment:
-    VOTES_TABLE: ${self:custom.votesTableName}
-    MEMBERS_TABLE: ${self:custom.membersTableName}
+    SUPABASE_SERVICE_KEY: ${param:supabaseServiceKey}
     API_KEY: ${param:proPublicaAPIKey}
 
 functions:
@@ -58,40 +37,3 @@ functions:
           path: graphql
           method: get
           cors: true
-
-resources:
-  Resources:
-    VotesTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: yearMonth
-            AttributeType: S
-          - AttributeName: dateTime
-            AttributeType: S
-        KeySchema:
-          - AttributeName: yearMonth
-            KeyType: HASH
-          - AttributeName: dateTime
-            KeyType: RANGE
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        TableName: ${self:custom.votesTableName}
-    MembersTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: chamber
-            AttributeType: S
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: chamber
-            KeyType: HASH
-          - AttributeName: id
-            KeyType: RANGE
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
-        TableName: ${self:custom.membersTableName}

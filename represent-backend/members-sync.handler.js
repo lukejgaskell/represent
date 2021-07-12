@@ -1,12 +1,15 @@
 "use strict"
-const AWS = require("aws-sdk")
 const axios = require("axios")
+const { createClient } = require("@supabase/supabase-js")
+
+const supabase = createClient(
+  "https://ijxfwjuurxppacepegmf.supabase.co",
+  process.env.SUPABASE_SERVICE_KEY
+)
 
 const getMembersUrl = chamber =>
   `https://api.propublica.org/congress/v1/117/${chamber}/members.json`
 const API_KEY = process.env.API_KEY
-const MEMBERS_TABLE = process.env.MEMBERS_TABLE
-const dynamoDbClient = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" })
 
 module.exports.run = async (event, context) => {
   console.info(`Cron function "${context.functionName}" is starting`)
@@ -21,39 +24,23 @@ module.exports.run = async (event, context) => {
       .then(r => r.data)
 
     const houseItems = houseMembers.results[0].members.map(member => ({
-      PutRequest: {
-        Item: {
-          ...member,
-          chamber: "house",
-          id: member.id,
-        },
-      },
+      metadata: { ...member },
+      id: "house|" + member.id,
     }))
 
     const senateItems = senateMembers.results[0].members.map(member => ({
-      PutRequest: {
-        Item: {
-          ...member,
-          chamber: "senate",
-          id: member.id,
-        },
-      },
+      metadata: { ...member },
+      id: "senate|" + member.id,
     }))
 
     const items = houseItems.concat(senateItems)
 
-    for (let i = 0; i < items.length; ) {
-      const batch = items.slice(i, i + 24)
-      console.info(`Writing batch items ${i + batch.length} of ${items.length}`)
+    const { data, error } = await supabase
+      .from("members")
+      .upsert(items, { upsert: true, returning: "minimal" })
 
-      await dynamoDbClient
-        .batchWrite({
-          RequestItems: {
-            [MEMBERS_TABLE]: batch,
-          },
-        })
-        .promise()
-      i = i + batch.length
+    if (error) {
+      console.info(`error while saving to db`, error)
     }
 
     console.info(`Cron function "${context.functionName}" is finished`)

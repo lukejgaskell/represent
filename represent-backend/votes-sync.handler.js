@@ -1,11 +1,14 @@
 "use strict"
-const AWS = require("aws-sdk")
 const axios = require("axios")
+const { createClient } = require("@supabase/supabase-js")
+
+const supabase = createClient(
+  "https://ijxfwjuurxppacepegmf.supabase.co",
+  process.env.SUPABASE_SERVICE_KEY
+)
 
 const votesUrl = "https://api.propublica.org/congress/v1/both/votes/recent.json"
 const API_KEY = process.env.API_KEY
-const VOTES_TABLE = process.env.VOTES_TABLE
-const dynamoDbClient = new AWS.DynamoDB.DocumentClient({ region: "us-east-1" })
 
 module.exports.run = async (event, context) => {
   console.info(`Cron function "${context.functionName}" is starting`)
@@ -16,21 +19,17 @@ module.exports.run = async (event, context) => {
       .then(r => r.data)
 
     const items = data.results.votes.map(vote => ({
-      PutRequest: {
-        Item: {
-          ...vote,
-          yearMonth: vote.date.slice(0, 7),
-          dateTime: `${vote.date}|${vote.time}`,
-        },
-      },
+      metadata: { ...vote },
+      id: `${vote.date}|${vote.time}`,
     }))
-    await dynamoDbClient
-      .batchWrite({
-        RequestItems: {
-          [VOTES_TABLE]: items,
-        },
-      })
-      .promise()
+
+    const { data, error } = await supabase
+      .from("votes")
+      .upsert(items, { upsert: true, returning: "minimal" })
+
+    if (error) {
+      console.info(`error while saving to db`, error)
+    }
 
     console.info(`Cron function "${context.functionName}" is finished`)
   } catch (e) {
