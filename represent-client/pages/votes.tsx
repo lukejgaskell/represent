@@ -26,10 +26,13 @@ const Votes = () => {
 	return (
 		<Page>
 			<section className='mt-20'>
-				<h2 className='text-xl font-semibold'>Story</h2>
+				<h2 className='text-xl font-semibold'>Votes</h2>
 
 				{!data && <h2>Loading...</h2>}
-				{data && data.items.map((v: any) => <h2>{v.description}</h2>)}
+				{data &&
+					data.items.map((v: any, index: number) => (
+						<h2 key={index}>{v.description}</h2>
+					))}
 			</section>
 		</Page>
 	)
