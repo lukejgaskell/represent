@@ -11,7 +11,7 @@ const fetcher = (query: any) =>
 const Representatives = () => {
 	const { data, error } = useSWR(
 		`query {
-			representatives(chamber: "house") {
+			members(chamber: "house") {
 				count
 				items {
 					name
