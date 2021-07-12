@@ -1,35 +1,51 @@
 import Page from '@/components/page'
+import useSWR from 'swr'
+import { request } from 'graphql-request'
+import { useState } from 'react'
 
-const Representatives = () => (
-	<Page>
-		<section className='mt-20'>
-			<h2 className='text-xl font-semibold'>Ingredients</h2>
+const fetcher = (query: any) =>
+	request(
+		'https://8kef7v7qlj.execute-api.us-east-1.amazonaws.com/dev/graphql',
+		query
+	)
 
-			<p className='mt-2 text-gray-600 dark:text-gray-400'>
-				Like any good recipe, we appreciate community offerings to cultivate a
-				delicous dish.
-			</p>
-		</section>
+const Representatives = () => {
+	const [page, setPage] = useState(0)
+	const { data, error } = useSWR(
+		`query {
+			representatives(page: ${page}, pageSize: 15) {
+				count
+				items {
+					name
+				}
+			}
+		}`,
+		fetcher
+	)
 
-		<section className='mt-10'>
-			<h3 className='font-medium'>Thanks to</h3>
+	return (
+		<Page>
+			<section>
+				<h2 className='text-xl font-semibold'>Votes</h2>
 
-			<ul className='space-y-2 px-6 py-2 text-sm text-gray-600 dark:text-gray-400 list-disc'>
-				<li>
-					<a href='https://unsplash.com' className='underline'>
-						Unsplash
-					</a>{' '}
-					for high quality images
-				</li>
-				<li>
-					<a href='https://teenyicons.com' className='underline'>
-						Teenyicons
-					</a>{' '}
-					for lovely icons
-				</li>
-			</ul>
-		</section>
-	</Page>
-)
+				{!data && <h2>Loading...</h2>}
+				{data && (
+					<ul className='p-10'>
+						{data.representatives.items.map((r: any, index: number) => (
+							<div
+								key={index}
+								className='w-full lg:max-w-full lg:flex mt-2 mb-2'
+							>
+								<div className='w-full border border-gray-400 rounded-b p-4 flex flex-col justify-between leading-normal'>
+									<h2 className='text-base'>{r.name}</h2>
+								</div>
+							</div>
+						))}
+					</ul>
+				)}
+			</section>
+		</Page>
+	)
+}
 
 export default Representatives

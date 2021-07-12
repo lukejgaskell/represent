@@ -10,6 +10,7 @@ plugins:
 
 custom:
   votesTableName: "votes-table-${self:provider.stage}"
+  membersTableName: "members-table-${self:provider.stage}"
 
 provider:
   name: aws
@@ -28,6 +29,7 @@ provider:
             - Fn::GetAtt: [VotesTable, Arn]
   environment:
     VOTES_TABLE: ${self:custom.votesTableName}
+    MEMBERS_TABLE: ${self:custom.membersTableName}
     API_KEY: ${param:proPublicaAPIKey}
 
 functions:
@@ -35,6 +37,10 @@ functions:
     handler: votes-sync.handler.run
     events:
       - schedule: cron(0 8,16 ? * * *)
+  syncMembers:
+    handler: members-sync.handler.run
+    events:
+      - schedule: cron(0 8 ? * * *)
   graphql:
     handler: graphql.handler.run
     events:
@@ -66,3 +72,20 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:custom.votesTableName}
+    MembersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: chamber
+            AttributeType: S
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: chamber
+            KeyType: HASH
+          - AttributeName: id
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:custom.membersTableName}

@@ -17,6 +17,7 @@ const Votes = () => {
 				count
 				items {
 					description
+					question
 				}
 			}
 		}`,
@@ -25,14 +26,24 @@ const Votes = () => {
 
 	return (
 		<Page>
-			<section className='mt-20'>
+			<section>
 				<h2 className='text-xl font-semibold'>Votes</h2>
 
 				{!data && <h2>Loading...</h2>}
-				{data &&
-					data.votes.items.map((v: any, index: number) => (
-						<h2 key={index}>{v.description}</h2>
-					))}
+				{data && (
+					<ul className='p-10'>
+						{data.votes.items.map((v: any, index: number) => (
+							<div
+								key={index}
+								className='w-full lg:max-w-full lg:flex mt-2 mb-2'
+							>
+								<div className='w-full border border-gray-400 rounded-b p-4 flex flex-col justify-between leading-normal'>
+									<h2 className='text-base'>{v.description || v.question}</h2>
+								</div>
+							</div>
+						))}
+					</ul>
+				)}
 			</section>
 		</Page>
 	)
