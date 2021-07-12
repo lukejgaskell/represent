@@ -1,7 +1,7 @@
 const { gql } = require("apollo-server-lambda")
 module.exports.schema = gql`
   type Query {
-    getVotes(yearMonth: String!): VotesReponse
+    votes(yearMonth: String!): VotesReponse
   }
 
   type VotesReponse {

@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 const links = [
-	{ label: 'Story', href: '/story' },
-	{ label: 'Recipes', href: '/recipes' },
+	{ label: 'Votes', href: '/votes' },
+	{ label: 'Representatives', href: '/representatives' },
 ]
 
 const Appbar = () => {
@@ -15,7 +15,7 @@ const Appbar = () => {
 				<div className='mx-auto px-6 max-w-screen-md h-20 flex items-center justify-between'>
 					<Link href='/'>
 						<a>
-							<h1 className='font-medium'>Rice Bowl</h1>
+							<h1 className='font-medium'>Represent</h1>
 						</a>
 					</Link>
 
