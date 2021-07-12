@@ -11,7 +11,7 @@ const Login = () => {
 
 	async function signIn() {
 		await supabase.auth.signIn({ email, password })
-		router.push('/app')
+		router.reload()
 		setEmail('')
 		setPassword('')
 	}

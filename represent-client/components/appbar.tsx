@@ -45,7 +45,7 @@ const Appbar = () => {
 								backgroundImage:
 									'url(https://images.unsplash.com/photo-1612480797665-c96d261eae09?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80)',
 							}}
-						/>
+						></div>
 					</nav>
 				</div>
 			</header>

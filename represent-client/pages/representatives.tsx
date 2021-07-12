@@ -1,36 +1,36 @@
 import Page from '@/components/page'
-import useSWR from 'swr'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import supabase from '@/services/supabase.service'
-
-const fetcher = async ([page]: [number]) => {
-	const start = (page - 1) * 25
-	const end = page * 25
-	const { data, error } = await supabase
-		.from('members')
-		.select(`first_name last_name`)
-		.range(start, end)
-
-	if (error) {
-		throw error
-	}
-
-	return data
-}
 
 const Representatives = () => {
 	const [page, setPage] = useState(1)
-	const { data, error } = useSWR([page], fetcher)
+	const [members, setMembers] = useState<any | null>(null)
+
+	async function loadMembers() {
+		const start = (page - 1) * 25
+		const end = page * 25
+
+		const { data } = await supabase
+			.from('members')
+			.select(`metadata->first_name, metadata->last_name`)
+			.range(start, end)
+
+		setMembers(data)
+	}
+
+	useEffect(() => {
+		loadMembers()
+	}, [])
 
 	return (
 		<Page>
 			<section>
 				<h2 className='text-xl font-semibold'>Representatives</h2>
 
-				{!data && <h2>Loading...</h2>}
-				{data && (
+				{!members && <h2>Loading...</h2>}
+				{members && (
 					<ul className='p-10'>
-						{data.map((r: any, index: number) => (
+						{members.map((r: any, index: number) => (
 							<div
 								key={index}
 								className='w-full lg:max-w-full lg:flex mt-2 mb-2'
@@ -49,16 +49,16 @@ const Representatives = () => {
 	)
 }
 
-export async function getServerSideProps({ req }: { req: any }) {
-	const { user } = await supabase.auth.api.getUserByCookie(req)
+// export async function getServerSideProps({ req }: { req: any }) {
+// 	const { user } = await supabase.auth.api.getUserByCookie(req)
 
-	if (!user) {
-		// If no user, redirect to index.
-		return { props: {}, redirect: { destination: '/login', permanent: false } }
-	}
+// 	if (!user) {
+// 		// If no user, redirect to index.
+// 		return { props: {}, redirect: { destination: '/login', permanent: false } }
+// 	}
 
-	// If there is a user, return it.
-	return { props: { user } }
-}
+// 	// If there is a user, return it.
+// 	return { props: { user } }
+// }
 
 export default Representatives
