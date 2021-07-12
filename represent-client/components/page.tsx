@@ -9,7 +9,7 @@ interface Props {
 }
 
 const Page = ({ title, children }: Props) => {
-	const user = supabase.auth.user()
+	const user = {} //supabase.auth.user()
 
 	return (
 		<>

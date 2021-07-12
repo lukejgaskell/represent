@@ -1,36 +1,32 @@
 import Page from '@/components/page'
 import { useEffect, useState } from 'react'
 import supabase from '@/services/supabase.service'
+import useSWR from 'swr'
+async function fetcher(page: number) {
+	const start = (page - 1) * 25
+	const end = page * 25
 
+	const { data, error } = await supabase
+		.from('members')
+		.select(`metadata->first_name, metadata->last_name`)
+		.range(start, end)
+	if (error) throw error
+
+	return data
+}
 const Representatives = () => {
 	const [page, setPage] = useState(1)
-	const [members, setMembers] = useState<any | null>(null)
-
-	async function loadMembers() {
-		const start = (page - 1) * 25
-		const end = page * 25
-
-		const { data } = await supabase
-			.from('members')
-			.select(`metadata->first_name, metadata->last_name`)
-			.range(start, end)
-
-		setMembers(data)
-	}
-
-	useEffect(() => {
-		loadMembers()
-	}, [])
+	const { data, error } = useSWR([page], fetcher)
 
 	return (
 		<Page>
 			<section>
 				<h2 className='text-xl font-semibold'>Representatives</h2>
 
-				{!members && <h2>Loading...</h2>}
-				{members && (
+				{!data && <h2>Loading...</h2>}
+				{data && (
 					<ul className='p-10'>
-						{members.map((r: any, index: number) => (
+						{data.map((r: any, index: number) => (
 							<div
 								key={index}
 								className='w-full lg:max-w-full lg:flex mt-2 mb-2'

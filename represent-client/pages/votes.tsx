@@ -1,36 +1,33 @@
 import Page from '@/components/page'
 import useSWR from 'swr'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import supabase from '@/services/supabase.service'
 
+async function fetcher(page: number) {
+	const start = (page - 1) * 25
+	const end = page * 25
+
+	const { data, error } = await supabase
+		.from('votes')
+		.select(`metadata->description, metadata->question`)
+		.range(start, end)
+	if (error) throw error
+
+	return data
+}
 const Votes = () => {
 	const [page, setPage] = useState(1)
-	const [votes, setVotes] = useState<any | null>(null)
-
-	async function loadVotes() {
-		const start = (page - 1) * 25
-		const end = page * 25
-
-		const { data } = await supabase
-			.from('votes')
-			.select(`metadata->description, metadata->question`)
-			.range(start, end)
-
-		setVotes(data)
-	}
-	useEffect(() => {
-		loadVotes()
-	}, [])
+	const { data, error } = useSWR([page], fetcher)
 
 	return (
 		<Page>
 			<section>
 				<h2 className='text-xl font-semibold'>Votes</h2>
 
-				{!votes && <h2>Loading...</h2>}
-				{votes && (
+				{!data && <h2>Loading...</h2>}
+				{data && (
 					<ul className='p-10'>
-						{votes.map((v: any, index: number) => (
+						{data.map((v: any, index: number) => (
 							<div
 								key={index}
 								className='w-full lg:max-w-full lg:flex mt-2 mb-2'
