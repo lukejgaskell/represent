@@ -23,6 +23,7 @@ const getMembers = async chamber => {
       ExpressionAttributeValues: {
         ":chamber": chamber,
       },
+      Limit: 20,
     })
     .promise()
 
