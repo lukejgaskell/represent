@@ -15,7 +15,7 @@ const getVotes = async (page, pageSize) => {
 
   const items = data.map(v => v.metadata)
 
-  return { items, total: count }
+  return { items, count: count || 1 }
 }
 
 const getMembers = async (page, pageSize) => {
@@ -28,7 +28,7 @@ const getMembers = async (page, pageSize) => {
 
   const items = data.map(v => v.metadata)
 
-  return { items, total: count }
+  return { items, count: count || 1 }
 }
 
 module.exports.resolvers = {
