@@ -9,8 +9,8 @@ const Index = () => (
 
 			<p className='mt-2 text-gray-600 dark:text-gray-400'>
 				We aim to give you upfront information about what your elected officials
-				are doing on your behalf. Represent presents information arounds what's
-				happening in the house and senate.
+				are doing on your behalf. Represent presents information arounds
+				what&apos;s happening in the house and senate.
 			</p>
 		</section>
 	</Page>

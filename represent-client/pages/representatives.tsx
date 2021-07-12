@@ -1,7 +1,6 @@
 import Page from '@/components/page'
 import useSWR from 'swr'
 import { request } from 'graphql-request'
-import { useState } from 'react'
 
 const fetcher = (query: any) =>
 	request(
