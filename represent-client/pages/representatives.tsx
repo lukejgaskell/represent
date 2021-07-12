@@ -2,7 +2,7 @@ import Page from '@/components/page'
 import { useEffect, useState } from 'react'
 import supabase from '@/services/supabase.service'
 import useSWR from 'swr'
-async function fetcher(page: number) {
+async function fetcher(key: string, page: number) {
 	const start = (page - 1) * 25
 	const end = page * 25
 
@@ -16,7 +16,7 @@ async function fetcher(page: number) {
 }
 const Representatives = () => {
 	const [page, setPage] = useState(1)
-	const { data, error } = useSWR([page], fetcher)
+	const { data, error } = useSWR(['members', page], fetcher)
 
 	return (
 		<Page>
