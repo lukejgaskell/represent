@@ -1,6 +1,7 @@
 import Page from '@/components/page'
 import useSWR from 'swr'
 import { request } from 'graphql-request'
+import { useState } from 'react'
 
 const fetcher = (query: any) =>
 	request(
@@ -9,11 +10,10 @@ const fetcher = (query: any) =>
 	)
 
 const Votes = () => {
-	const year = new Date().getFullYear().toString()
-	const month = new Date().getMonth().toString().padStart(2, '0')
+	const [page, setPage] = useState(0)
 	const { data, error } = useSWR(
 		`query {
-			votes(yearMonth: "${year}-${month}") {
+			votes(page: "${page}", pageSize: 25) {
 				count
 				items {
 					description
