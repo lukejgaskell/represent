@@ -42,13 +42,19 @@ module.exports.run = async (event, context) => {
 
     const items = houseItems.concat(senateItems)
 
-    await dynamoDbClient
-      .batchWrite({
-        RequestItems: {
-          [MEMBERS_TABLE]: items,
-        },
-      })
-      .promise()
+    for (let i = 0; i < items.length; ) {
+      const batch = items.slice(i, 24)
+      console.info(`Writing batch items ${i + batch.length} of ${items.length}`)
+
+      await dynamoDbClient
+        .batchWrite({
+          RequestItems: {
+            [MEMBERS_TABLE]: batch,
+          },
+        })
+        .promise()
+      i = i + batch.length
+    }
 
     console.info(`Cron function "${context.functionName}" is finished`)
   } catch (e) {
