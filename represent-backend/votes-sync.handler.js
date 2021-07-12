@@ -25,7 +25,7 @@ module.exports.run = async (event, context) => {
 
     const { data, error } = await supabase
       .from("votes")
-      .upsert(items, { upsert: true, returning: "minimal" })
+      .upsert(items, { returning: "minimal" })
 
     if (error) {
       console.info(`error while saving to db`, error)
