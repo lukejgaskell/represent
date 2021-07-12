@@ -43,7 +43,7 @@ module.exports.run = async (event, context) => {
     const items = houseItems.concat(senateItems)
 
     for (let i = 0; i < items.length; ) {
-      const batch = items.slice(i, 24)
+      const batch = items.slice(i, i + 24)
       console.info(`Writing batch items ${i + batch.length} of ${items.length}`)
 
       await dynamoDbClient
