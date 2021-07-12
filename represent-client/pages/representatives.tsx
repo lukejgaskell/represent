@@ -2,6 +2,7 @@ import Page from '@/components/page'
 import useSWR from 'swr'
 import { request } from 'graphql-request'
 import { useState } from 'react'
+import supabase from '@/services/supabase.service'
 
 const fetcher = (query: any) =>
 	request(
@@ -49,6 +50,18 @@ const Representatives = () => {
 			</section>
 		</Page>
 	)
+}
+
+export async function getServerSideProps({ req }: { req: any }) {
+	const { user } = await supabase.auth.api.getUserByCookie(req)
+
+	if (!user) {
+		// If no user, redirect to index.
+		return { props: {}, redirect: { destination: '/login', permanent: false } }
+	}
+
+	// If there is a user, return it.
+	return { props: { user } }
 }
 
 export default Representatives

@@ -1,4 +1,5 @@
 import Page from '@/components/page'
+import supabase from 'services/supabase.service'
 
 const Index = () => (
 	<Page>
@@ -15,5 +16,17 @@ const Index = () => (
 		</section>
 	</Page>
 )
+
+export async function getServerSideProps({ req }: { req: any }) {
+	const { user } = await supabase.auth.api.getUserByCookie(req)
+
+	if (!user) {
+		// If no user, redirect to index.
+		return { props: {}, redirect: { destination: '/login', permanent: false } }
+	}
+
+	// If there is a user, return it.
+	return { props: { user } }
+}
 
 export default Index
