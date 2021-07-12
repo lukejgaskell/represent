@@ -1,29 +1,26 @@
 import Page from '@/components/page'
 import useSWR from 'swr'
-import { request } from 'graphql-request'
 import { useState } from 'react'
 import supabase from '@/services/supabase.service'
 
-const fetcher = (query: any) =>
-	request(
-		'https://8kef7v7qlj.execute-api.us-east-1.amazonaws.com/dev/graphql',
-		query
-	)
+const fetcher = async ([page]: [number]) => {
+	const start = (page - 1) * 25
+	const end = page * 25
+	const { data, error } = await supabase
+		.from('votes')
+		.select(`description question`)
+		.range(start, end)
+
+	if (error) {
+		throw error
+	}
+
+	return data
+}
 
 const Votes = () => {
 	const [page, setPage] = useState(1)
-	const { data, error } = useSWR(
-		`query {
-			votes(page: ${page}, pageSize: 25) {
-				count
-				items {
-					description
-					question
-				}
-			}
-		}`,
-		fetcher
-	)
+	const { data, error } = useSWR([page], fetcher)
 
 	return (
 		<Page>
@@ -33,7 +30,7 @@ const Votes = () => {
 				{!data && <h2>Loading...</h2>}
 				{data && (
 					<ul className='p-10'>
-						{data.votes.items.map((v: any, index: number) => (
+						{data.map((v: any, index: number) => (
 							<div
 								key={index}
 								className='w-full lg:max-w-full lg:flex mt-2 mb-2'

@@ -1,29 +1,26 @@
 import Page from '@/components/page'
 import useSWR from 'swr'
-import { request } from 'graphql-request'
 import { useState } from 'react'
 import supabase from '@/services/supabase.service'
 
-const fetcher = (query: any) =>
-	request(
-		'https://8kef7v7qlj.execute-api.us-east-1.amazonaws.com/dev/graphql',
-		query
-	)
+const fetcher = async ([page]: [number]) => {
+	const start = (page - 1) * 25
+	const end = page * 25
+	const { data, error } = await supabase
+		.from('members')
+		.select(`first_name last_name`)
+		.range(start, end)
+
+	if (error) {
+		throw error
+	}
+
+	return data
+}
 
 const Representatives = () => {
 	const [page, setPage] = useState(1)
-	const { data, error } = useSWR(
-		`query {
-			members(page: ${page}, pageSize: 25) {
-				count
-				items {
-					first_name
-					last_name
-				}
-			}
-		}`,
-		fetcher
-	)
+	const { data, error } = useSWR([page], fetcher)
 
 	return (
 		<Page>
@@ -33,7 +30,7 @@ const Representatives = () => {
 				{!data && <h2>Loading...</h2>}
 				{data && (
 					<ul className='p-10'>
-						{data.members.items.map((r: any, index: number) => (
+						{data.map((r: any, index: number) => (
 							<div
 								key={index}
 								className='w-full lg:max-w-full lg:flex mt-2 mb-2'
