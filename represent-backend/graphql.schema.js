@@ -49,7 +49,7 @@ module.exports.schema = gql`
     total: RollCounts
   }
 
-  type MembersReponse {
+  type MembersResponse {
     items: [Member!]!
     count: Int!
   }
