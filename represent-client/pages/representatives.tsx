@@ -10,10 +10,9 @@ const fetcher = (query: any) =>
 	)
 
 const Representatives = () => {
-	const [page, setPage] = useState(0)
 	const { data, error } = useSWR(
 		`query {
-			representatives(page: ${page}, pageSize: 15) {
+			representatives(chamber: "house") {
 				count
 				items {
 					name
@@ -26,7 +25,7 @@ const Representatives = () => {
 	return (
 		<Page>
 			<section>
-				<h2 className='text-xl font-semibold'>Votes</h2>
+				<h2 className='text-xl font-semibold'>Representatives</h2>
 
 				{!data && <h2>Loading...</h2>}
 				{data && (

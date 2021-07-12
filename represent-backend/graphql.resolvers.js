@@ -15,8 +15,23 @@ const getVotes = async yearMonth => {
   return { items: result.Items, count: result.Count }
 }
 
+const getMembers = async chamber => {
+  const result = await dbClient
+    .query({
+      TableName: process.env.MEMBERS_TABLE,
+      KeyConditionExpression: "chamber = :chamber",
+      ExpressionAttributeValues: {
+        ":chamber": chamber,
+      },
+    })
+    .promise()
+
+  return { items: result.Items, count: result.Count }
+}
+
 module.exports.resolvers = {
   Query: {
     votes: (root, args) => getVotes(args.yearMonth),
+    members: (root, args) => getMembers(args.chamber),
   },
 }
