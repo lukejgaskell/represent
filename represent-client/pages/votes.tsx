@@ -30,7 +30,7 @@ const Votes = () => {
 
 				{!data && <h2>Loading...</h2>}
 				{data &&
-					data.items.map((v: any, index: number) => (
+					data.votes.items.map((v: any, index: number) => (
 						<h2 key={index}>{v.description}</h2>
 					))}
 			</section>
