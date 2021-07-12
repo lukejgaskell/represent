@@ -13,7 +13,7 @@ const Votes = () => {
 	const [page, setPage] = useState(0)
 	const { data, error } = useSWR(
 		`query {
-			votes(page: "${page}", pageSize: 25) {
+			votes(page: ${page}, pageSize: 25) {
 				count
 				items {
 					description

@@ -13,7 +13,7 @@ const Representatives = () => {
 	const [page, setPage] = useState(0)
 	const { data, error } = useSWR(
 		`query {
-			members(page: "${page}", pageSize: 25) {
+			members(page: ${page}, pageSize: 25) {
 				count
 				items {
 					first_name
