@@ -14,11 +14,11 @@ module.exports.run = async (event, context) => {
   console.info(`Cron function "${context.functionName}" is starting`)
 
   try {
-    const data = await axios
+    const votesReponse = await axios
       .get(votesUrl, { headers: { "X-API-Key": API_KEY } })
       .then(r => r.data)
 
-    const items = data.results.votes.map(vote => ({
+    const items = votesReponse.results.votes.map(vote => ({
       metadata: { ...vote },
       id: `${vote.date}|${vote.time}`,
     }))
