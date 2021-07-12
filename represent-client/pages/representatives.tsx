@@ -14,7 +14,8 @@ const Representatives = () => {
 			members(chamber: "house") {
 				count
 				items {
-					name
+					first_name
+					last_name
 				}
 			}
 		}`,
@@ -35,7 +36,9 @@ const Representatives = () => {
 								className='w-full lg:max-w-full lg:flex mt-2 mb-2'
 							>
 								<div className='w-full border border-gray-400 rounded-b p-4 flex flex-col justify-between leading-normal'>
-									<h2 className='text-base'>{r.name}</h2>
+									<h2 className='text-base'>
+										{r.first_name + ' ' + r.last_name}
+									</h2>
 								</div>
 							</div>
 						))}
