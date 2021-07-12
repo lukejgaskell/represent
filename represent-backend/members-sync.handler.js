@@ -30,7 +30,7 @@ module.exports.run = async (event, context) => {
       },
     }))
 
-    const senateItems = senateMembers.results.members.map(member => ({
+    const senateItems = senateMembers.results[0].members.map(member => ({
       PutRequest: {
         Item: {
           ...member,
