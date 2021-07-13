@@ -1,55 +1,88 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import supabase from '@/services/supabase.service'
+import React from 'react'
+import {
+	AppBar,
+	IconButton,
+	makeStyles,
+	Menu,
+	MenuItem,
+	Toolbar,
+	Typography,
+} from '@material-ui/core'
+import { AccountCircle, Menu as MenuIcon } from '@material-ui/icons'
 
 const links = [
 	{ label: 'Votes', href: '/votes' },
 	{ label: 'Representatives', href: '/representatives' },
 ]
+const useStyles = makeStyles((theme) => ({
+	root: {
+		flexGrow: 1,
+	},
+	title: {
+		flexGrow: 1,
+	},
+}))
 
 const Appbar = () => {
+	const user = supabase.auth.user()
 	const router = useRouter()
+	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+	const open = Boolean(anchorEl)
+	const classes = useStyles()
+
+	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget)
+	}
+
+	const handleClose = () => {
+		setAnchorEl(null)
+	}
+	const handleSignOut = async () => {
+		await supabase.auth.signOut()
+		router.push('/login')
+	}
 
 	return (
-		<div className='pt-safe w-full bg-gray-900 fixed top-0'>
-			<header className='bg-gray-100 border-b dark:bg-gray-900 dark:border-gray-800'>
-				<div className='mx-auto px-6 max-w-screen-md h-20 flex items-center justify-between'>
-					<Link href='/'>
-						<a>
-							<h1 className='font-medium'>Represent</h1>
-						</a>
-					</Link>
-
-					<nav className='space-x-6 flex items-center'>
-						<div className='hidden sm:block'>
-							<div className='space-x-6 flex items-center'>
-								{links.map(({ label, href }) => (
-									<Link key={label} href={href}>
-										<a
-											className={`text-sm ${
-												router.pathname === href
-													? 'text-indigo-500 dark:text-indigo-400'
-													: 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50'
-											}`}
-										>
-											{label}
-										</a>
-									</Link>
-								))}
-							</div>
-						</div>
-
-						<div
-							title='Gluten Free'
-							className='w-10 h-10 bg-gray-200 dark:bg-gray-800 bg-cover bg-center rounded-full shadow-inner'
-							style={{
-								backgroundImage:
-									'url(https://images.unsplash.com/photo-1612480797665-c96d261eae09?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80)',
+		<AppBar position='static'>
+			<Toolbar>
+				<Typography className={classes.title} variant='h6'>
+					Represent
+				</Typography>
+				{user && (
+					<div>
+						<IconButton
+							aria-label='account of current user'
+							aria-controls='menu-appbar'
+							aria-haspopup='true'
+							onClick={handleMenu}
+							color='inherit'
+						>
+							<AccountCircle />
+						</IconButton>
+						<Menu
+							id='menu-appbar'
+							anchorEl={anchorEl}
+							anchorOrigin={{
+								vertical: 'top',
+								horizontal: 'right',
 							}}
-						></div>
-					</nav>
-				</div>
-			</header>
-		</div>
+							keepMounted
+							transformOrigin={{
+								vertical: 'top',
+								horizontal: 'right',
+							}}
+							open={open}
+							onClose={handleClose}
+						>
+							<MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+						</Menu>
+					</div>
+				)}
+			</Toolbar>
+		</AppBar>
 	)
 }
 

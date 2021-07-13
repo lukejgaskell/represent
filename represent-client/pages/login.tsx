@@ -1,78 +1,80 @@
+import FormInput from '@/components/FormInput'
 import Page from '@/components/page'
 import supabase from '@/services/supabase.service'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 const Login = () => {
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		getValues,
+	} = useForm()
 	const router = useRouter()
+	const user = supabase.auth.user()
+	const [errorMessage, setErrorMessage] = useState<String | null>(null)
 
-	async function signIn() {
-		await supabase.auth.signIn({ email, password })
-		router.reload()
-		setEmail('')
-		setPassword('')
+	useEffect(() => {
+		if (user) router.push('/')
+	}, [])
+
+	async function onSubmit({ email, password }: any) {
+		setErrorMessage(null)
+		const { data, error } = await supabase.auth.signIn({ email, password })
+		if (error) {
+			setErrorMessage(error.message)
+			return
+		}
+		router.push('/')
 	}
 
 	return (
-		<Page>
-			<div className='font-sans antialiased bg-grey-lightest'>
-				<div className='w-full bg-grey-lightest'>
-					<div className='container mx-auto py-8'>
-						<div className='w-5/6 lg:w-1/2 mx-auto bg-white rounded shadow'>
-							<div className='py-4 px-8 text-black text-xl border-b border-grey-lighter'>
-								Sign in to get started
-							</div>
-							<div className='py-4 px-8'>
-								<div className='mb-4'>
-									<label
-										className='block text-grey-darker text-sm font-bold mb-2'
-										htmlFor='email'
-									>
-										Email Address
-									</label>
-									<input
-										onChange={(event) => setEmail(event.target.value)}
-										value={email}
-										className='appearance-none border rounded w-full py-2 px-3 text-grey-darker'
-										id='email'
-										type='email'
-										placeholder='Your email address'
-									/>
-								</div>
-								<div className='mb-4'>
-									<label
-										className='block text-grey-darker text-sm font-bold mb-2'
-										htmlFor='password'
-									>
-										Password
-									</label>
-									<input
-										onChange={(event) => setPassword(event.target.value)}
-										value={password}
-										className='appearance-none border rounded w-full py-2 px-3 text-grey-darker'
-										id='password'
-										type='password'
-										placeholder='Your secure password'
-									/>
-								</div>
-								<div className='flex items-center justify-between mt-8'>
-									<button
-										className='bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded-full'
-										onClick={signIn}
-										type='submit'
-									>
-										Sign in
-									</button>
-								</div>
-							</div>
-						</div>
-						<p className='text-center my-4'>
-							<Link href='/signup'>Create an account</Link>
-						</p>
-					</div>
+		<Page requiresAuth={false}>
+			<div className='bg-grey-lighter flex flex-col'>
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					className='bg-white px-6 py-8 rounded shadow-md text-black w-full'
+				>
+					<h1 className='mb-8 text-3xl text-center'>Log in to get started</h1>
+					<FormInput
+						type='text'
+						placeholder='Email'
+						errors={errors}
+						{...register('email', {
+							required: 'Email is required',
+							pattern: {
+								value: /^\S+@\S+$/i,
+								message: 'Must be a valid email',
+							},
+						})}
+					/>
+
+					<FormInput
+						type='password'
+						placeholder='Password'
+						errors={errors}
+						{...register('password', {
+							required: 'Password is required',
+						})}
+					/>
+					<p className='h-5 text-red-600'>{errorMessage}</p>
+					<button
+						type='submit'
+						className='w-full text-center py-3 rounded bg-green-400 text-white hover:bg-green-600 focus:outline-none my-1 mt-4'
+					>
+						Log in
+					</button>
+				</form>
+
+				<div className='text-grey-dark mt-6'>
+					Don&apos;t have an account?{' '}
+					<Link href='/signup'>
+						<span className='underline cursor-pointer'>Create an account</span>
+					</Link>
+					.
 				</div>
 			</div>
 		</Page>

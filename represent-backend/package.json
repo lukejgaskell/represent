@@ -4,9 +4,7 @@
   "description": "",
   "dependencies": {
     "@supabase/supabase-js": "^1.18.1",
-    "apollo-server-lambda": "^2.25.2",
     "axios": "^0.21.1",
-    "graphql": "^15.5.1",
     "serverless-http": "^2.7.0"
   },
   "devDependencies": {
