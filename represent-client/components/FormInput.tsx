@@ -11,7 +11,7 @@ type IProps = InputHTMLAttributes<HTMLInputElement> & IOwnProps
 export default function FormInput(props: IProps) {
 	const hasError = props.errors && props.errors.hasOwnProperty(props.name)
 	const classes =
-		'block border border-grey-light w-full p-3 rounded mt-4 ' +
+		'block border border-grey-light w-full p-3 rounded mt-4 dark:text-white' +
 		(hasError ? 'border-red-600' : '')
 	return (
 		<>
