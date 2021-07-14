@@ -1,7 +1,7 @@
-import Page from '@/components/page'
+import { DefaultLayout } from 'components/layouts/DefaultLayout'
 
-const Index = () => (
-	<Page>
+export const WelcomePage = () => (
+	<DefaultLayout>
 		<section className='mt-20'>
 			<h2 className='text-xl font-semibold text-gray-800 dark:text-gray-200'>
 				Welcome to represent
@@ -13,7 +13,5 @@ const Index = () => (
 				what&apos;s happening in the house and senate.
 			</p>
 		</section>
-	</Page>
+	</DefaultLayout>
 )
-
-export default Index

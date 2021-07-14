@@ -1,17 +1,16 @@
-import FormInput from '@/components/FormInput'
-import Page from '@/components/page'
-import supabase from '@/services/supabase.service'
+import FormInput from 'components/FormInput'
+import supabase from 'lib/supabaseClient'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { NoAuthLayout } from '../layouts/NoAuthLayout'
 
-const Login = () => {
+export const LoginPage = () => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-		getValues,
 	} = useForm()
 	const router = useRouter()
 	const user = supabase.auth.user()
@@ -32,7 +31,7 @@ const Login = () => {
 	}
 
 	return (
-		<Page requiresAuth={false}>
+		<NoAuthLayout>
 			<div className='bg-grey-lighter flex flex-col'>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
@@ -77,18 +76,6 @@ const Login = () => {
 					.
 				</div>
 			</div>
-		</Page>
+		</NoAuthLayout>
 	)
 }
-
-export async function getServerSideProps({ req }: { req: any }) {
-	const { user } = await supabase.auth.api.getUserByCookie(req)
-
-	if (user) {
-		return { props: {}, redirect: { destination: '/', permanent: false } }
-	}
-
-	return { props: {} }
-}
-
-export default Login

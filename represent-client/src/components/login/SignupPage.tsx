@@ -1,12 +1,12 @@
-import Page from '@/components/page'
-import supabase from '@/services/supabase.service'
+import supabase from 'lib/supabaseClient'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import FormInput from '@/components/FormInput'
+import FormInput from 'components/FormInput'
 import { useRouter } from 'next/router'
+import { NoAuthLayout } from '../layouts/NoAuthLayout'
 
-const Signup = () => {
+export const SignupPage = () => {
 	const {
 		register,
 		handleSubmit,
@@ -16,19 +16,25 @@ const Signup = () => {
 	const [isSignedUp, setIsSignedUp] = useState(false)
 	const router = useRouter()
 	const user = supabase.auth.user()
+	const [errorMessage, setErrorMessage] = useState<String | null>(null)
 
 	useEffect(() => {
 		if (user) router.push('/')
 	}, [])
 
 	async function onSubmit({ email, password }: any) {
-		await supabase.auth.signUp({ email, password })
+		setErrorMessage(null)
+		const { data, error } = await supabase.auth.signUp({ email, password })
+		if (error) {
+			setErrorMessage(error.message)
+			return
+		}
 		setIsSignedUp(true)
 	}
 
 	if (isSignedUp) {
 		return (
-			<Page requiresAuth={false}>
+			<NoAuthLayout>
 				<div className='bg-grey-lighter flex flex-col'>
 					<div className='bg-white px-6 py-8 rounded shadow-md text-black w-full'>
 						<h1 className='mb-8 text-3xl text-center'>Welcome to Represent</h1>
@@ -38,12 +44,12 @@ const Signup = () => {
 						</p>
 					</div>
 				</div>
-			</Page>
+			</NoAuthLayout>
 		)
 	}
 
 	return (
-		<Page requiresAuth={false}>
+		<NoAuthLayout>
 			<div className='bg-grey-lighter flex flex-col'>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
@@ -92,6 +98,7 @@ const Signup = () => {
 						})}
 					/>
 
+					<p className='h-5 text-red-600'>{errorMessage}</p>
 					<button
 						type='submit'
 						className='w-full text-center py-3 rounded bg-green-400 text-white hover:bg-green-600 focus:outline-none my-1 mt-4'
@@ -121,8 +128,6 @@ const Signup = () => {
 					Already have an account? <Link href='/login'>Log in</Link>.
 				</div>
 			</div>
-		</Page>
+		</NoAuthLayout>
 	)
 }
-
-export default Signup
