@@ -17,7 +17,6 @@ export default function FormInput(props: IProps) {
 		<>
 			<input
 				autoComplete='off'
-				autoFocus={true}
 				className={classes}
 				{...props}
 			/>
