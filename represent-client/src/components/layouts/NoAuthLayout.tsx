@@ -1,4 +1,6 @@
 import Head from 'next/head'
+import React from 'react'
+import { WaitForNoAuth } from '../auth/WaitForNoAuth'
 
 interface Props {
 	title?: string
@@ -7,7 +9,7 @@ interface Props {
 
 export const NoAuthLayout = ({ title, children }: Props) => {
 	return (
-		<>
+		<WaitForNoAuth>
 			{title ? (
 				<Head>
 					<title>Represent | {title}</title>
@@ -23,6 +25,6 @@ export const NoAuthLayout = ({ title, children }: Props) => {
 			>
 				<div className='p-6'>{children}</div>
 			</main>
-		</>
+		</WaitForNoAuth>
 	)
 }

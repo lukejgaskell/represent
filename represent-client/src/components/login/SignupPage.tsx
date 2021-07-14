@@ -125,7 +125,11 @@ export const SignupPage = () => {
 				</form>
 
 				<div className='text-grey-dark mt-6'>
-					Already have an account? <Link href='/login'>Log in</Link>.
+					Already have an account?{' '}
+					<Link href='/login'>
+						<span className='underline cursor-pointer'>Log in</span>
+					</Link>
+					.
 				</div>
 			</div>
 		</NoAuthLayout>

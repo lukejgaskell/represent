@@ -2,6 +2,9 @@ import Head from 'next/head'
 import Appbar from 'components/appbar'
 import BottomNav from 'components/bottom-nav'
 import { WaitForAuth } from '../auth/WaitForAuth'
+import React from 'react'
+import { ThemeProvider } from '@material-ui/core'
+import theme from 'lib/materialTheme'
 
 interface Props {
 	title?: string
@@ -10,26 +13,28 @@ interface Props {
 
 export const DefaultLayout = ({ title, children }: Props) => {
 	return (
-		<WaitForAuth>
-			{title ? (
-				<Head>
-					<title>Represent | {title}</title>
-				</Head>
-			) : null}
+		<ThemeProvider theme={theme}>
+			<WaitForAuth>
+				{title ? (
+					<Head>
+						<title>Represent | {title}</title>
+					</Head>
+				) : null}
 
-			<Appbar />
+				<Appbar />
 
-			<main
-				/**
-				 * Padding top = `appbar` height
-				 * Padding bottom = `bottom-nav` height
-				 */
-				className='mx-auto pb-16 max-w-screen-md'
-			>
-				<div className='p-6'>{children}</div>
-			</main>
+				<main
+					/**
+					 * Padding top = `appbar` height
+					 * Padding bottom = `bottom-nav` height
+					 */
+					className='mx-auto pb-16 max-w-screen-md'
+				>
+					<div className='p-6'>{children}</div>
+				</main>
 
-			<BottomNav />
-		</WaitForAuth>
+				<BottomNav />
+			</WaitForAuth>
+		</ThemeProvider>
 	)
 }

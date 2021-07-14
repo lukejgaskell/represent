@@ -45,7 +45,11 @@ export const RepresentativesPage = () => {
 							<Grid item key={r.id}>
 								<Card>
 									<CardContent className={partyToColor(r.party)}>
-										<Grid container justifyContent='space-between'>
+										<Grid
+											container
+											justifyContent='space-between'
+											className='mb-3'
+										>
 											<Grid item>
 												<Typography>{`${r.first_name} ${r.last_name}`}</Typography>
 											</Grid>
