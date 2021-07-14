@@ -8,7 +8,7 @@ module.exports = {
 			safelist: ['h-8', 'h-11'],
 		},
 	},
-	darkMode: 'class',
+	darkMode: 'media',
 	theme: {
 		theme: {
 			colors: {
