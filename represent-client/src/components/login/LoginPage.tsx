@@ -7,14 +7,13 @@ import GoogleIcon from '../../../public/images/google-icon.svg'
 import Image from 'next/image'
 
 export const LoginPage = () => {
-	const router = useRouter()
 	const [errorMessage, setErrorMessage] = useState<String | null>(null)
 
 	async function loginWithGoogle() {
 		setErrorMessage(null)
 		const { data, error } = await supabase.auth.signIn(
 			{ provider: 'google' },
-			{ redirectTo: 'https://represent.gaskellsolutions.com/' }
+			{ redirectTo: '/' }
 		)
 		if (error) {
 			setErrorMessage(error.message)
