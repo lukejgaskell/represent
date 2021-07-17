@@ -14,7 +14,7 @@ export const LoginPage = () => {
 		setErrorMessage(null)
 		const { data, error } = await supabase.auth.signIn(
 			{ provider: 'google' },
-			{ redirectTo: '/' }
+			{ redirectTo: 'https://represent.gaskellsolutions.com/' }
 		)
 		if (error) {
 			setErrorMessage(error.message)
