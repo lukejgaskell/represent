@@ -12,12 +12,14 @@ export const LoginPage = () => {
 
 	async function loginWithGoogle() {
 		setErrorMessage(null)
-		const { data, error } = await supabase.auth.signIn({ provider: 'google' })
+		const { data, error } = await supabase.auth.signIn(
+			{ provider: 'google' },
+			{ redirectTo: '/' }
+		)
 		if (error) {
 			setErrorMessage(error.message)
 			return
 		}
-		router.push('/')
 	}
 
 	return (
