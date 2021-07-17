@@ -1,27 +1,16 @@
 import { DefaultLayout } from 'components/layouts/DefaultLayout'
-import React, { useState } from 'react'
-import supabase from 'lib/supabaseClient'
-import useSWR from 'swr'
+import React from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { Card, CardContent, Grid, Typography } from '@material-ui/core'
-
-async function fetcher(key: string, page: number) {
-	const start = (page - 1) * 25
-	const end = page * 25
-
-	const { data, error } = await supabase
-		.from('members')
-		.select(
-			`id, metadata->first_name, metadata->last_name, metadata->title, metadata->party, metadata->votes_with_party_pct, metadata->missed_votes_pct`
-		)
-		.range(start, end)
-		.order('metadata->last_name')
-	if (error) throw error
-
-	return data
-}
+import { Member } from './Member.type'
+import { usePaginatedData } from 'lib/usePaginatedData'
 export const RepresentativesPage = () => {
-	const [page, setPage] = useState(1)
-	const { data, error } = useSWR(['members', page], fetcher)
+	const { data, error, hasMore, page, setPage } = usePaginatedData<Member>(
+		'members',
+		`id, metadata->first_name, metadata->last_name, metadata->title, metadata->party, metadata->votes_with_party_pct, metadata->missed_votes_pct, metadata->state`,
+		'metadata->last_name',
+		15
+	)
 
 	function partyToColor(party: string) {
 		switch ((party || '').toUpperCase()) {
@@ -37,11 +26,28 @@ export const RepresentativesPage = () => {
 		<DefaultLayout>
 			<section>
 				<h2 className='text-xl font-semibold mb-3'>Representatives</h2>
-
-				{!data && <h2>Loading...</h2>}
-				{data && (
+				<InfiniteScroll
+					className='pr-3 pl-3'
+					dataLength={data?.length || 0} //This is important field to render the next data
+					next={() => setPage(page + 1)}
+					hasMore={hasMore}
+					loader={<h2 className='pt-2'>Loading...</h2>}
+					// below props only if you need pull down functionality
+					refreshFunction={() => setPage(1)}
+					endMessage={<h2>no more items</h2>}
+					pullDownToRefresh
+					pullDownToRefreshThreshold={50}
+					pullDownToRefreshContent={
+						<h3 style={{ textAlign: 'center' }}>
+							&#8595; Pull down to refresh
+						</h3>
+					}
+					releaseToRefreshContent={
+						<h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
+					}
+				>
 					<Grid container direction='column' spacing={2}>
-						{data.map((r: any) => (
+						{data?.map((r: any) => (
 							<Grid item key={r.id}>
 								<Card>
 									<CardContent className={partyToColor(r.party)}>
@@ -54,7 +60,7 @@ export const RepresentativesPage = () => {
 												<Typography>{`${r.first_name} ${r.last_name}`}</Typography>
 											</Grid>
 											<Grid item>
-												<Typography color='textSecondary'>{r.title}</Typography>
+												<Typography color='textSecondary'>{`${r.state} | ${r.title}`}</Typography>
 											</Grid>
 										</Grid>
 										<Grid container justifyContent='space-between'>
@@ -74,7 +80,7 @@ export const RepresentativesPage = () => {
 							</Grid>
 						))}
 					</Grid>
-				)}
+				</InfiniteScroll>
 			</section>
 		</DefaultLayout>
 	)
