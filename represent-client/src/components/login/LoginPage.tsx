@@ -1,18 +1,12 @@
-import { Button, Grid, Typography } from '@material-ui/core'
+import { Button, Grid } from '@material-ui/core'
 import supabase from 'lib/supabaseClient'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { NoAuthLayout } from '../layouts/NoAuthLayout'
 import GoogleIcon from '../../../public/images/google-icon.svg'
 import Image from 'next/image'
 
 export const LoginPage = () => {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm()
 	const router = useRouter()
 	const [errorMessage, setErrorMessage] = useState<String | null>(null)
 
