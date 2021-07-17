@@ -49,18 +49,20 @@ const Appbar = () => {
 				<Typography className={classes.title} variant='h6'>
 					Represent
 				</Typography>
-				<Grid container justifyContent='flex-end' spacing={1}>
-					<Grid item>
-						<Link href='/votes'>
-							<Button className='dark:text-white'>Votes</Button>
-						</Link>
+				<div className='hidden md:block'>
+					<Grid container justifyContent='flex-end' spacing={1}>
+						<Grid item>
+							<Link href='/votes'>
+								<Button className='dark:text-white'>Votes</Button>
+							</Link>
+						</Grid>
+						<Grid item>
+							<Link href='/representatives'>
+								<Button className='dark:text-white'>Representatives</Button>
+							</Link>
+						</Grid>
 					</Grid>
-					<Grid item>
-						<Link href='/representatives'>
-							<Button className='dark:text-white'>Representatives</Button>
-						</Link>
-					</Grid>
-				</Grid>
+				</div>
 				{user && (
 					<div>
 						<IconButton

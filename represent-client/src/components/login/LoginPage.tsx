@@ -2,7 +2,7 @@ import FormInput from 'components/FormInput'
 import supabase from 'lib/supabaseClient'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { NoAuthLayout } from '../layouts/NoAuthLayout'
 
@@ -13,12 +13,7 @@ export const LoginPage = () => {
 		formState: { errors },
 	} = useForm()
 	const router = useRouter()
-	const user = supabase.auth.user()
 	const [errorMessage, setErrorMessage] = useState<String | null>(null)
-
-	useEffect(() => {
-		if (user) router.push('/')
-	}, [])
 
 	async function onSubmit({ email, password }: any) {
 		setErrorMessage(null)
