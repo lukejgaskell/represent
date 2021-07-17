@@ -8,17 +8,16 @@ async function fetcher<T>(
 	select: string,
 	order: string,
 	page: number,
-	pageSize: number
+	pageSize: number,
+	ascending: boolean
 ) {
-	//page = 1
-	//pageSize = 15
-	const start = (page - 1) * pageSize // 0
-	const end = page * pageSize - 1 // 14
+	const start = (page - 1) * pageSize
+	const end = page * pageSize - 1
 
 	const { data, error } = await supabase
 		.from<T>(table)
 		.select(select)
-		.order(order as any)
+		.order(order as any, { ascending })
 		.range(start, end)
 	if (error) throw error
 
@@ -29,7 +28,8 @@ export function usePaginatedData<T>(
 	table: string,
 	select: string,
 	order: string,
-	pageSize: number
+	pageSize: number,
+	ascending = true
 ) {
 	const { data, error, size, setSize } = useSWRInfinite<any>(
 		(page) => [
@@ -39,6 +39,7 @@ export function usePaginatedData<T>(
 			order,
 			page + 1,
 			pageSize,
+			ascending,
 		],
 		fetcher,
 		{ initialSize: 1 }
@@ -50,9 +51,6 @@ export function usePaginatedData<T>(
 		isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined')
 	const isEmpty = data?.[0]?.length === 0
 	const hasMore = !isEmpty && data && data[data.length - 1]?.length >= pageSize
-
-	console.log('isLoading', isLoading)
-	console.log('hasMore', hasMore)
 
 	return {
 		data: arrData,
