@@ -7,6 +7,7 @@ export const useVerifyLoggedIn = () => {
 	const user = supabase.auth.user()
 
 	useEffect(() => {
+		console.log(user)
 		if (!user) {
 			replace(`/login?next=${asPath}`)
 		}

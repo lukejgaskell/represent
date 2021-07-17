@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import supabase from 'lib/supabaseClient'
 import React from 'react'
 import {
 	AppBar,
@@ -13,7 +11,7 @@ import {
 	Toolbar,
 	Typography,
 } from '@material-ui/core'
-import { AccountCircle, Menu as MenuIcon } from '@material-ui/icons'
+import { AccountCircle } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,9 +22,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-const Appbar = () => {
-	const user = supabase.auth.user()
-	const router = useRouter()
+type IProps = { handleSignOut: () => void }
+
+const DesktopBar = ({ handleSignOut }: IProps) => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
 	const classes = useStyles()
@@ -37,10 +35,6 @@ const Appbar = () => {
 
 	const handleClose = () => {
 		setAnchorEl(null)
-	}
-	const handleSignOut = async () => {
-		await supabase.auth.signOut()
-		router.push('/login')
 	}
 
 	return (
@@ -63,39 +57,37 @@ const Appbar = () => {
 						</Grid>
 					</Grid>
 				</div>
-				{user && (
-					<div>
-						<IconButton
-							aria-label='account of current user'
-							aria-controls='menu-appbar'
-							aria-haspopup='true'
-							onClick={handleMenu}
-							color='inherit'
-						>
-							<AccountCircle />
-						</IconButton>
-						<Menu
-							id='menu-appbar'
-							anchorEl={anchorEl}
-							anchorOrigin={{
-								vertical: 'top',
-								horizontal: 'right',
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: 'top',
-								horizontal: 'right',
-							}}
-							open={open}
-							onClose={handleClose}
-						>
-							<MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
-						</Menu>
-					</div>
-				)}
+				<div>
+					<IconButton
+						aria-label='account of current user'
+						aria-controls='menu-appbar'
+						aria-haspopup='true'
+						onClick={handleMenu}
+						color='inherit'
+					>
+						<AccountCircle />
+					</IconButton>
+					<Menu
+						id='menu-appbar'
+						anchorEl={anchorEl}
+						anchorOrigin={{
+							vertical: 'top',
+							horizontal: 'right',
+						}}
+						keepMounted
+						transformOrigin={{
+							vertical: 'top',
+							horizontal: 'right',
+						}}
+						open={open}
+						onClose={handleClose}
+					>
+						<MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+					</Menu>
+				</div>
 			</Toolbar>
 		</AppBar>
 	)
 }
 
-export default Appbar
+export default DesktopBar

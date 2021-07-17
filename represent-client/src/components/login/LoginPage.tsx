@@ -1,10 +1,11 @@
-import FormInput from 'components/FormInput'
+import { Button, Grid, Typography } from '@material-ui/core'
 import supabase from 'lib/supabaseClient'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { NoAuthLayout } from '../layouts/NoAuthLayout'
+import GoogleIcon from '../../../public/images/google-icon.svg'
+import Image from 'next/image'
 
 export const LoginPage = () => {
 	const {
@@ -15,9 +16,9 @@ export const LoginPage = () => {
 	const router = useRouter()
 	const [errorMessage, setErrorMessage] = useState<String | null>(null)
 
-	async function onSubmit({ email, password }: any) {
+	async function loginWithGoogle() {
 		setErrorMessage(null)
-		const { data, error } = await supabase.auth.signIn({ email, password })
+		const { data, error } = await supabase.auth.signIn({ provider: 'google' })
 		if (error) {
 			setErrorMessage(error.message)
 			return
@@ -27,50 +28,23 @@ export const LoginPage = () => {
 
 	return (
 		<NoAuthLayout>
-			<div className='bg-grey-lighter flex flex-col'>
-				<form
-					onSubmit={handleSubmit(onSubmit)}
-					className='bg-white px-6 py-8 rounded shadow-md text-black w-full'
-				>
-					<h1 className='mb-8 text-3xl text-center'>Log in to get started</h1>
-					<FormInput
-						type='text'
-						placeholder='Email'
-						errors={errors}
-						{...register('email', {
-							required: 'Email is required',
-							pattern: {
-								value: /^\S+@\S+$/i,
-								message: 'Must be a valid email',
-							},
-						})}
-					/>
-
-					<FormInput
-						type='password'
-						placeholder='Password'
-						errors={errors}
-						{...register('password', {
-							required: 'Password is required',
-						})}
-					/>
+			<Grid container direction='column' alignItems='center' spacing={3}>
+				<Grid item>
+					<h1 className='text-3xl text-center'>Welcome to Represent</h1>
+				</Grid>
+				<Grid item>
+					<h3 className='text-2xl text-center'>Log in to get started</h3>
+				</Grid>
+				<Grid item>
 					<p className='h-5 text-red-600'>{errorMessage}</p>
-					<button
-						type='submit'
-						className='w-full text-center py-3 rounded bg-green-400 text-white hover:bg-green-600 focus:outline-none my-1 mt-4'
-					>
-						Log in
-					</button>
-				</form>
-
-				<div className='text-grey-dark mt-6'>
-					Don&apos;t have an account?{' '}
-					<Link href='/signup'>
-						<span className='underline cursor-pointer'>Create an account</span>
-					</Link>
-					.
-				</div>
-			</div>
+				</Grid>
+				<Grid item>
+					<Button variant='outlined' onClick={() => loginWithGoogle()}>
+						<Image src={GoogleIcon} />
+						<span className='ml-3'>Login With Google</span>
+					</Button>
+				</Grid>
+			</Grid>
 		</NoAuthLayout>
 	)
 }
