@@ -23,8 +23,8 @@ export const WelcomePage = () => (
 			</p>
 			<p className='mt-2 text-gray-600 dark:text-gray-400'>
 				2. Take a look at the representatives tab where you can see who your
-				reprenatives are and how they've been voting. You can also find useful
-				links to get more information about what they are doing.
+				reprenatives are and how they&apos;ve been voting. You can also find
+				useful links to get more information about what they are doing.
 			</p>
 		</section>
 	</DefaultLayout>
