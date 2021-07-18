@@ -7,10 +7,11 @@ export const useVerifyLoggedIn = () => {
 	const user = supabase.auth.user()
 
 	useEffect(() => {
-		console.log(user)
-		if (!user) {
-			replace(`/login?next=${asPath}`)
-		}
+		setTimeout(() => {
+			if (!user) {
+				replace(`/login?next=${asPath}`)
+			}
+		}, 1000)
 	}, [user, asPath, replace])
 
 	return user
