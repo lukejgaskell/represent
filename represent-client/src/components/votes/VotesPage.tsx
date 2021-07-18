@@ -17,7 +17,7 @@ export const VotesPage = () => {
 				.select(
 					`metadata->description, metadata->question, metadata->result, metadata->total, metadata->date, metadata->chamber, metadata->source`
 				)
-				.order(`metadata->date` as any)
+				.order(`metadata->date` as any, { ascending: false })
 				.range(start, end)
 			if (error) throw error
 

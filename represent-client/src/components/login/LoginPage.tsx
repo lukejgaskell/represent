@@ -1,6 +1,5 @@
 import { Button, Grid } from '@material-ui/core'
 import supabase from 'lib/supabaseClient'
-import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import { NoAuthLayout } from '../layouts/NoAuthLayout'
 import GoogleIcon from '../../../public/images/google-icon.svg'
