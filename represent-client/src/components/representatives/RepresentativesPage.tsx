@@ -42,7 +42,7 @@ export const RepresentativesPage = () => {
 	}
 
 	return (
-		<DefaultLayout>
+		<DefaultLayout title='Representatives'>
 			<section>
 				<Grid container direction='column' spacing={2}>
 					<Grid item>

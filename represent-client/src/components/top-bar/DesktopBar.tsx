@@ -22,9 +22,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }))
 
-type IProps = { handleSignOut: () => void }
+type IProps = {
+	handleSignOut: () => void
+	pageTitle: string
+}
 
-const DesktopBar = ({ handleSignOut }: IProps) => {
+const DesktopBar = ({ handleSignOut, pageTitle }: IProps) => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
 	const classes = useStyles()
@@ -41,7 +44,7 @@ const DesktopBar = ({ handleSignOut }: IProps) => {
 		<AppBar position='static'>
 			<Toolbar>
 				<Typography className={classes.title} variant='h6'>
-					Represent
+					Represent | {pageTitle}
 				</Typography>
 				<div className='hidden sm:block'>
 					<Grid container justifyContent='flex-end' spacing={1}>

@@ -7,7 +7,7 @@ import theme from 'lib/materialTheme'
 import TopBar from '../top-bar/TopBar'
 
 interface Props {
-	title?: string
+	title: string
 	children: React.ReactNode
 }
 
@@ -21,7 +21,7 @@ export const DefaultLayout = ({ title, children }: Props) => {
 					</Head>
 				) : null}
 
-				<TopBar />
+				<TopBar pageTitle={title} />
 
 				<main className='mx-auto pb-16 max-w-screen-md'>
 					<div className='p-6'>{children}</div>

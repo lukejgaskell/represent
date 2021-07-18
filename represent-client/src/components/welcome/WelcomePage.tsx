@@ -1,10 +1,10 @@
 import { DefaultLayout } from 'components/layouts/DefaultLayout'
 
 export const WelcomePage = () => (
-	<DefaultLayout>
+	<DefaultLayout title='Welcome'>
 		<section className='mt-15'>
 			<h2 className='text-xl font-semibold text-gray-800 dark:text-gray-200'>
-				Welcome to represent
+				Welcome to Represent
 			</h2>
 
 			<p className='mt-2 text-gray-600 dark:text-gray-400'>

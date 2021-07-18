@@ -2,9 +2,12 @@ import { useRouter } from 'next/router'
 import supabase from 'lib/supabaseClient'
 import React from 'react'
 import DesktopBar from './DesktopBar'
-import MobileBar from './MobileBar'
 
-const TopBar = () => {
+type IProps = {
+	pageTitle: string
+}
+
+const TopBar = ({ pageTitle }: IProps) => {
 	const router = useRouter()
 
 	const handleSignOut = async () => {
@@ -12,9 +15,7 @@ const TopBar = () => {
 		router.push('/login')
 	}
 
-	return <DesktopBar handleSignOut={handleSignOut} />
-
-	// return <MobileBar handleSignOut={handleSignOut} />
+	return <DesktopBar handleSignOut={handleSignOut} pageTitle={pageTitle} />
 }
 
 export default TopBar

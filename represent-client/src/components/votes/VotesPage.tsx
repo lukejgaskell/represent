@@ -26,7 +26,7 @@ export const VotesPage = () => {
 	)
 
 	return (
-		<DefaultLayout>
+		<DefaultLayout title='Votes'>
 			<section>
 				<Grid container direction='column' spacing={2}>
 					<Grid item>
