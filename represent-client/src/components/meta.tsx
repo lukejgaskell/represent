@@ -10,9 +10,12 @@ const Meta = () => (
 			name='apple-mobile-web-app-status-bar-style'
 			content='black-translucent'
 		/>
-		<meta name='apple-mobile-web-app-title' content='Rice Bowl' />
-		<meta name='application-name' content='Rice Bowl' />
-		<meta name='description' content='Bring your own ingredients' />
+		<meta name='apple-mobile-web-app-title' content='Represent' />
+		<meta name='application-name' content='Represent' />
+		<meta
+			name='description'
+			content='Keep up to date with what your representatives are doing on your behalf'
+		/>
 		<meta name='theme-color' content='#1d2020' />
 		<meta
 			name='viewport'
