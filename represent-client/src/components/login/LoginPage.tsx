@@ -13,7 +13,7 @@ export const LoginPage = () => {
 		setErrorMessage(null)
 		const { data, error } = await supabase.auth.signIn(
 			{ provider: 'google' },
-			{ redirectTo: '/' }
+			{ redirectTo: location.origin }
 		)
 		if (error) {
 			setErrorMessage(error.message)

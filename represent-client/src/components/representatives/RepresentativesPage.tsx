@@ -21,7 +21,6 @@ export const RepresentativesPage = () => {
 				)
 				.order(`metadata->state, metadata->title, metadata->last_name` as any)
 				.range(start, end)
-			console.log('filtering', filterState)
 			if (filterState && filterState.length > 0) {
 				query = query.filter('metadata->>state' as any, 'eq', filterState)
 			}
