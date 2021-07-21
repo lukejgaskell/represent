@@ -14,7 +14,7 @@ async function getMembersWithDistricts(members) {
   const requests = members.map(m =>
     axios
       .get(getMemberUrl(m.id), { headers: { "X-API-Key": API_KEY } })
-      .then(r => ({ id: r.data.results[0].id, district: r.data.results[0].roles?.[0]?.district }))
+      .then(r => ({ id: r.data.results[0].id, district: r.data.results[0].roles[0].district }))
   )
 
   const results = await Promise.all(requests)
