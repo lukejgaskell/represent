@@ -1,3 +1,3 @@
-import { RepresentativesPage } from '@/components/representatives/RepresentativesPage'
+import { RepresentativesPage } from '@/modules/representatives/RepresentativesPage'
 
 export default RepresentativesPage

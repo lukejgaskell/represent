@@ -1,4 +1,4 @@
-import { Vote } from '@/components/votes/Vote.type'
+import { Vote } from '@/modules/votes/Vote.type'
 import { Button, Card, CardContent, Grid, Typography } from '@material-ui/core'
 import React from 'react'
 

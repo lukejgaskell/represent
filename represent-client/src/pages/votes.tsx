@@ -1,3 +1,3 @@
-import { VotesPage } from 'components/votes/VotesPage'
+import { VotesPage } from '@/modules/votes/VotesPage'
 
 export default VotesPage

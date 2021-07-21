@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import BottomNav from 'components/bottom-nav'
+import BottomNav from '@/modules/bottom-nav'
 import { WaitForAuth } from '../auth/WaitForAuth'
 import React from 'react'
 import { ThemeProvider } from '@material-ui/core'

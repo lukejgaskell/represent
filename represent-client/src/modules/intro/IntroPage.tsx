@@ -1,6 +1,6 @@
-import { DefaultLayout } from 'components/layouts/DefaultLayout'
+import { DefaultLayout } from '@/modules/layouts/DefaultLayout'
 
-export const WelcomePage = () => (
+export const IntroPage = () => (
 	<DefaultLayout title='Welcome'>
 		<section className='mt-15'>
 			<h2 className='text-xl font-semibold text-gray-800 dark:text-gray-200'>

@@ -1,4 +1,4 @@
-import { DefaultLayout } from 'components/layouts/DefaultLayout'
+import { DefaultLayout } from '@/modules/layouts/DefaultLayout'
 import React, { useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { FormControl, Grid, InputLabel, Select } from '@material-ui/core'

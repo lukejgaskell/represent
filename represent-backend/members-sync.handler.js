@@ -35,11 +35,11 @@ module.exports.run = async (event, context) => {
 
     const limit = houseMembers.concat(senateMembers).slice(0, 5)
 
-    conosole.log(limit)
+    conosole.info(limit)
 
     const members = await getMembersWithDistricts(limit)
 
-    console.log(members)
+    console.info(members)
 
     const itemsToSave = members.map(member => ({
       metadata: { ...member },

@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'next-themes'
-import Meta from 'components/meta'
+import Meta from '@/modules/meta'
 import '@/styles/globals.css'
 
 const App = ({ Component, pageProps }: AppProps) => {

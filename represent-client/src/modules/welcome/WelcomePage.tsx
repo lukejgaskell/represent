@@ -1,6 +1,6 @@
-import { DefaultLayout } from 'components/layouts/DefaultLayout'
+import { DefaultLayout } from '@/modules/layouts/DefaultLayout'
 
-export const IntroPage = () => (
+export const WelcomePage = () => (
 	<DefaultLayout title='Welcome'>
 		<section className='mt-15'>
 			<h2 className='text-xl font-semibold text-gray-800 dark:text-gray-200'>
@@ -13,7 +13,7 @@ export const IntroPage = () => (
 				what&apos;s happening in the house and senate.
 			</p>
 
-			<h2 className='text-l font-semibold text-gray-800 dark:text-gray-200'>
+			<h2 className='text-l mt-6 font-semibold text-gray-800 dark:text-gray-200'>
 				Getting Started
 			</h2>
 

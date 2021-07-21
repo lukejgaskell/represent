@@ -1,3 +1,3 @@
-import { WelcomePage } from 'components/welcome/WelcomePage'
+import { WelcomePage } from '@/modules/welcome/WelcomePage'
 
 export default WelcomePage

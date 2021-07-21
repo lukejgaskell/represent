@@ -1,4 +1,4 @@
-import { Member } from '@/components/representatives/Member.type'
+import { Member } from '@/modules/representatives/Member.type'
 import {
 	Button,
 	Card,

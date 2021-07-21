@@ -1,4 +1,4 @@
-import { DefaultLayout } from 'components/layouts/DefaultLayout'
+import { DefaultLayout } from '@/modules/layouts/DefaultLayout'
 import React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Grid } from '@material-ui/core'
