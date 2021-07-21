@@ -33,7 +33,13 @@ module.exports.run = async (event, context) => {
       .get(getMembersUrl("senate"), { headers: { "X-API-Key": API_KEY } })
       .then(r => r.data.results[0].members)
 
-    const members = await getMembersWithDistricts(houseMembers.concat(senateMembers))
+    const limit = houseMembers.concat(senateMembers).slice(0, 5)
+
+    conosole.log(limit)
+
+    const members = await getMembersWithDistricts(limit)
+
+    console.log(members)
 
     const itemsToSave = members.map(member => ({
       metadata: { ...member },
