@@ -24,5 +24,6 @@ functions:
       - schedule: cron(0 8,16 ? * * *)
   syncMembers:
     handler: members-sync.handler.run
+    timeout: 30
     events:
       - schedule: cron(0 8 ? * * *)
