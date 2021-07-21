@@ -37,8 +37,8 @@ module.exports.run = async (event, context) => {
 
     const itemsToSave = members.map(member => ({
       metadata: { ...member },
-      district: member.district,
-      state: member.state,
+      district: member.district || null,
+      state: member.state || null,
       id: member.id,
     }))
 
