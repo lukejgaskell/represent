@@ -35,7 +35,7 @@ module.exports.run = async (event, context) => {
 
     const limit = houseMembers.concat(senateMembers).slice(0, 5)
 
-    conosole.info(limit)
+    console.info(limit)
 
     const members = await getMembersWithDistricts(limit)
 
