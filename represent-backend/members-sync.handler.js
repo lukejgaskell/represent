@@ -18,7 +18,7 @@ async function getMembersWithDistricts(members) {
   )
 
   const results = await Promise.all(requests)
-  return members.map(m => ({ ...m, district: results.find(r => r.id === m.id)?.district }))
+  return members.map(m => ({ ...m, district: results.find(r => r.id === m.id).district }))
 }
 
 module.exports.run = async (event, context) => {
