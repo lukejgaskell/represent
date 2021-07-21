@@ -19,6 +19,7 @@ export const RepresentativesPage = () => {
 				.select(
 					`id, metadata->first_name, metadata->last_name, metadata->title, metadata->party, metadata->votes_with_party_pct, metadata->missed_votes_pct, metadata->state, metadata->facebook_account, metadata->youtube_account, metadata->twitter_account, metadata->contact_form, metadata->next_election`
 				)
+				.filter(`metadata->in_office` as any, 'eq', true)
 				.order(`metadata->state, metadata->title, metadata->last_name` as any)
 				.range(start, end)
 			if (filterState && filterState.length > 0) {
