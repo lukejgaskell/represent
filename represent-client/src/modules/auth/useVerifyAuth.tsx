@@ -10,6 +10,11 @@ export const useVerifyLoggedIn = () => {
 		setTimeout(() => {
 			if (!user) {
 				replace(`/login?next=${asPath}`)
+				return
+			}
+			if (user?.user_metadata.state || user?.user_metadata.district) {
+				replace('/intro')
+				return
 			}
 		}, 1000)
 	}, [user, asPath, replace])

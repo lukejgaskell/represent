@@ -27,16 +27,19 @@ module.exports.run = async (event, context) => {
   try {
     const houseMembers = await axios
       .get(getMembersUrl("house"), { headers: { "X-API-Key": API_KEY } })
-      .then(r => r.data.results[0].members)
+      .then(r => r.data.results[0].members.map(m => ({ ...m, type: "house" })))
 
     const senateMembers = await axios
       .get(getMembersUrl("senate"), { headers: { "X-API-Key": API_KEY } })
-      .then(r => r.data.results[0].members)
+      .then(r => r.data.results[0].members.map(m => ({ ...m, type: "senate" })))
 
-    const members = await getMembersWithDistricts(houseMembers.concat(senateMembers))
+    const houseMembersWithDistrict = await getMembersWithDistricts(houseMembers)
+
+    const members = houseMembersWithDistrict.concat(senateMembers)
 
     const itemsToSave = members.map(member => ({
       metadata: { ...member },
+      type: member.type,
       district: member.district || null,
       state: member.state || null,
       id: member.id,
