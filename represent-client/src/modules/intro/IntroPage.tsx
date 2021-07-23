@@ -24,7 +24,7 @@ export const IntroPage = () => {
 	const errorStore = useStore()
 	const router = useRouter()
 
-	const canContinue = !(state.length > 0 && district.length > 0)
+	const canContinue = !(stateAbv.length > 0 && district.length > 0)
 	const canAddressSearch =
 		address.length > 0 && city.length > 0 && state.length > 0
 
