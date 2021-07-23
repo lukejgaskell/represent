@@ -2,9 +2,8 @@ import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'next-themes'
 import Meta from '@/modules/meta'
 import '@/styles/globals.css'
-import { QueryClient, QueryClientProvider } from 'react-query'
-
-const queryClient = new QueryClient()
+import { QueryClientProvider } from 'react-query'
+import { queryClient } from '@/lib/queryClient'
 
 const App = ({ Component, pageProps }: AppProps) => {
 	return (

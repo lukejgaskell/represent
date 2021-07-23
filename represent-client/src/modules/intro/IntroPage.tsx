@@ -12,6 +12,7 @@ import { FocusedLayout } from '../layouts/FocusedLayout'
 import { isValidStateAbreviation } from './validation'
 import { saveUserData } from '@/queries/user'
 import Router from 'next/router'
+import { queryClient } from '@/lib/queryClient'
 
 export const IntroPage = () => {
 	const [address, setAddress] = useState('')
@@ -62,11 +63,12 @@ export const IntroPage = () => {
 		const isValidState =
 			stateAbv.length > 1 && isValidStateAbreviation(stateAbv)
 		if (!isValidState) return setIsStateError(true)
-
-		const { error } = await saveUserData({ state: stateAbv, district })
+		const userData = { state: stateAbv, district }
+		const { error } = await saveUserData(userData)
 		if (error) return errorStore.addError('Failed to save information')
 
-		Router.push('/votes')
+		queryClient.setQueryData('userSettings', userData)
+		Router.push('/')
 	}
 
 	return (
