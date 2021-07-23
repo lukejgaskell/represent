@@ -66,7 +66,7 @@ export const IntroPage = () => {
 		const { error } = await saveUserData({ state: stateAbv, district })
 		if (error) return errorStore.addError('Failed to save information')
 
-		Router.push('/')
+		Router.push('/votes')
 	}
 
 	return (
