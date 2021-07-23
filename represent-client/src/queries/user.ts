@@ -13,11 +13,12 @@ export async function getUserSettings() {
 		.from<{ id: String; data: UserData }>('users')
 		.select('data')
 		.filter('id', 'eq', user?.id)
-		.maybeSingle()
 
 	if (error) throw error
 
-	return data?.data
+	const settings = data?.map((d) => d.data).find(() => true)
+
+	return settings
 }
 
 export function getAddressInfo(address: string) {
