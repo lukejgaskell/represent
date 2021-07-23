@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react'
 import { FocusedLayout } from '../layouts/FocusedLayout'
 import { isValidStateAbreviation } from './validation'
 import { saveUserData } from '@/queries/user'
-import { useRouter } from 'next/router'
+import Router from 'next/router'
 
 export const IntroPage = () => {
 	const [address, setAddress] = useState('')
@@ -22,7 +22,6 @@ export const IntroPage = () => {
 	const [isStateError, setIsStateError] = useState(false)
 	const [isTimerRunning, setIsTimerRunning] = useState(false)
 	const errorStore = useStore()
-	const router = useRouter()
 
 	const canContinue = !(stateAbv.length > 0 && district.length > 0)
 	const canAddressSearch =
@@ -67,8 +66,7 @@ export const IntroPage = () => {
 		const { error } = await saveUserData({ state: stateAbv, district })
 		if (error) return errorStore.addError('Failed to save information')
 
-		router.push('/')
-		setTimeout(() => router.push('/'), 1000)
+		Router.push('/')
 	}
 
 	return (
