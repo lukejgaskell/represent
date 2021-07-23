@@ -64,7 +64,7 @@ export const IntroPage = () => {
 			stateAbv.length > 1 && isValidStateAbreviation(stateAbv)
 		if (!isValidState) return setIsStateError(true)
 
-		const { error } = await saveUserData({ state, district })
+		const { error } = await saveUserData({ state: stateAbv, district })
 		if (error) return errorStore.addError('Failed to save information')
 
 		router.push('/')
