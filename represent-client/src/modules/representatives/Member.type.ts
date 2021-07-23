@@ -1,5 +1,6 @@
 export type Member = {
 	id: string
+	district: string
 	first_name: string
 	last_name: string
 	title: string

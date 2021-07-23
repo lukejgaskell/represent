@@ -5,6 +5,9 @@ import React from 'react'
 import { ThemeProvider } from '@material-ui/core'
 import theme from 'lib/materialTheme'
 import TopBar from '../top-bar/TopBar'
+import { WaitForSettings } from '../user/WaitForSettings'
+import { useStore } from 'stores/useErrorStore'
+import { ErrorToast } from '../notifications/ErrorToast'
 
 interface Props {
 	title: string
@@ -12,22 +15,27 @@ interface Props {
 }
 
 export const DefaultLayout = ({ title, children }: Props) => {
+	const { errors } = useStore()
+
 	return (
 		<ThemeProvider theme={theme}>
 			<WaitForAuth>
-				{title ? (
-					<Head>
-						<title>Represent | {title}</title>
-					</Head>
-				) : null}
+				<WaitForSettings>
+					{title ? (
+						<Head>
+							<title>Represent | {title}</title>
+						</Head>
+					) : null}
 
-				<TopBar pageTitle={title} />
+					<TopBar pageTitle={title} />
+					<ErrorToast />
 
-				<main className='mx-auto pb-16 max-w-screen-md'>
-					<div className='p-6'>{children}</div>
-				</main>
+					<main className='mx-auto pb-16 max-w-screen-md'>
+						<div className='p-6'>{children}</div>
+					</main>
 
-				<BottomNav />
+					<BottomNav />
+				</WaitForSettings>
 			</WaitForAuth>
 		</ThemeProvider>
 	)

@@ -7,13 +7,9 @@ export const useVerifyLoggedIn = () => {
 	const user = supabase.auth.user()
 
 	useEffect(() => {
-		setTimeout(() => {
+		setTimeout(async () => {
 			if (!user) {
 				replace(`/login?next=${asPath}`)
-				return
-			}
-			if (user?.user_metadata.state || user?.user_metadata.district) {
-				replace('/intro')
 				return
 			}
 		}, 1000)

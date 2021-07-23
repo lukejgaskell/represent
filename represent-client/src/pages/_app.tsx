@@ -2,6 +2,9 @@ import type { AppProps } from 'next/app'
 import { ThemeProvider } from 'next-themes'
 import Meta from '@/modules/meta'
 import '@/styles/globals.css'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient()
 
 const App = ({ Component, pageProps }: AppProps) => {
 	return (
@@ -10,8 +13,10 @@ const App = ({ Component, pageProps }: AppProps) => {
 			defaultTheme='system'
 			disableTransitionOnChange
 		>
-			<Meta />
-			<Component {...pageProps} />
+			<QueryClientProvider client={queryClient}>
+				<Meta />
+				<Component {...pageProps} />
+			</QueryClientProvider>
 		</ThemeProvider>
 	)
 }
