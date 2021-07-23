@@ -21,7 +21,7 @@ export const IntroPage = () => {
 	const [isStateError, setIsStateError] = useState(false)
 	const [isTimerRunning, setIsTimerRunning] = useState(false)
 	const errorStore = useStore()
-	const { replace } = useRouter()
+	const router = useRouter()
 
 	const canContinue = !(state.length > 0 && district.length > 0)
 	const canAddressSearch =
@@ -64,7 +64,7 @@ export const IntroPage = () => {
 		const { error } = await saveUserData({ state, district })
 		if (error) return errorStore.addError('Failed to save information')
 
-		replace('/')
+		router.push('/')
 	}
 
 	return (
