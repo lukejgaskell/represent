@@ -57,10 +57,11 @@ export const IntroPage = () => {
 
 	useEffect(() => {
 		if (isStateError) setIsStateError(false)
-	}, [state])
+	}, [stateAbv])
 
 	async function handleContinue() {
-		const isValidState = state.length > 1 && isValidStateAbreviation(state)
+		const isValidState =
+			stateAbv.length > 1 && isValidStateAbreviation(stateAbv)
 		if (!isValidState) return setIsStateError(true)
 
 		const { error } = await saveUserData({ state, district })
