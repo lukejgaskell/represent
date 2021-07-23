@@ -1,5 +1,4 @@
 import { getUserSettings } from '@/queries/user'
-import { useStore } from '@/stores/useUserStore'
 import { UserData } from '@/types/UserData'
 import { useRouter } from 'next/router'
 import React from 'react'

@@ -15,8 +15,6 @@ interface Props {
 }
 
 export const DefaultLayout = ({ title, children }: Props) => {
-	const { errors } = useStore()
-
 	return (
 		<ThemeProvider theme={theme}>
 			<WaitForAuth>
