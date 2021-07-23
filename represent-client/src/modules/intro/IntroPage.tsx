@@ -67,7 +67,7 @@ export const IntroPage = () => {
 		const { error } = await saveUserData({ state: stateAbv, district })
 		if (error) return errorStore.addError('Failed to save information')
 
-		router.push('/')
+		setTimeout(() => router.push('/'), 1000)
 	}
 
 	return (
