@@ -12,7 +12,7 @@ export async function getUserSettings() {
 		.from<{ id: String; data: UserData }>('users')
 		.select('data')
 		.filter('id', 'eq', user?.id)
-		.single()
+		.maybeSingle()
 
 	if (error) throw error
 
