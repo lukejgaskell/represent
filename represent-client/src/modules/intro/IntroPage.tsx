@@ -1,4 +1,4 @@
-import { getDistrictByAddress } from '@/queries/district'
+import { getAddressInfo } from '@/queries/user'
 import { useStore } from 'stores/useErrorStore'
 import {
 	Button,
@@ -17,6 +17,7 @@ export const IntroPage = () => {
 	const [address, setAddress] = useState('')
 	const [city, setCity] = useState('')
 	const [state, setState] = useState('')
+	const [stateAbv, setStateAbv] = useState('')
 	const [district, setDistrict] = useState('')
 	const [isStateError, setIsStateError] = useState(false)
 	const [isTimerRunning, setIsTimerRunning] = useState(false)
@@ -33,13 +34,14 @@ export const IntroPage = () => {
 
 		const timer = setTimeout(async () => {
 			try {
-				const dist = await getDistrictByAddress(`${address}, ${city} ${state}`)
-				if (dist === null || dist === undefined) {
+				const res = await getAddressInfo(`${address}, ${city} ${state}`)
+				if (res.district === null || res.district === undefined) {
 					errorStore.addError(
 						'We were unable to determine your district from your address, please fix your address or type your district manually.'
 					)
 				} else {
-					setDistrict(dist.toString())
+					setDistrict(res.district?.toString())
+					setStateAbv(res.state?.toString())
 				}
 			} catch (e) {
 				errorStore.addError(
@@ -103,7 +105,6 @@ export const IntroPage = () => {
 								</Grid>
 								<Grid item xs={6} sm={2}>
 									<TextField
-										error={isStateError}
 										fullWidth
 										label='State'
 										variant='outlined'
@@ -126,11 +127,14 @@ export const IntroPage = () => {
 							<Grid item container direction='column' spacing={1}>
 								<Grid item>
 									<TextField
+										error={isStateError}
 										fullWidth
-										label='State'
+										label='State Abbreviation'
 										variant='outlined'
-										value={state}
-										onChange={(event) => setState(event.target.value)}
+										value={stateAbv}
+										onChange={(event) =>
+											setStateAbv(event.target.value.toUpperCase())
+										}
 									/>
 								</Grid>
 								<Grid item>

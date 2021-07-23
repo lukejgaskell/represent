@@ -10,6 +10,7 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
 		.then((r: any) => r.results[0])
 
 	const district = result.fields.congressional_districts[0].district_number
+	const state = result.address_components.state
 
-	res.send({ ...result, district, fields: undefined })
+	res.send({ ...result, district, state, fields: undefined })
 }

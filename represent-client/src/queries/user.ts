@@ -1,5 +1,6 @@
 import { UserData } from '@/types/UserData'
 import supabase from 'lib/supabaseClient'
+import axios from 'axios'
 
 export function saveUserData(userData: UserData) {
 	const userId = supabase.auth.user()?.id
@@ -17,4 +18,8 @@ export async function getUserSettings() {
 	if (error) throw error
 
 	return data?.data
+}
+
+export function getAddressInfo(address: string) {
+	return axios.get(`/api/district?address=${address}`).then((res) => res.data)
 }
