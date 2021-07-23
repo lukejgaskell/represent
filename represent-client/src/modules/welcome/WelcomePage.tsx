@@ -9,7 +9,7 @@ export const WelcomePage = () => (
 
 			<p className='mt-2 text-gray-600 dark:text-gray-400'>
 				We aim to give you upfront information about what your elected officials
-				are doing on your behalf. Represent presents information arounds
+				are doing on your behalf. Represent presents information about
 				what&apos;s happening in the house and senate.
 			</p>
 
