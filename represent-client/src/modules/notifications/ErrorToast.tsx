@@ -1,4 +1,4 @@
-import { useStore } from 'stores/useErrorStore'
+import { useErrorStore } from 'stores/useErrorStore'
 import { Snackbar } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert'
 import * as React from 'react'
@@ -6,7 +6,7 @@ import * as React from 'react'
 type IProps = { message: string }
 
 function Alert({ message }: IProps) {
-	const { removeError } = useStore()
+	const { removeError } = useErrorStore()
 
 	function handleClose() {
 		removeError(message)
@@ -30,7 +30,7 @@ function Alert({ message }: IProps) {
 }
 
 export function ErrorToast() {
-	const { errors } = useStore()
+	const { errors } = useErrorStore()
 	if (errors.length === 0) return null
 
 	return (

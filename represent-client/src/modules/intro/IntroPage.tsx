@@ -1,5 +1,5 @@
 import { getAddressInfo } from '@/queries/user'
-import { useStore } from 'stores/useErrorStore'
+import { useErrorStore } from 'stores/useErrorStore'
 import {
 	Button,
 	CircularProgress,
@@ -12,9 +12,12 @@ import { FocusedLayout } from '../layouts/FocusedLayout'
 import { isValidStateAbreviation } from './validation'
 import { saveUserData } from '@/queries/user'
 import Router from 'next/router'
-import { queryClient } from '@/lib/queryClient'
+import { useUserStore } from '@/stores/useUserStore'
 
 export const IntroPage = () => {
+	const userStore = useUserStore()
+	const errorStore = useErrorStore()
+
 	const [address, setAddress] = useState('')
 	const [city, setCity] = useState('')
 	const [state, setState] = useState('')
@@ -22,7 +25,6 @@ export const IntroPage = () => {
 	const [district, setDistrict] = useState('')
 	const [isStateError, setIsStateError] = useState(false)
 	const [isTimerRunning, setIsTimerRunning] = useState(false)
-	const errorStore = useStore()
 
 	const canContinue = !(stateAbv.length > 0 && district.length > 0)
 	const canAddressSearch =
@@ -67,7 +69,7 @@ export const IntroPage = () => {
 		const { error } = await saveUserData(userData)
 		if (error) return errorStore.addError('Failed to save information')
 
-		queryClient.setQueryData('userSettings', userData)
+		userStore.setSettings(userData)
 		Router.push('/')
 	}
 

@@ -7,7 +7,7 @@ type SettingsStore = {
 	setSettings: (data: UserData) => void
 }
 
-export const useStore = create<SettingsStore>(
+export const useUserStore = create<SettingsStore>(
 	persist(
 		(set) => ({
 			settings: {} as UserData,

@@ -1,41 +1,26 @@
 import { DefaultLayout } from '@/modules/layouts/DefaultLayout'
-import React, { useState } from 'react'
-import InfiniteScroll from 'react-infinite-scroll-component'
+import React from 'react'
 import { Grid } from '@material-ui/core'
 import { Member } from './Member.type'
-import { useInfiniteQuery, useQuery } from 'react-query'
+import { useQuery } from 'react-query'
 import { MemberCard } from '@/ui/members/MemberCard'
 import { getMembers } from 'queries/members'
-import { Paginated } from '@/types/Paginated'
-import { getUserSettings } from '@/queries/user'
-import { UserData } from '@/types/UserData'
+import { useUserStore } from '@/stores/useUserStore'
 
 export const RepresentativesPage = () => {
-	const userQuery = useQuery<UserData | undefined>(['userSettings'], () =>
-		getUserSettings()
-	)
-	const { data, error, hasNextPage, fetchNextPage } = useInfiniteQuery<
-		Paginated<Member>,
-		Error
-	>(
-		[`members`, userQuery.data?.state, userQuery.data?.district],
-		({ pageParam = 0 }) =>
+	const { settings } = useUserStore()
+	const { data, error } = useQuery<Member[], Error>(
+		[`members`, settings.state, settings.district],
+		() =>
 			getMembers({
-				page: pageParam,
-				state: userQuery.data?.state,
-				district: userQuery.data?.district,
-			}),
-		{
-			keepPreviousData: true,
-			getNextPageParam: (lastPage, pages) =>
-				lastPage.hasMore ? lastPage.nextPage : undefined,
-			enabled: !userQuery.isLoading,
-		}
+				state: settings.state,
+				district: settings.district,
+			})
 	)
 
 	return (
 		<DefaultLayout title='Representatives'>
-			<section>
+			<section className='pr-2 pl-2'>
 				<Grid container direction='column' spacing={2}>
 					<Grid item>
 						<Grid
@@ -49,22 +34,11 @@ export const RepresentativesPage = () => {
 						</Grid>
 					</Grid>
 					<Grid item>
-						<InfiniteScroll
-							className='pr-2 pl-2'
-							dataLength={data?.pages.length || 0} //This is important field to render the next data
-							next={() => fetchNextPage()}
-							hasMore={hasNextPage || false}
-							loader={<h2 className='pt-2'>Loading...</h2>}
-							endMessage={<h2>no more items</h2>}
-						>
-							<Grid container direction='column' spacing={2}>
-								{data?.pages.map((page) =>
-									page.items.map((r: Member) => (
-										<MemberCard key={r.id} {...r} />
-									))
-								)}
-							</Grid>
-						</InfiniteScroll>
+						<Grid container direction='column' spacing={2}>
+							{data?.map((r: Member) => (
+								<MemberCard key={r.id} {...r} />
+							))}
+						</Grid>
 					</Grid>
 				</Grid>
 			</section>

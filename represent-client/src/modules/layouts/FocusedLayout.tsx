@@ -4,7 +4,6 @@ import { ThemeProvider } from '@material-ui/core'
 import theme from 'lib/materialTheme'
 import { WaitForAuth } from '../auth/WaitForAuth'
 import { ErrorToast } from '../notifications/ErrorToast'
-import { useStore } from 'stores/useErrorStore'
 
 interface Props {
 	title?: string
@@ -12,8 +11,6 @@ interface Props {
 }
 
 export const FocusedLayout = ({ title, children }: Props) => {
-	const { errors } = useStore()
-
 	return (
 		<ThemeProvider theme={theme}>
 			<WaitForAuth>

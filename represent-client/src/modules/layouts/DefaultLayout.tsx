@@ -6,7 +6,6 @@ import { ThemeProvider } from '@material-ui/core'
 import theme from 'lib/materialTheme'
 import TopBar from '../top-bar/TopBar'
 import { WaitForSettings } from '../user/WaitForSettings'
-import { useStore } from 'stores/useErrorStore'
 import { ErrorToast } from '../notifications/ErrorToast'
 
 interface Props {
@@ -29,7 +28,7 @@ export const DefaultLayout = ({ title, children }: Props) => {
 					<ErrorToast />
 
 					<main className='mx-auto pb-16 max-w-screen-md'>
-						<div className='p-6'>{children}</div>
+						<div className='pt-4 pr-1 pl-1 pb-4'>{children}</div>
 					</main>
 
 					<BottomNav />

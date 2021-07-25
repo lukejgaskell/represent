@@ -14,11 +14,9 @@ export async function getUserSettings() {
 		.select('data')
 		.filter('id', 'eq', user?.id)
 
-	if (error) throw error
-
 	const settings = data?.map((d) => d.data).find(() => true)
 
-	return settings
+	return { data: settings, error }
 }
 
 export function getAddressInfo(address: string) {

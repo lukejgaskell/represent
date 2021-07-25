@@ -1,19 +1,13 @@
 import { Member } from 'modules/representatives/Member.type'
 import supabase from 'lib/supabaseClient'
-import { Paginated } from 'types/Paginated'
 
 export async function getMembers({
-	page,
 	state,
 	district,
 }: {
-	page: number
 	state: string | undefined
 	district: string | undefined
 }) {
-	const pageSize = 15
-	const start = page * pageSize
-	const end = (page + 1) * pageSize
 	let query = supabase
 		.from<Member>('members')
 		.select(
@@ -25,12 +19,10 @@ export async function getMembers({
 	if (district && district.length > 0)
 		query = query.or(`district.eq.${district},district.is.null`)
 
-	const { data, error } = await query
-		.order(`state, metadata->title, metadata->last_name` as any)
-		.range(start, end)
+	const { data, error } = await query.order(
+		`state, metadata->title, metadata->last_name` as any
+	)
 	if (error) throw error
 
-	const hasMore = (data?.length || 0) >= pageSize
-	const nextPage = page + 1
-	return { hasMore, items: data, nextPage } as Paginated<Member>
+	return data as Member[]
 }

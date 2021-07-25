@@ -6,7 +6,7 @@ type ErrorsStore = {
 	removeError: (val: string) => void
 }
 
-export const useStore = create<ErrorsStore>((set) => ({
+export const useErrorStore = create<ErrorsStore>((set) => ({
 	errors: [],
 	popError: [],
 	addError: (message: string) =>

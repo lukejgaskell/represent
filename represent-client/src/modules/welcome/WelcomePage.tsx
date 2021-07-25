@@ -2,7 +2,7 @@ import { DefaultLayout } from '@/modules/layouts/DefaultLayout'
 
 export const WelcomePage = () => (
 	<DefaultLayout title='Welcome'>
-		<section className='mt-15'>
+		<section className='pr-4 pl-4 mt-20'>
 			<h2 className='text-xl font-semibold text-gray-800 dark:text-gray-200'>
 				Welcome to Represent
 			</h2>

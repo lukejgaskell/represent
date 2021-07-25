@@ -6,25 +6,33 @@ import { Vote } from './Vote.type'
 import { VoteCard } from 'ui/votes/VoteCard'
 import { useInfiniteQuery } from 'react-query'
 import { getVotes } from '@/queries/votes'
+import { useUserStore } from '@/stores/useUserStore'
 import { Paginated } from '@/types/Paginated'
 
 export const VotesPage = () => {
+	const { settings } = useUserStore()
 	const { data, error, hasNextPage, fetchNextPage } = useInfiniteQuery<
 		Paginated<Vote>,
 		Error
-	>(['votes'], ({ pageParam = 0 }) => getVotes({ page: pageParam }), {
-		keepPreviousData: true,
-		getNextPageParam: (lastPage, pages) =>
-			lastPage.hasMore ? lastPage.nextPage : undefined,
-	})
+	>(
+		['votes', { state: settings.state, district: settings.district }],
+		({ pageParam = 0 }) =>
+			getVotes({
+				page: pageParam,
+				district: settings.district,
+				state: settings.state,
+			}),
+		{
+			keepPreviousData: true,
+			getNextPageParam: (lastPage, pages) =>
+				lastPage.hasMore ? lastPage.nextPage : undefined,
+		}
+	)
 
 	return (
 		<DefaultLayout title='Votes'>
 			<section>
 				<Grid container direction='column' spacing={2}>
-					<Grid item>
-						<h2 className='text-xl font-semibold mb-3'>Votes</h2>
-					</Grid>
 					<Grid item>
 						<InfiniteScroll
 							className='pr-3 pl-3'
