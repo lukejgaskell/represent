@@ -61,7 +61,7 @@ export function VoteCard({
 		<Card>
 			<CardContent>
 				<Grid container direction='column' spacing={2}>
-					<Grid item>
+					<Grid item xs={12}>
 						<Grid container alignItems='center' spacing={1}>
 							<Grid item>
 								<GavelIcon />
@@ -87,13 +87,13 @@ export function VoteCard({
 							</Grid>
 						</Grid>
 					</Grid>
-					<Grid item>
+					<Grid item xs={12}>
 						<Typography variant='h6'>{description}</Typography>
 					</Grid>
-					<Grid item>
+					<Grid item xs={12}>
 						<Divider light />
 					</Grid>
-					<Grid item>
+					<Grid item xs={12}>
 						<Grid container justifyContent='space-between' alignItems='center'>
 							<Typography
 								variant='body2'
@@ -112,13 +112,13 @@ export function VoteCard({
 							</Grid>
 						</Grid>
 					</Grid>
-					<Grid item>
+					<Grid item xs={12}>
 						<Typography>{result}</Typography>
 					</Grid>
-					<Grid item>
+					<Grid item xs={12}>
 						<Divider light />
 					</Grid>
-					<Grid item>
+					<Grid item xs={12}>
 						<Grid container spacing={2}>
 							{memberVotes.map((mv, index) => (
 								<Grid key={index} item>
