@@ -121,7 +121,7 @@ export function VoteCard({
 					<Grid item xs={12}>
 						<Grid container spacing={2}>
 							{memberVotes.map((mv, index) => (
-								<Grid key={index} item>
+								<Grid key={index} item xs={6} sm={3}>
 									<MemberDisplay {...mv} />
 								</Grid>
 							))}
