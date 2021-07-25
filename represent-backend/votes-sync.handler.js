@@ -17,7 +17,7 @@ module.exports.run = async (event, context) => {
     const votes = votesReponse.results.votes.map(vote => ({
       metadata: { ...vote },
       chamber: vote.chamber,
-      date: v.date,
+      date: vote.date,
       id: `${vote.chamber}|${vote.congress}|${vote.session}|${vote.roll_call}`,
     }))
 
