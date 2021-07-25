@@ -35,7 +35,7 @@ function MemberDisplay({ name, vote_position }: MemberVote) {
 
 	return (
 		<Grid item>
-			<Grid container alignItems='center' spacing={1}>
+			<Grid container alignItems='center' direction='row' spacing={1}>
 				<Grid item>
 					<VotePositionIcon fontSize='small' style={{ color }} />
 				</Grid>
@@ -92,7 +92,7 @@ export function VoteCard({
 							</Grid>
 						</Grid>
 						<Grid item>
-							<Typography variant='body2'>{description}</Typography>
+							<Typography>{description}</Typography>
 						</Grid>
 						<Grid item>
 							<Divider light />
@@ -121,9 +121,7 @@ export function VoteCard({
 							</Grid>
 						</Grid>
 						<Grid item>
-							<Typography variant='body2' style={{ color: 'white' }}>
-								{result}
-							</Typography>
+							<Typography>{result}</Typography>
 						</Grid>
 						<Grid item>
 							<Divider light />
