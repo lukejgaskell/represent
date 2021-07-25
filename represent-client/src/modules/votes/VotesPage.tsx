@@ -31,8 +31,9 @@ export const VotesPage = () => {
 
 	return (
 		<DefaultLayout title='Votes'>
-			<section className='pr-3 pl-3'>
+			<section>
 				<InfiniteScroll
+					className='pl-2 pr-2'
 					dataLength={data?.pages?.length || 0} //This is important field to render the next data
 					next={() => fetchNextPage()}
 					hasMore={hasNextPage || false}

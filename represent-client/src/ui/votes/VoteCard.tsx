@@ -61,8 +61,8 @@ export function VoteCard({
 		<Card>
 			<CardContent>
 				<Grid container direction='column' spacing={2}>
-					<Grid item container xs={12} alignItems='center' spacing={0}>
-						<Grid item xs={2}>
+					<Grid item container xs={12} alignItems='center' spacing={4}>
+						<Grid item xs={1}>
 							<GavelIcon />
 						</Grid>
 						<Grid item xs={4}>
