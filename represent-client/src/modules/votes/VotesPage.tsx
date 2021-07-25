@@ -29,6 +29,11 @@ export const VotesPage = () => {
 		}
 	)
 
+	const items = data?.pages.reduce(
+		(acc, page) => [...acc, ...page.items],
+		[] as Vote[]
+	)
+
 	return (
 		<DefaultLayout title='Votes'>
 			<section>
@@ -41,13 +46,11 @@ export const VotesPage = () => {
 					endMessage={<h2 className='pt-2'>no more items</h2>}
 				>
 					<Grid container direction='column' spacing={2}>
-						{data?.pages.map((page) =>
-							page?.items?.map((v: Vote, index: number) => (
-								<Grid item xs={12} key={index}>
-									<VoteCard key={index} {...v} />
-								</Grid>
-							))
-						)}
+						{items?.map((v: Vote, index: number) => (
+							<Grid item xs={12} key={index}>
+								<VoteCard key={index} {...v} />
+							</Grid>
+						))}
 					</Grid>
 				</InfiniteScroll>
 			</section>
