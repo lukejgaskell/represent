@@ -44,8 +44,8 @@ module.exports.run = async (event, context) => {
           id: `${curr.chamber}|${curr.congress}|${curr.session}|${curr.roll_call}|${v.member_id}`,
           vote_id: `${curr.chamber}|${curr.congress}|${curr.session}|${curr.roll_call}`,
           member_id: v.member_id,
-          state: v.state,
-          district: v.district,
+          state: v.state || null,
+          district: v.district || null,
           metadata: { ...v },
         }))
 
