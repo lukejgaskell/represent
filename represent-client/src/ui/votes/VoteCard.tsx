@@ -61,28 +61,26 @@ export function VoteCard({
 		<Card>
 			<CardContent>
 				<Grid container direction='column' spacing={2}>
-					<Grid item xs={12}>
-						<Grid container alignItems='center' spacing={1}>
-							<Grid item>
-								<GavelIcon />
-							</Grid>
-							<Grid item>
-								<Grid
-									container
-									direction='column'
-									spacing={0}
-									style={{ lineHeight: '12px' }}
-								>
-									<Grid item>
-										<Typography variant='caption' color='textSecondary'>
-											{`${dateDisp}`}
-										</Typography>
-									</Grid>
-									<Grid item>
-										<Typography variant='caption' color='textSecondary'>
-											{`${chamber}`}
-										</Typography>
-									</Grid>
+					<Grid item container xs={12} alignItems='center' spacing={0}>
+						<Grid item xs={2}>
+							<GavelIcon />
+						</Grid>
+						<Grid item xs={4}>
+							<Grid
+								container
+								direction='column'
+								spacing={0}
+								style={{ lineHeight: '12px' }}
+							>
+								<Grid item>
+									<Typography variant='caption' color='textSecondary'>
+										{`${dateDisp}`}
+									</Typography>
+								</Grid>
+								<Grid item>
+									<Typography variant='caption' color='textSecondary'>
+										{`${chamber}`}
+									</Typography>
 								</Grid>
 							</Grid>
 						</Grid>
@@ -93,23 +91,25 @@ export function VoteCard({
 					<Grid item xs={12}>
 						<Divider light />
 					</Grid>
-					<Grid item xs={12}>
-						<Grid container justifyContent='space-between' alignItems='center'>
+					<Grid
+						item
+						container
+						xs={12}
+						justifyContent='space-between'
+						alignItems='center'
+					>
+						<Grid item>
 							<Typography
 								variant='body2'
 								color='textSecondary'
 							>{`Voting ${question}`}</Typography>
-							<Grid item>
-								<Typography
-									variant='caption'
-									component='p'
-									color='textSecondary'
-								>
-									{`${total.yes} Yes / ${
-										total.not_voting + total.present
-									} Abstain / ${total.no} No`}
-								</Typography>
-							</Grid>
+						</Grid>
+						<Grid item>
+							<Typography variant='caption' component='p' color='textSecondary'>
+								{`${total.yes} Yes / ${
+									total.not_voting + total.present
+								} Abstain / ${total.no} No`}
+							</Typography>
 						</Grid>
 					</Grid>
 					<Grid item xs={12}>
@@ -118,14 +118,12 @@ export function VoteCard({
 					<Grid item xs={12}>
 						<Divider light />
 					</Grid>
-					<Grid item xs={12}>
-						<Grid container spacing={2}>
-							{memberVotes.map((mv, index) => (
-								<Grid key={index} item xs={6} sm={3}>
-									<MemberDisplay {...mv} />
-								</Grid>
-							))}
-						</Grid>
+					<Grid item container xs={12} spacing={2}>
+						{memberVotes.map((mv, index) => (
+							<Grid key={index} item xs={6} sm={3}>
+								<MemberDisplay {...mv} />
+							</Grid>
+						))}
 					</Grid>
 				</Grid>
 			</CardContent>
