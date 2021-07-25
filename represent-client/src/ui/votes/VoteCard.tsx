@@ -34,7 +34,16 @@ function MemberDisplay({ name, vote_position }: MemberVote) {
 	}
 
 	return (
-		<Grid container alignItems='center' direction='row' spacing={1}>
+		<Grid
+			item
+			container
+			key={name}
+			xs={6}
+			sm={3}
+			alignItems='center'
+			direction='row'
+			spacing={1}
+		>
 			<Grid item xs={3}>
 				<VotePositionIcon fontSize='small' style={{ color }} />
 			</Grid>
@@ -58,30 +67,30 @@ export function VoteCard({
 		addSuffix: true,
 	})
 	return (
-		<Card>
+		<Card style={{ width: '100%' }}>
 			<CardContent>
 				<Grid container direction='column' spacing={1}>
 					<Grid item container xs={12} alignItems='center' spacing={4}>
 						<Grid item xs={1}>
 							<GavelIcon />
 						</Grid>
-						<Grid item xs={4}>
-							<Grid
-								container
-								direction='column'
-								spacing={0}
-								style={{ lineHeight: '12px' }}
-							>
-								<Grid item>
-									<Typography variant='caption' color='textSecondary'>
-										{`${dateDisp}`}
-									</Typography>
-								</Grid>
-								<Grid item>
-									<Typography variant='caption' color='textSecondary'>
-										{`${chamber}`}
-									</Typography>
-								</Grid>
+						<Grid
+							item
+							container
+							direction='column'
+							spacing={0}
+							style={{ lineHeight: '12px' }}
+							xs={4}
+						>
+							<Grid item>
+								<Typography variant='caption' color='textSecondary'>
+									{`${dateDisp}`}
+								</Typography>
+							</Grid>
+							<Grid item>
+								<Typography variant='caption' color='textSecondary'>
+									{`${chamber}`}
+								</Typography>
 							</Grid>
 						</Grid>
 					</Grid>
@@ -119,10 +128,8 @@ export function VoteCard({
 						<Divider light />
 					</Grid>
 					<Grid item container xs={12} spacing={2}>
-						{memberVotes.map((mv, index) => (
-							<Grid key={index} item xs={6} sm={3}>
-								<MemberDisplay {...mv} />
-							</Grid>
+						{memberVotes.map((mv) => (
+							<MemberDisplay {...mv} />
 						))}
 					</Grid>
 				</Grid>
