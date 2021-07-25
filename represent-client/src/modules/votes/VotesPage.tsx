@@ -42,7 +42,9 @@ export const VotesPage = () => {
 					<Grid container direction='column' spacing={2}>
 						{data?.pages.map((page) =>
 							page?.items?.map((v: Vote, index: number) => (
-								<VoteCard key={index} {...v} />
+								<Grid item>
+									<VoteCard key={index} {...v} />
+								</Grid>
 							))
 						)}
 					</Grid>
