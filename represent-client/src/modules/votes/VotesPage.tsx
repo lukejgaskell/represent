@@ -32,13 +32,21 @@ export const VotesPage = () => {
 	return (
 		<DefaultLayout title='Votes'>
 			<section className='pr-3 pl-3'>
-				<Grid container direction='column' spacing={2}>
-					{data?.pages.map((page) =>
-						page?.items?.map((v: Vote, index: number) => (
-							<VoteCard key={index} {...v} />
-						))
-					)}
-				</Grid>
+				<InfiniteScroll
+					dataLength={data?.pages?.length || 0} //This is important field to render the next data
+					next={() => fetchNextPage()}
+					hasMore={hasNextPage || false}
+					loader={<h2 className='pt-2'>Loading...</h2>}
+					endMessage={<h2 className='pt-2'>no more items</h2>}
+				>
+					<Grid container direction='column' spacing={2}>
+						{data?.pages.map((page) =>
+							page?.items?.map((v: Vote, index: number) => (
+								<VoteCard key={index} {...v} />
+							))
+						)}
+					</Grid>
+				</InfiniteScroll>
 			</section>
 		</DefaultLayout>
 	)
