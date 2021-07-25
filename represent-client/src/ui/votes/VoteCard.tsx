@@ -34,22 +34,18 @@ function MemberDisplay({ name, vote_position }: MemberVote) {
 	}
 
 	return (
-		<Grid item>
-			<Grid container alignItems='center' direction='row' spacing={1}>
-				<Grid item>
-					<Typography variant='caption'>{'answer'}</Typography>
-					{/* <Typography variant='caption'>{name}</Typography><VotePositionIcon fontSize='small' style={{ color }} /> */}
-				</Grid>
-				<Grid item>
-					<Typography variant='caption'>{name}</Typography>
-				</Grid>
+		<Grid container alignItems='center' direction='row' spacing={1}>
+			<Grid item>
+				<VotePositionIcon fontSize='small' style={{ color }} />
+			</Grid>
+			<Grid item>
+				<Typography variant='caption'>{name}</Typography>
 			</Grid>
 		</Grid>
 	)
 }
 
 export function VoteCard({
-	bill_id,
 	result,
 	description,
 	total,
@@ -130,7 +126,9 @@ export function VoteCard({
 						<Grid item>
 							<Grid container spacing={2}>
 								{memberVotes.map((mv, index) => (
-									<MemberDisplay key={index} {...mv} />
+									<Grid key={index} item>
+										<MemberDisplay {...mv} />
+									</Grid>
 								))}
 							</Grid>
 						</Grid>
