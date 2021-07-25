@@ -9,9 +9,9 @@ export async function getVotes({ page }: { page: number }) {
 	const { data, error } = await supabase
 		.from<Vote>('votes')
 		.select(
-			`metadata->description, metadata->question, metadata->result, metadata->total, metadata->date, metadata->chamber, metadata->source`
+			`metadata->description, metadata->question, metadata->result, metadata->total, date, chamber, metadata->source`
 		)
-		.order(`metadata->date` as any, { ascending: false })
+		.order(`date`, { ascending: false })
 		.range(start, end)
 	if (error) throw error
 

@@ -42,6 +42,7 @@ module.exports.run = async (event, context) => {
 
         const pos = positions.map(v => ({
           id: `${curr.chamber}|${curr.congress}|${curr.session}|${curr.roll_call}|${v.member_id}`,
+          vote_id: `${curr.chamber}|${curr.congress}|${curr.session}|${curr.roll_call}`,
           chamber: curr.chamber,
           congress: curr.congress,
           session: curr.session,
