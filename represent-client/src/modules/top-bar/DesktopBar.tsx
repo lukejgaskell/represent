@@ -41,7 +41,7 @@ const DesktopBar = ({ handleSignOut, pageTitle }: IProps) => {
 	}
 
 	return (
-		<AppBar position='static'>
+		<AppBar position='sticky'>
 			<Toolbar>
 				<Typography className={classes.title} variant='h6'>
 					Represent | {pageTitle}

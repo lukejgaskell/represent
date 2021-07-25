@@ -37,7 +37,8 @@ function MemberDisplay({ name, vote_position }: MemberVote) {
 		<Grid item>
 			<Grid container alignItems='center' direction='row' spacing={1}>
 				<Grid item>
-					<VotePositionIcon fontSize='small' style={{ color }} />
+					<Typography variant='caption'>{'answer'}</Typography>
+					{/* <Typography variant='caption'>{name}</Typography><VotePositionIcon fontSize='small' style={{ color }} /> */}
 				</Grid>
 				<Grid item>
 					<Typography variant='caption'>{name}</Typography>
