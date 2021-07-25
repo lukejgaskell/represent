@@ -1,7 +1,9 @@
 "use strict"
 const axios = require("axios")
 const { createClient } = require("@supabase/supabase-js")
-const congressSession = 117
+
+const twoDigetYear = parseInt(new Date().getFullYear().toString().substr(-2))
+const congressSession = 106 + Math.ceil(twoDigetYear / 2)
 
 const supabase = createClient("https://ijxfwjuurxppacepegmf.supabase.co", process.env.SUPABASE_SERVICE_KEY)
 
@@ -12,9 +14,7 @@ const API_KEY = process.env.API_KEY
 
 async function getMembersWithDistricts(members) {
   const requests = members.map(m =>
-    axios
-      .get(getMemberUrl(m.id), { headers: { "X-API-Key": API_KEY } })
-      .then(r => ({ id: r.data.results[0].id, district: r.data.results[0].roles[0].district }))
+    axios.get(getMemberUrl(m.id), { headers: { "X-API-Key": API_KEY } }).then(r => ({ id: r.data.results[0].id, district: r.data.results[0].roles[0].district }))
   )
 
   const results = await Promise.all(requests)
@@ -25,13 +25,9 @@ module.exports.run = async (event, context) => {
   console.info(`Cron function "${context.functionName}" is starting`)
 
   try {
-    const houseMembers = await axios
-      .get(getMembersUrl("house"), { headers: { "X-API-Key": API_KEY } })
-      .then(r => r.data.results[0].members.map(m => ({ ...m, type: "house" })))
+    const houseMembers = await axios.get(getMembersUrl("house"), { headers: { "X-API-Key": API_KEY } }).then(r => r.data.results[0].members.map(m => ({ ...m, type: "house" })))
 
-    const senateMembers = await axios
-      .get(getMembersUrl("senate"), { headers: { "X-API-Key": API_KEY } })
-      .then(r => r.data.results[0].members.map(m => ({ ...m, type: "senate" })))
+    const senateMembers = await axios.get(getMembersUrl("senate"), { headers: { "X-API-Key": API_KEY } }).then(r => r.data.results[0].members.map(m => ({ ...m, type: "senate" })))
 
     const houseMembersWithDistrict = await getMembersWithDistricts(houseMembers)
 
