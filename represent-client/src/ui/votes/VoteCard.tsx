@@ -88,7 +88,7 @@ export function VoteCard({
 						</Grid>
 					</Grid>
 					<Grid item>
-						<Typography variant='h5'>{description}</Typography>
+						<Typography variant='h6'>{description}</Typography>
 					</Grid>
 					<Grid item>
 						<Divider light />
