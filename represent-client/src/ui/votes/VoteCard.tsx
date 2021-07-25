@@ -60,7 +60,7 @@ export function VoteCard({
 	return (
 		<Card>
 			<CardContent>
-				<Grid container direction='column' spacing={1}>
+				<Grid container direction='column' spacing={2}>
 					<Grid item>
 						<Grid container alignItems='center' spacing={1}>
 							<Grid item>
