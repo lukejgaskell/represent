@@ -3,6 +3,8 @@ import supabase from 'lib/supabaseClient'
 import React, { useState } from 'react'
 import { NoAuthLayout } from '../layouts/NoAuthLayout'
 import GoogleIcon from '../../../public/images/google-icon.svg'
+import LightRepresentLogo from '../../../public/images/logo.svg'
+import DarkRepresentLogo from '../../../public/images/logo-dark-mode.svg'
 import Image from 'next/image'
 
 export const LoginPage = () => {
@@ -22,21 +24,29 @@ export const LoginPage = () => {
 
 	return (
 		<NoAuthLayout>
-			<Grid container direction='column' alignItems='center' spacing={3}>
+			<Grid
+				container
+				direction='column'
+				alignItems='center'
+				spacing={3}
+				className='pt-32'
+			>
 				<Grid item>
-					<h1 className='text-3xl text-center'>Welcome to Represent</h1>
-				</Grid>
-				<Grid item>
-					<h3 className='text-2xl text-center'>Log in to get started</h3>
-				</Grid>
-				<Grid item>
-					<p className='h-5 text-red-600'>{errorMessage}</p>
+					<div className='hidden dark:block'>
+						<Image src={DarkRepresentLogo} />
+					</div>
+					<div className='block dark:hidden'>
+						<Image src={LightRepresentLogo} />
+					</div>
 				</Grid>
 				<Grid item>
 					<Button variant='outlined' onClick={() => loginWithGoogle()}>
 						<Image src={GoogleIcon} />
 						<span className='ml-3'>Login With Google</span>
 					</Button>
+				</Grid>
+				<Grid item>
+					<p className='h-5 text-red-600'>{errorMessage}</p>
 				</Grid>
 			</Grid>
 		</NoAuthLayout>

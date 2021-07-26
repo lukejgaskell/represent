@@ -9,6 +9,11 @@ module.exports = {
 		},
 	},
 	darkMode: 'media',
+	variants: {
+		extend: {
+			display: ['dark'],
+		},
+	},
 	theme: {
 		theme: {
 			colors: {

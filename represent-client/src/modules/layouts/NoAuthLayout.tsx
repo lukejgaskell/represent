@@ -26,7 +26,7 @@ export const NoAuthLayout = ({ title, children }: Props) => {
 					 */
 					className='mx-auto pt-20 pb-16 max-w-screen-md'
 				>
-					<div className='p-6'>{children}</div>
+					{children}
 				</main>
 			</WaitForNoAuth>
 		</ThemeProvider>
