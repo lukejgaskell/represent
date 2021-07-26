@@ -34,7 +34,7 @@ export const RepresentativesPage = () => {
 					</Grid>
 					<Grid item container direction='column' spacing={2}>
 						{data?.map((r: Member) => (
-							<Grid item xs={12}>
+							<Grid item container xs={12}>
 								<MemberCard key={r.id} {...r} />
 							</Grid>
 						))}
