@@ -13,6 +13,7 @@ import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined'
 import NotInterestedIcon from '@material-ui/icons/NotInterested'
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
 import GavelIcon from '@material-ui/icons/Gavel'
+import { getNumberOfDays } from '@/lib/dateUtils'
 
 type IProps = Vote
 
@@ -66,9 +67,12 @@ export function VoteCard({
 	question,
 	memberVotes,
 }: IProps) {
-	const dateDisp = formatDistance(new Date(date), new Date(), {
-		addSuffix: true,
-	})
+	const useRelative = getNumberOfDays(new Date(date), new Date()) < 4
+	const dateDisp = useRelative
+		? formatDistance(new Date(date), new Date(), {
+				addSuffix: true,
+		  })
+		: new Date(date).toLocaleDateString().replaceAll('/', '-')
 	return (
 		<Card style={{ width: '100%' }}>
 			<CardContent>
