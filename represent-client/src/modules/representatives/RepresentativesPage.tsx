@@ -22,23 +22,22 @@ export const RepresentativesPage = () => {
 		<DefaultLayout title='Representatives'>
 			<section className='pr-2 pl-2'>
 				<Grid container direction='column' spacing={2}>
-					<Grid item>
-						<Grid
-							container
-							justifyContent='space-between'
-							alignItems='flex-end'
-						>
-							<Grid item>
-								<h2 className='text-xl font-semibold'>Representatives</h2>
-							</Grid>
+					<Grid
+						item
+						container
+						justifyContent='space-between'
+						alignItems='flex-end'
+					>
+						<Grid item>
+							<h2 className='text-xl font-semibold'>Representatives</h2>
 						</Grid>
 					</Grid>
-					<Grid item>
-						<Grid container direction='column' spacing={2}>
-							{data?.map((r: Member) => (
+					<Grid item container direction='column' spacing={2}>
+						{data?.map((r: Member) => (
+							<Grid item xs={12}>
 								<MemberCard key={r.id} {...r} />
-							))}
-						</Grid>
+							</Grid>
+						))}
 					</Grid>
 				</Grid>
 			</section>
