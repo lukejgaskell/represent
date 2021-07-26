@@ -44,11 +44,14 @@ function MemberDisplay({ name, vote_position }: MemberVote) {
 			direction='row'
 			spacing={1}
 		>
-			<Grid item xs={3}>
-				<VotePositionIcon fontSize='small' style={{ color }} />
+			<Grid item xs={3} className='text-center'>
+				<VotePositionIcon
+					fontSize='small'
+					style={{ color, marginBottom: '2px' }}
+				/>
 			</Grid>
 			<Grid item xs={9}>
-				<Typography variant='caption'>{name}</Typography>
+				<Typography variant='body2'>{name}</Typography>
 			</Grid>
 		</Grid>
 	)
