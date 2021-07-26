@@ -20,7 +20,7 @@ export const RepresentativesPage = () => {
 
 	return (
 		<DefaultLayout title='Representatives'>
-			<section className='pr-2 pl-2'>
+			<section className='pr-4 pl-4'>
 				<Grid container direction='column' spacing={2}>
 					<Grid
 						item
