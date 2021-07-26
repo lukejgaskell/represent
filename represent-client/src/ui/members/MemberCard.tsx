@@ -61,9 +61,9 @@ export function MemberCard({
 	const classes = useStyles()
 
 	return (
-		<Card>
+		<Card style={{ width: '100%' }}>
 			<CardContent className={partyToColor(party)}>
-				<Grid container spacing={2} direction='column'>
+				<Grid container spacing={2} direction='column' xs={12}>
 					<Grid
 						item
 						container
