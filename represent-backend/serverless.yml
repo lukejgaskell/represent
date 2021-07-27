@@ -21,9 +21,9 @@ functions:
   syncVotes:
     handler: votes-sync.handler.run
     events:
-      - schedule: cron(0 8,16 ? * * *)
+      - schedule: cron(0 12,20 ? * * *)
   syncMembers:
     handler: members-sync.handler.run
     timeout: 30
     events:
-      - schedule: cron(0 8 ? * * *)
+      - schedule: cron(0 12 ? * * *)
