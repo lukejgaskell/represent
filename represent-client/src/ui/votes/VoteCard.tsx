@@ -87,7 +87,7 @@ export function VoteCard({
 							direction='column'
 							spacing={0}
 							style={{ lineHeight: '12px' }}
-							xs={4}
+							xs={6}
 						>
 							<Grid item>
 								<Typography variant='caption' color='textSecondary'>
