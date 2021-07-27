@@ -1,4 +1,4 @@
-import { useErrorStore } from 'stores/useErrorStore'
+import { useErrorStore } from '@/stores/useErrorStore'
 import { Snackbar } from '@material-ui/core'
 import MuiAlert from '@material-ui/lab/Alert'
 import * as React from 'react'

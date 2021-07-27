@@ -1,5 +1,5 @@
 import { getAddressInfo } from '@/queries/user'
-import { useErrorStore } from 'stores/useErrorStore'
+import { useErrorStore } from '@/stores/useErrorStore'
 import {
 	Button,
 	CircularProgress,
@@ -69,7 +69,7 @@ export const IntroPage = () => {
 		const { error } = await saveUserData(userData)
 		if (error) return errorStore.addError('Failed to save information')
 
-		userStore.setSettings(userData)
+		await userStore.saveSettings(userData)
 		Router.push('/')
 	}
 

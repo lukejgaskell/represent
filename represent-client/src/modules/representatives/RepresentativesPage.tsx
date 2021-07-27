@@ -20,18 +20,8 @@ export const RepresentativesPage = () => {
 
 	return (
 		<DefaultLayout title='Representatives'>
-			<section className='pr-4 pl-4'>
+			<section className='pr-3 pl-3'>
 				<Grid container direction='column' spacing={2}>
-					<Grid
-						item
-						container
-						justifyContent='space-between'
-						alignItems='flex-end'
-					>
-						<Grid item>
-							<h2 className='text-xl font-semibold'>Representatives</h2>
-						</Grid>
-					</Grid>
 					<Grid item container direction='column' spacing={2}>
 						{data?.map((r: Member) => (
 							<Grid item container xs={12} key={r.id}>

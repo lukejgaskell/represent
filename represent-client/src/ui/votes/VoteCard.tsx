@@ -107,6 +107,12 @@ export function VoteCard({
 					<Grid item xs={12}>
 						<Divider light />
 					</Grid>
+					<Grid item xs={12}>
+						<Typography
+							variant='body2'
+							color='textSecondary'
+						>{`Voting ${question}`}</Typography>
+					</Grid>
 					<Grid
 						item
 						container
@@ -115,10 +121,7 @@ export function VoteCard({
 						alignItems='center'
 					>
 						<Grid item>
-							<Typography
-								variant='body2'
-								color='textSecondary'
-							>{`Voting ${question}`}</Typography>
+							<Typography>{result}</Typography>
 						</Grid>
 						<Grid item>
 							<Typography variant='caption' component='p' color='textSecondary'>
@@ -127,9 +130,6 @@ export function VoteCard({
 								} Abstain / ${total.no} No`}
 							</Typography>
 						</Grid>
-					</Grid>
-					<Grid item xs={12}>
-						<Typography>{result}</Typography>
 					</Grid>
 					<Grid item xs={12}>
 						<Divider light />
