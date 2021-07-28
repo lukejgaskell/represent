@@ -30,6 +30,10 @@ export const useUserStore = create<SettingsStore>(
 				}, 2000)
 			},
 			loadSettings: async () => {
+				if (saveTimeout) {
+					setTimeout(get().loadSettings, 3000)
+					return
+				}
 				const { addError } = useErrorStore.getState()
 				set({ isLoading: true })
 				const { data, error } = await getUserSettings()

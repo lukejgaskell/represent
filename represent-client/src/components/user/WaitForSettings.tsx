@@ -11,11 +11,14 @@ export const WaitForSettings: React.FC<WaitForSettings> = ({ children }) => {
 	const hasSeenWelcome = settings.hasSeenWelcome
 	const { replace } = useRouter()
 
+	console.log('waitng for settings', hasSeenWelcome)
 	useEffect(() => {
-		setImmediate(async () => {
+		console.log('load settings')
+		setTimeout(async () => {
+			console.log('is loading')
 			await loadSettings()
 			setIsNotYetLoading(false)
-		})
+		}, 0)
 	}, [])
 
 	if ((isLoading || isNotYetLoading) && (!hasSettings || !hasSeenWelcome)) {
