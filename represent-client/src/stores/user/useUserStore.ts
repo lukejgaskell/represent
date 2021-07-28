@@ -36,6 +36,7 @@ export const useUserStore = create<SettingsStore>(
 				if (error) {
 					set({ isLoading: false })
 					addError(error.message)
+					return
 				}
 
 				set({ settings: data || ({} as UserData), isLoading: false })
