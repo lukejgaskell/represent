@@ -20,6 +20,7 @@ provider:
 functions:
   syncVotes:
     handler: votes-sync.handler.run
+    timeout: 30
     events:
       - schedule: cron(0 12,20 ? * * *)
   syncMembers:
