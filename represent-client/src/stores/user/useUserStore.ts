@@ -10,7 +10,7 @@ let saveTimeout: ReturnType<typeof setTimeout>
 type SettingsStore = {
 	settings: UserData
 	isLoading: boolean
-	saveSettings: (data: UserData) => Promise<void>
+	saveSettings: (data: UserData) => void
 	loadSettings: () => Promise<void>
 }
 
@@ -19,7 +19,7 @@ export const useUserStore = create<SettingsStore>(
 		(set, get) => ({
 			settings: {} as UserData,
 			isLoading: false,
-			saveSettings: async (userData: UserData) => {
+			saveSettings: (userData: UserData) => {
 				const updatedSettings = { ...get().settings, ...userData }
 				set({ settings: updatedSettings })
 
