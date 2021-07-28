@@ -3,7 +3,6 @@ import { getUserSettings, saveUserData } from '@/queries/user'
 import { UserData } from '@/stores/user/UserData.type'
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
-import { useErrorStore } from '../useErrorStore'
 
 let saveTimeout: ReturnType<typeof setTimeout>
 
@@ -30,16 +29,12 @@ export const useUserStore = create<SettingsStore>(
 				}, 2000)
 			},
 			loadSettings: async () => {
-				if (saveTimeout) {
-					setTimeout(get().loadSettings, 3000)
-					return
-				}
-				const { addError } = useErrorStore.getState()
+				if (saveTimeout) return
+
 				set({ isLoading: true })
 				const { data, error } = await getUserSettings()
 				if (error) {
 					set({ isLoading: false })
-					addError(error.message)
 					return
 				}
 
