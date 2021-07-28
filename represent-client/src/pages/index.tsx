@@ -1,3 +1,12 @@
-import { WelcomePage } from '@/modules/welcome/WelcomePage'
+import React, { useEffect } from "react"
 
-export default WelcomePage
+import { useRouter } from "next/router"
+
+export default function Index() {
+  const { replace } = useRouter()
+
+  useEffect(() => {
+    replace("/votes")
+  }, [])
+  return null
+}
