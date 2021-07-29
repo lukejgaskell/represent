@@ -11,10 +11,10 @@ import {
 	MenuItem,
 	Toolbar,
 	Typography,
+	useMediaQuery,
 } from '@material-ui/core'
 import React from 'react'
 import { AccountCircle } from '@material-ui/icons'
-import { isPWA } from '@/lib/isPwa'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -33,6 +33,7 @@ type IProps = {
 
 const TopBar = ({ pageTitle }: IProps) => {
 	const router = useRouter()
+	const isPwa = useMediaQuery('display-mode: standalone')
 
 	const handleSignOut = async () => {
 		await supabase.auth.signOut()
@@ -54,7 +55,7 @@ const TopBar = ({ pageTitle }: IProps) => {
 	return (
 		<AppBar
 			position='sticky'
-			className={isPWA() ? classes.mobileAppBar : undefined}
+			className={isPwa ? classes.mobileAppBar : undefined}
 		>
 			<Toolbar>
 				<Typography className={classes.title} variant='h6'>
