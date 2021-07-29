@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow: 1,
 	},
 	mobileAppBar: {
-		marginTop: 5,
+		marginTop: 15,
 	},
 	title: {
 		flexGrow: 1,
@@ -33,7 +33,7 @@ type IProps = {
 
 const TopBar = ({ pageTitle }: IProps) => {
 	const router = useRouter()
-	const isPwa = useMediaQuery('display-mode: standalone')
+	const isPwa = useMediaQuery('(display-mode: standalone)')
 
 	const handleSignOut = async () => {
 		await supabase.auth.signOut()
