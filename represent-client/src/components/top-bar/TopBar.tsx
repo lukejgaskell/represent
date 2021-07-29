@@ -54,7 +54,7 @@ const TopBar = ({ pageTitle }: IProps) => {
 
 	return (
 		<AppBar
-			position='sticky'
+			position='fixed'
 			className={isPwa ? classes.mobileAppBar : undefined}
 		>
 			<Toolbar>
