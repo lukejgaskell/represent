@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 		flexGrow: 1,
 	},
 	mobileAppBar: {
-		marginTop: 15,
+		paddingTop: 30,
 	},
 	title: {
 		flexGrow: 1,
