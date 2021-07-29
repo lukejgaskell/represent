@@ -27,7 +27,7 @@ export const DefaultLayout = ({ title, children }: Props) => {
 					<TopBar pageTitle={title} />
 					<ErrorToast />
 
-					<main className='mx-auto pb-16 max-w-screen-md mt-20'>
+					<main className='mx-auto pb-16 max-w-screen-md mt-18'>
 						<div className='pt-4 pr-1 pl-1 pb-4'>{children}</div>
 					</main>
 
