@@ -14,10 +14,14 @@ import {
 } from '@material-ui/core'
 import React from 'react'
 import { AccountCircle } from '@material-ui/icons'
+import { isPWA } from '@/lib/isPwa'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		flexGrow: 1,
+	},
+	mobileAppBar: {
+		marginTop: 5,
 	},
 	title: {
 		flexGrow: 1,
@@ -48,7 +52,10 @@ const TopBar = ({ pageTitle }: IProps) => {
 	}
 
 	return (
-		<AppBar position='sticky'>
+		<AppBar
+			position='sticky'
+			className={isPWA() ? classes.mobileAppBar : undefined}
+		>
 			<Toolbar>
 				<Typography className={classes.title} variant='h6'>
 					Represent | {pageTitle}
