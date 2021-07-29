@@ -48,7 +48,7 @@ const TopBar = ({ pageTitle }: IProps) => {
 	}
 
 	return (
-		<AppBar position='fixed'>
+		<AppBar position='sticky'>
 			<Toolbar>
 				<Typography className={classes.title} variant='h6'>
 					Represent | {pageTitle}
