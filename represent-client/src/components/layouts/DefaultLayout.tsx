@@ -24,7 +24,7 @@ export const DefaultLayout = ({ title, children }: Props) => {
 						</Head>
 					) : null}
 
-					{/* <TopBar pageTitle={title} /> */}
+					<TopBar pageTitle={title} />
 					<ErrorToast />
 
 					<main className='mx-auto pb-16 max-w-screen-md'>
