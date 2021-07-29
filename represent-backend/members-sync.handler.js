@@ -5,7 +5,7 @@ const { createClient } = require("@supabase/supabase-js")
 const twoDigetYear = parseInt(new Date().getFullYear().toString().substr(-2))
 const congressSession = 106 + Math.ceil(twoDigetYear / 2)
 
-const supabase = createClient("https://ijxfwjuurxppacepegmf.supabase.co", process.env.SUPABASE_SERVICE_KEY)
+const supabase = createClient("https://ijxfwjuurxppacepegmf.supabase.in", process.env.SUPABASE_SERVICE_KEY)
 
 const getMembersUrl = chamber => `https://api.propublica.org/congress/v1/${congressSession}/${chamber}/members.json`
 const getMemberUrl = memberId => `https://api.propublica.org/congress/v1/members/${memberId}.json`

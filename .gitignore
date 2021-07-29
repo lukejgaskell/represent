@@ -29,3 +29,5 @@ src/data/Strains\.json
 src/data/StrainsProducts\.json
 
 .env
+
+test.html

@@ -11,10 +11,10 @@ import {
 	MenuItem,
 	Toolbar,
 	Typography,
-	useMediaQuery,
 } from '@material-ui/core'
 import React from 'react'
 import { AccountCircle } from '@material-ui/icons'
+import { isInStandaloneMode, isIos } from '@/lib/deviceUtils'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -33,7 +33,7 @@ type IProps = {
 
 const TopBar = ({ pageTitle }: IProps) => {
 	const router = useRouter()
-	const isPwa = useMediaQuery('(display-mode: standalone)')
+	const addPadding = isInStandaloneMode() && isIos()
 
 	const handleSignOut = async () => {
 		await supabase.auth.signOut()
@@ -55,7 +55,7 @@ const TopBar = ({ pageTitle }: IProps) => {
 	return (
 		<AppBar
 			position='fixed'
-			className={isPwa ? classes.mobileAppBar : undefined}
+			className={addPadding ? classes.mobileAppBar : undefined}
 		>
 			<Toolbar>
 				<Typography className={classes.title} variant='h6'>
