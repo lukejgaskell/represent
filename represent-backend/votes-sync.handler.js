@@ -25,7 +25,6 @@ async function syncMemberVotes(votes) {
     const pos = positions.map(v => ({
       id: `${curr.chamber}|${curr.congress}|${curr.session}|${curr.roll_call}|${v.member_id}`,
       vote_id: `${curr.chamber}|${curr.congress}|${curr.session}|${curr.roll_call}`,
-      bill_id: v.bill?.bill_id ? v.bill.bill_id.split("-")[0] : null,
       member_id: v.member_id,
       state: v.state || null,
       district: v.district || null,
@@ -69,11 +68,12 @@ module.exports.run = async (event, context) => {
     console.info(`fetching votes`)
     const votesReponse = await axios.get(votesUrl, { headers: { "X-API-Key": API_KEY } }).then(r => r.data)
 
-    const votes = votesReponse.results.votes.map(vote => ({
-      metadata: { ...vote },
-      chamber: vote.chamber,
-      date: `${vote.date}T${vote.time}`,
-      id: `${vote.chamber}|${vote.congress}|${vote.session}|${vote.roll_call}`,
+    const votes = votesReponse.results.votes.map(v => ({
+      metadata: { ...v },
+      chamber: v.chamber,
+      bill_id: v.bill?.bill_id ? v.bill.bill_id.split("-")[0] : null,
+      date: `${v.date}T${v.time}`,
+      id: `${v.chamber}|${v.congress}|${v.session}|${v.roll_call}`,
     }))
 
     console.info(`syncing bills`)
