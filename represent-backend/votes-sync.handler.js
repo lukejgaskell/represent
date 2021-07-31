@@ -38,7 +38,7 @@ async function syncMemberVotes(votes) {
   const { data, error } = await supabase.from("memberVotes").upsert(items, { returning: "minimal" })
 
   if (error) {
-    console.info(`error while saving member votes to db`, error)
+    console.error(`error while saving member votes to db`, error)
   }
 }
 
@@ -58,7 +58,7 @@ async function syncBills(votes) {
   const { data, error } = await supabase.from("bills").upsert(items, { returning: "minimal" })
 
   if (error) {
-    console.info(`error while saving bills to db`, error)
+    console.error(`error while saving bills to db`, error)
   }
 }
 
@@ -66,6 +66,7 @@ module.exports.run = async (event, context) => {
   console.info(`Cron function "${context.functionName}" is starting`)
 
   try {
+    console.info(`fetching votes`)
     const votesReponse = await axios.get(votesUrl, { headers: { "X-API-Key": API_KEY } }).then(r => r.data)
 
     const votes = votesReponse.results.votes.map(vote => ({
@@ -75,18 +76,21 @@ module.exports.run = async (event, context) => {
       id: `${vote.chamber}|${vote.congress}|${vote.session}|${vote.roll_call}`,
     }))
 
+    console.info(`syncing bills`)
     await syncBills(votes)
 
+    console.info(`saving votes`)
     const { data, error } = await supabase.from("votes").upsert(votes, { returning: "minimal" })
 
     if (error) {
-      console.info(`error while saving votes to db`, error)
+      console.error(`error while saving votes to db`, error)
     }
 
+    console.info(`syncing member votes`)
     await syncMemberVotes(votes)
 
     console.info(`Cron function "${context.functionName}" is finished`)
   } catch (e) {
-    console.info(`error while running the function`, e)
+    console.error(`error while running the function`, e)
   }
 }
