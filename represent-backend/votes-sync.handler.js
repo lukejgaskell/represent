@@ -44,7 +44,7 @@ async function syncMemberVotes(votes) {
 async function syncBills(votes) {
   const billResponses = votes
     .filter(v => v.metadata?.bill?.bill_id)
-    .map(v => axios.get(getBillUrl(v.metadata.congress, v.metadata.bill.bill_id.split("-")[0]), { headers: { "X-API-Key": API_KEY } }).then(r => r.data.results[0]))
+    .map(v => axios.get(getBillUrl(v.metadata.congress, v.metadata.bill.bill_id.split("-")[0]), { headers: { "X-API-Key": API_KEY } }).then(r => r.data.results.votes[0]))
 
   const results = await Promise.all(billResponses)
 
