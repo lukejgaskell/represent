@@ -49,6 +49,7 @@ async function syncBills(votes) {
   const results = await Promise.all(billResponses)
 
   const items = results.map(r => {
+    console.info("r value", r)
     const { bill_id } = r
 
     return { id: bill_id, metadata: { ...r } }
