@@ -2,7 +2,7 @@
 const axios = require("axios")
 const { createClient } = require("@supabase/supabase-js")
 
-const supabase = createClient("https://ijxfwjuurxppacepegmf.supabase.co", process.env.SUPABASE_SERVICE_KEY)
+const supabase = createClient("https://ijxfwjuurxppacepegmf.supabase.in", process.env.SUPABASE_SERVICE_KEY)
 
 const votesUrl = "https://api.propublica.org/congress/v1/both/votes/recent.json"
 const getVoteUrl = (congress, chamber, session, rollCallNumber) => `https://api.propublica.org/congress/v1/${congress}/${chamber}/sessions/${session}/votes/${rollCallNumber}.json`
