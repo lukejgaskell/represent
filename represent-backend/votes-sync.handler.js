@@ -25,7 +25,7 @@ async function syncMemberVotes(votes) {
     const pos = positions.map(v => ({
       id: `${curr.chamber}|${curr.congress}|${curr.session}|${curr.roll_call}|${v.member_id}`,
       vote_id: `${curr.chamber}|${curr.congress}|${curr.session}|${curr.roll_call}`,
-      bill_id: v.bill.bill_id ? v.bill.bill_id.split("-")[0] : null,
+      bill_id: v.bill?.bill_id ? v.bill.bill_id.split("-")[0] : null,
       member_id: v.member_id,
       state: v.state || null,
       district: v.district || null,
@@ -44,7 +44,7 @@ async function syncMemberVotes(votes) {
 
 async function syncBills(votes) {
   const billResponses = votes
-    .filter(v => v.bill.bill_id)
+    .filter(v => v.bill?.bill_id)
     .map(v => axios.get(getBillUrl(v.metadata.congress, metadata.bill.bill_id.split("-")[0]), { headers: { "X-API-Key": API_KEY } }).then(r => r.data.results))
 
   const results = await Promise.all(billResponses)
