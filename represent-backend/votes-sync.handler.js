@@ -10,6 +10,16 @@ const getBillUrl = (congress, billId) => `https://api.propublica.org/congress/v1
 
 const API_KEY = process.env.API_KEY
 
+function unique(key) {
+  const table = new Map()
+  return (acc, val) => {
+    if (table.has(val[key])) return acc
+
+    table.set(val[key], true)
+    return [...acc, val]
+  }
+}
+
 async function syncMemberVotes(votes) {
   const votesResponses = votes.map(v =>
     axios
@@ -50,6 +60,7 @@ async function syncBills(votes) {
 
   const items = results
     .filter(r => r)
+    .reduce(unique("bill_id"), [])
     .map(r => {
       const { bill_id } = r
 
