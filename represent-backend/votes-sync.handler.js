@@ -55,14 +55,14 @@ async function syncBills(votes) {
   const billResponses = votes
     .filter(v => v.bill_id)
     .reduce(unique("bill_id"), [])
-    .map(v => axios.get(getBillUrl(v.metadata.congress, v.bill_id), { headers: { "X-API-Key": API_KEY } }).then(r => r.data.results?.find(() => true)))
+    .map(v => axios.get(getBillUrl(v.metadata.congress, v.bill_id?.split("-")[0]), { headers: { "X-API-Key": API_KEY } }).then(r => r.data.results?.find(() => true)))
 
   const results = await Promise.all(billResponses)
 
   const items = results
     .filter(r => r)
     .map(r => {
-      return { id: r.bill_slug, congress: r.congress, metadata: { ...r } }
+      return { id: r.bill_id, congress: r.congress, metadata: { ...r } }
     }, [])
 
   const { data, error } = await supabase.from("bills").upsert(items, { returning: "minimal" })
@@ -82,7 +82,7 @@ module.exports.run = async (event, context) => {
     const votes = votesReponse.results.votes.map(v => ({
       metadata: { ...v },
       chamber: v.chamber,
-      bill_id: v.bill?.bill_id ? v.bill.bill_id.split("-")[0] : null,
+      bill_id: v.bill?.bill_id || null,
       date: `${v.date}T${v.time}`,
       id: `${v.chamber}|${v.congress}|${v.session}|${v.roll_call}`,
     }))
