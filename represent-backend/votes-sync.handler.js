@@ -62,7 +62,7 @@ async function syncBills(votes) {
   const items = results
     .filter(r => r)
     .map(r => {
-      return { id: r.bill_id, congress: r.congress, metadata: { ...r } }
+      return { id: r.bill_id, metadata: { ...r } }
     }, [])
 
   const { data, error } = await supabase.from("bills").upsert(items, { returning: "minimal" })
