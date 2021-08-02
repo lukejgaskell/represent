@@ -34,7 +34,7 @@ async function syncMemberVotes(votes) {
 
     const pos = positions.map(v => ({
       id: `${curr.chamber}|${curr.congress}|${curr.session}|${curr.roll_call}|${v.member_id}`,
-      vote_id: `${curr.chamber}|${curr.congress}|${curr.session}|${curr.roll_call}`,
+      vote_id: `${curr.chamber}-${curr.congress}-${curr.session}-${curr.roll_call}`,
       member_id: v.member_id,
       state: v.state || null,
       district: v.district || null,
@@ -84,7 +84,7 @@ module.exports.run = async (event, context) => {
       chamber: v.chamber,
       bill_id: v.bill?.api_uri ? v.bill?.bill_id || null : null,
       date: `${v.date}T${v.time}`,
-      id: `${v.chamber}|${v.congress}|${v.session}|${v.roll_call}`,
+      id: `${v.chamber}-${v.congress}-${v.session}-${v.roll_call}`,
     }))
 
     console.info(`syncing bills`)
