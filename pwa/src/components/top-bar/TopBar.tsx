@@ -15,6 +15,7 @@ import {
 import React from 'react'
 import { AccountCircle } from '@material-ui/icons'
 import { isInStandaloneMode, isIos } from '@/lib/deviceUtils'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -29,9 +30,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 type IProps = {
 	pageTitle: string
+	onBack?: () => void
 }
 
-const TopBar = ({ pageTitle }: IProps) => {
+const TopBar = ({ pageTitle, onBack }: IProps) => {
 	const router = useRouter()
 	const addPadding = isInStandaloneMode() && isIos()
 
@@ -58,6 +60,11 @@ const TopBar = ({ pageTitle }: IProps) => {
 			className={addPadding ? classes.mobileAppBar : undefined}
 		>
 			<Toolbar>
+				{onBack && (
+					<IconButton onClick={onBack} style={{ paddingLeft: 0 }}>
+						<ArrowBackIcon />
+					</IconButton>
+				)}
 				<Typography className={classes.title} variant='h6'>
 					Represent | {pageTitle}
 				</Typography>

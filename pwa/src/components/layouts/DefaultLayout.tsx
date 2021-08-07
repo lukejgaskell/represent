@@ -11,9 +11,10 @@ import theme from 'lib/materialTheme'
 interface Props {
 	title: string
 	children: React.ReactNode
+	onBack?: () => void
 }
 
-export const DefaultLayout = ({ title, children }: Props) => {
+export const DefaultLayout = ({ title, children, onBack }: Props) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<WaitForAuth>
@@ -24,7 +25,7 @@ export const DefaultLayout = ({ title, children }: Props) => {
 						</Head>
 					) : null}
 
-					<TopBar pageTitle={title} />
+					<TopBar pageTitle={title} onBack={onBack} />
 					<NotificationToast />
 
 					<main className='mx-auto pb-16 max-w-screen-md mt-14'>

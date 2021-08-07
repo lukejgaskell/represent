@@ -1,5 +1,3 @@
-import { VoteCounts } from '../types'
-
 export type BillAction = {
 	datetime: string
 	action_type: string

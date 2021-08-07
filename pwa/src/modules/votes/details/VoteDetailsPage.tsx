@@ -17,7 +17,7 @@ export const VoteDetailsPage = () => {
 		() => getVoteDetails({ voteId: id })
 	)
 	return (
-		<DefaultLayout title='Votes'>
+		<DefaultLayout title='Votes' onBack={() => router.back()}>
 			<section>
 				{isLoading && !data && (
 					<DefaultLayout title='Votes'>
