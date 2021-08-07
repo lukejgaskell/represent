@@ -1,84 +1,158 @@
-import { getNumberOfDays } from '@/lib/dateUtils'
-import { Card, CardContent, Divider, Grid, Typography } from '@material-ui/core'
-import { formatDistance } from 'date-fns'
+import { displayDate } from '@/lib/dateUtils'
+import { Button, Divider, Grid, Link, Typography } from '@material-ui/core'
+import React, { useState } from 'react'
 import { VoteDetails } from './types'
+import NotInterestedIcon from '@material-ui/icons/NotInterested'
+import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined'
 
 type IProps = VoteDetails
-export function VoteDetailsCard({
-	result,
-	description,
-	total,
-	date,
-	chamber,
-	question,
-}: IProps) {
-	const useRelative = getNumberOfDays(new Date(date), new Date()) < 4
-	const dateDisp = useRelative
-		? formatDistance(new Date(date), new Date(), {
-				addSuffix: true,
-		  })
-		: new Date(date).toLocaleDateString().replaceAll('/', '-')
+
+export function VoteDetailsCard({ bill_id, bill }: IProps) {
+	const [showMore, setShowMore] = useState(false)
+
+	const latestActions = bill.actions?.slice(0, 7) || []
+	const latestVersions = bill.versions?.slice(0, 4) || []
 
 	return (
-		<Card style={{ width: '100%' }}>
-			<CardContent>
-				<Grid container direction='column' spacing={1}>
-					<Grid item container xs={12} alignItems='center' spacing={4}>
-						<Grid
-							item
-							container
-							direction='column'
-							spacing={0}
-							style={{ lineHeight: '12px' }}
-							xs={6}
-						>
-							<Grid item>
-								<Typography variant='caption' color='textSecondary'>
-									{`${dateDisp}`}
-								</Typography>
-							</Grid>
-							<Grid item>
-								<Typography variant='caption' color='textSecondary'>
-									{`${chamber}`}
-								</Typography>
-							</Grid>
+		<Grid container direction='column' spacing={1} className='pr-4 pl-4'>
+			<Grid item xs={12}>
+				<Typography variant='h4'>Bill {bill_id}</Typography>
+			</Grid>
+			<Grid item xs={12}>
+				<Typography>{bill.title}</Typography>
+			</Grid>
+			<Grid item xs={12}>
+				<Divider light />
+			</Grid>
+			<Grid item container xs={12} spacing={1} direction='column'>
+				<Grid item xs={12}>
+					<Typography variant='h5'>Info</Typography>
+				</Grid>
+				<Grid item xs={12}>
+					<Typography color='textSecondary'>{`subject: ${bill.primary_subject}`}</Typography>
+				</Grid>
+				<Grid item xs={12}>
+					<Typography color='textSecondary'>{`introduced ${displayDate(
+						bill.introduced_date
+					)}`}</Typography>
+				</Grid>
+				{bill.vetoed && (
+					<Grid item xs={12}>
+						<Typography>This bill was vetoed</Typography>
+					</Grid>
+				)}
+				<Grid item container xs={12}>
+					<Grid item container xs={6}>
+						<Grid item xs={2}>
+							{bill.house_passage ? (
+								<CheckCircleOutlinedIcon
+									style={{ color: 'green', marginBottom: '2px' }}
+								/>
+							) : (
+								<NotInterestedIcon
+									style={{ color: 'grey', marginBottom: '2px' }}
+								/>
+							)}
+						</Grid>
+						<Grid item xs={6}>
+							<Typography color='textSecondary'>House</Typography>
 						</Grid>
 					</Grid>
-					<Grid item xs={12}>
-						<Typography variant='h6'>{description}</Typography>
+					<Grid item container xs={6}>
+						<Grid item xs={2}>
+							{bill.senate_passage ? (
+								<CheckCircleOutlinedIcon
+									style={{ color: 'green', marginBottom: '2px' }}
+								/>
+							) : (
+								<NotInterestedIcon
+									style={{ color: 'grey', marginBottom: '2px' }}
+								/>
+							)}
+						</Grid>
+						<Grid item xs={6}>
+							<Typography color='textSecondary'>Senate</Typography>
+						</Grid>
 					</Grid>
-					<Grid item xs={12}>
-						<Divider light />
-					</Grid>
-					<Grid item xs={12}>
-						<Typography
-							variant='body2'
-							color='textSecondary'
-						>{`Voting ${question}`}</Typography>
-					</Grid>
+				</Grid>
+			</Grid>
+			<Grid item xs={12}>
+				<Divider light />
+			</Grid>
+			<Grid item container xs={12} spacing={1} direction='column'>
+				<Grid item xs={12}>
+					<Typography variant='h5'>Summary</Typography>
+				</Grid>
+				<Grid item xs={12}>
+					<Typography>
+						{showMore ? bill.summary : bill.summary_short}
+					</Typography>
+				</Grid>
+				<Grid item xs={12}>
+					<Button onClick={() => setShowMore(!showMore)} variant='outlined'>
+						{showMore ? 'Show Less' : 'Show More'}
+					</Button>
+				</Grid>
+			</Grid>
+			<Grid item xs={12}>
+				<Divider light />
+			</Grid>
+			<Grid item container xs={12} spacing={1}>
+				<Grid item>
+					<Typography variant='h5'>Latest Versions</Typography>
+				</Grid>
+				{latestVersions.map((v, index) => (
 					<Grid
 						item
 						container
+						key={index}
 						xs={12}
-						justifyContent='space-between'
+						spacing={1}
 						alignItems='center'
 					>
-						<Grid item>
-							<Typography>{result}</Typography>
+						<Grid item xs={8}>
+							<Typography color='textSecondary'>{v.status}</Typography>
 						</Grid>
-						<Grid item>
-							<Typography variant='caption' component='p' color='textSecondary'>
-								{`${total.yes} Yes / ${
-									total.not_voting + total.present
-								} Abstain / ${total.no} No`}
-							</Typography>
+						<Grid item xs={4}>
+							<Link href={v.url}>Go To Version</Link>
+						</Grid>
+						<Grid item xs={12}>
+							{latestVersions.length - 1 > index && <Divider light />}
 						</Grid>
 					</Grid>
-					<Grid item xs={12}>
-						<Divider light />
-					</Grid>
+				))}
+			</Grid>
+			<Grid item xs={12}>
+				<Divider light />
+			</Grid>
+			<Grid item container xs={12} spacing={1} direction='column'>
+				<Grid item>
+					<Typography variant='h5'>Latest Actions</Typography>
 				</Grid>
-			</CardContent>
-		</Card>
+				{latestActions.map((a, index) => (
+					<Grid item container key={index} xs={12} spacing={1}>
+						<Grid item container justifyContent='space-between' xs={12}>
+							<Grid item xs={5}>
+								<Typography color='textSecondary'>{a.action_type}</Typography>
+							</Grid>
+							<Grid item xs={4}>
+								<Typography color='textSecondary'>{a.chamber}</Typography>
+							</Grid>
+							<Grid item xs={3}>
+								<Typography color='textSecondary'>
+									{displayDate(a.datetime)}
+								</Typography>
+							</Grid>
+						</Grid>
+						<Grid item xs={12}>
+							<Typography>{a.description}</Typography>
+						</Grid>
+						<Grid item xs={12}>
+							{latestActions.length - 1 > index && <Divider light />}
+						</Grid>
+					</Grid>
+				))}
+			</Grid>
+		</Grid>
 	)
 }

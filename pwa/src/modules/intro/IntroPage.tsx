@@ -11,12 +11,12 @@ import { FocusedLayout } from '../../components/layouts/FocusedLayout'
 import Router from 'next/router'
 import { getAddressInfo } from 'stores/user/api'
 import { isValidStateAbreviation } from './validation'
-import { useErrorStore } from '@/stores/useErrorStore'
+import { useNotificationStore } from '@/stores/notification/useNotificationStore'
 import { useUserStore } from '@/stores/user/useUserStore'
 
 export const IntroPage = () => {
 	const userStore = useUserStore()
-	const errorStore = useErrorStore()
+	const { notify } = useNotificationStore()
 
 	const [address, setAddress] = useState('')
 	const [city, setCity] = useState('')
@@ -38,17 +38,21 @@ export const IntroPage = () => {
 			try {
 				const res = await getAddressInfo(`${address}, ${city} ${state}`)
 				if (res.district === null || res.district === undefined) {
-					errorStore.addError(
-						'We were unable to determine your district from your address, please fix your address or type your district manually.'
-					)
+					notify({
+						type: 'error',
+						message:
+							'We were unable to determine your district from your address, please fix your address or type your district manually.',
+					})
 				} else {
 					setDistrict(res.district?.toString())
 					setStateAbv(res.state?.toString())
 				}
 			} catch (e) {
-				errorStore.addError(
-					'We had a issue determining your district please try again later or type it in manually.'
-				)
+				notify({
+					type: 'error',
+					message:
+						'We had a issue determining your district please try again later or type it in manually.',
+				})
 			}
 
 			setIsTimerRunning(false)

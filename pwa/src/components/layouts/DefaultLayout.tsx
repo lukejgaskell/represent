@@ -1,5 +1,5 @@
 import BottomNav from '@/components/bottom-nav'
-import { ErrorToast } from '../notifications/ErrorToast'
+import { NotificationToast } from '../notifications/NotificationToast'
 import Head from 'next/head'
 import React from 'react'
 import { ThemeProvider } from '@material-ui/core'
@@ -25,7 +25,7 @@ export const DefaultLayout = ({ title, children }: Props) => {
 					) : null}
 
 					<TopBar pageTitle={title} />
-					<ErrorToast />
+					<NotificationToast />
 
 					<main className='mx-auto pb-16 max-w-screen-md mt-14'>
 						<div className='pt-4 pr-1 pl-1 pb-4'>{children}</div>

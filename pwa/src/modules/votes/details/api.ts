@@ -5,9 +5,12 @@ export async function getVoteDetails({ voteId }: { voteId: string }) {
 	const { data, error } = await supabase
 		.from<VoteDetails>('votes')
 		.select(
-			`id, metadata->description, metadata->question, metadata->result,
-			metadata->total, date, chamber, metadata->source, metadata->bill->bill_id,
-			bills(metadata->number, metadata->title, metadata->actions, metadata->sponsor, metadata->introduced_date, metadata->primary_subject)`
+			`id, bill_id,
+			bill:bill_id (metadata->number, metadata->title, metadata->actions, 
+				metadata->sponsor, metadata->introduced_date, metadata->primary_subject, 
+				metadata->summary_short, metadata->summary, metadata->versions, 
+				metadata->house_passage, metadata->senate_passage, metadata->primary_subject,
+				metadata->vetoed)`
 		)
 		.filter('id', 'eq', voteId)
 	if (error) throw error

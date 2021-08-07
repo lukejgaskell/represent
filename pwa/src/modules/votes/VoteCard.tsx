@@ -13,8 +13,7 @@ import GavelIcon from '@material-ui/icons/Gavel'
 import NotInterestedIcon from '@material-ui/icons/NotInterested'
 import React from 'react'
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline'
-import { formatDistance } from 'date-fns'
-import { getNumberOfDays } from '@/lib/dateUtils'
+import { displayDate } from '@/lib/dateUtils'
 
 type IProps = Vote
 
@@ -67,20 +66,15 @@ export function VoteCard({
 	chamber,
 	question,
 	memberVotes,
+	bill_id,
 }: IProps) {
-	const useRelative = getNumberOfDays(new Date(date), new Date()) < 4
-	const dateDisp = useRelative
-		? formatDistance(new Date(date), new Date(), {
-				addSuffix: true,
-		  })
-		: new Date(date).toLocaleDateString().replaceAll('/', '-')
 	return (
 		<Card style={{ width: '100%' }}>
 			<CardContent>
 				<Grid container direction='column' spacing={1}>
-					<Grid item container xs={12} alignItems='center' spacing={4}>
-						<Grid item xs={1}>
-							<GavelIcon />
+					<Grid item container xs={12} spacing={0}>
+						<Grid item xs={2}>
+							<GavelIcon style={{ height: 40, width: 40 }} />
 						</Grid>
 						<Grid
 							item
@@ -92,7 +86,7 @@ export function VoteCard({
 						>
 							<Grid item>
 								<Typography variant='caption' color='textSecondary'>
-									{`${dateDisp}`}
+									{`${displayDate(date)}`}
 								</Typography>
 							</Grid>
 							<Grid item>
@@ -100,6 +94,11 @@ export function VoteCard({
 									{`${chamber}`}
 								</Typography>
 							</Grid>
+						</Grid>
+						<Grid item style={{ lineHeight: '24px' }} xs={4}>
+							<Typography variant='caption' color='textSecondary'>
+								{bill_id && `Bill: ${bill_id}`}
+							</Typography>
 						</Grid>
 					</Grid>
 					<Grid item xs={12}>

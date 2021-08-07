@@ -10,9 +10,11 @@ import { getVotes } from '@/modules/votes/api'
 import { useInfiniteQuery } from 'react-query'
 import { useUserStore } from '@/stores/user/useUserStore'
 import { useRouter } from 'next/router'
+import { useNotificationStore } from '@/stores/notification/useNotificationStore'
 
 export const VotesPage = () => {
 	const { settings } = useUserStore()
+	const { notify } = useNotificationStore()
 	const router = useRouter()
 	const { data, error, hasNextPage, fetchNextPage } = useInfiniteQuery<
 		Paginated<Vote>,
@@ -55,12 +57,19 @@ export const VotesPage = () => {
 								container
 								xs={12}
 								key={index}
-								onClick={() =>
+								onClick={() => {
+									if (!v.bill_id) {
+										notify({
+											type: 'info',
+											message: 'Vote is not related to a bill',
+										})
+										return
+									}
 									router.push({
 										pathname: '/votes/[id]',
 										query: { id: v.id },
 									})
-								}
+								}}
 							>
 								<VoteCard key={index} {...v} />
 							</Grid>
