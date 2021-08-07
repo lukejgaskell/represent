@@ -5,11 +5,6 @@ export type BillAction = {
 	chamber: string
 }
 
-export type BillVersion = {
-	status: string
-	url: string
-}
-
 export type Bill = {
 	number: string
 	title: string
@@ -22,7 +17,6 @@ export type Bill = {
 	house_passage: string
 	senate_passage: string
 	actions: BillAction[]
-	versions: BillVersion[]
 }
 
 export type VoteDetails = {

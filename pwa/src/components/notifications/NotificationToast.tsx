@@ -21,6 +21,7 @@ function Alert({ notification }: IProps) {
 			}}
 			open={true}
 			autoHideDuration={3000}
+			style={{ top: 70 }}
 			onClose={handleClose}
 		>
 			<MuiAlert elevation={6} variant='filled' severity={notification.type}>

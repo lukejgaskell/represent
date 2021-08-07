@@ -11,7 +11,6 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 	const [showMore, setShowMore] = useState(false)
 
 	const latestActions = bill.actions?.slice(0, 7) || []
-	const latestVersions = bill.versions?.slice(0, 4) || []
 
 	return (
 		<Grid container direction='column' spacing={1} className='pr-4 pl-4'>
@@ -93,34 +92,6 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 						{showMore ? 'Show Less' : 'Show More'}
 					</Button>
 				</Grid>
-			</Grid>
-			<Grid item xs={12}>
-				<Divider light />
-			</Grid>
-			<Grid item container xs={12} spacing={1}>
-				<Grid item>
-					<Typography variant='h5'>Latest Versions</Typography>
-				</Grid>
-				{latestVersions.map((v, index) => (
-					<Grid
-						item
-						container
-						key={index}
-						xs={12}
-						spacing={1}
-						alignItems='center'
-					>
-						<Grid item xs={8}>
-							<Typography color='textSecondary'>{v.status}</Typography>
-						</Grid>
-						<Grid item xs={4}>
-							<Link href={v.url}>Go To Version</Link>
-						</Grid>
-						<Grid item xs={12}>
-							{latestVersions.length - 1 > index && <Divider light />}
-						</Grid>
-					</Grid>
-				))}
 			</Grid>
 			<Grid item xs={12}>
 				<Divider light />
