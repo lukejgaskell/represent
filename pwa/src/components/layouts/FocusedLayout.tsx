@@ -3,7 +3,7 @@ import React from 'react'
 import { ThemeProvider } from '@material-ui/core'
 import theme from 'lib/materialTheme'
 import { WaitForAuth } from '../auth/WaitForAuth'
-import { ErrorToast } from '../notifications/ErrorToast'
+import { NotificationToast } from '../notifications/NotificationToast'
 
 interface Props {
 	title?: string
@@ -19,7 +19,7 @@ export const FocusedLayout = ({ title, children }: Props) => {
 						<title>Represent | {title}</title>
 					</Head>
 				) : null}
-				<ErrorToast />
+				<NotificationToast />
 
 				<main
 					/**
