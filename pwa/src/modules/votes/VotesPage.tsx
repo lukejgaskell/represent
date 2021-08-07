@@ -4,14 +4,16 @@ import { DefaultLayout } from '@/components/layouts/DefaultLayout'
 import { Grid } from '@material-ui/core'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Paginated } from '@/types/Paginated'
-import { Vote } from './Vote.type'
+import { Vote } from './types'
 import { VoteCard } from '@/modules/votes/VoteCard'
-import { getVotes } from '@/modules/votes/votes.api'
+import { getVotes } from '@/modules/votes/api'
 import { useInfiniteQuery } from 'react-query'
 import { useUserStore } from '@/stores/user/useUserStore'
+import { useRouter } from 'next/router'
 
 export const VotesPage = () => {
 	const { settings } = useUserStore()
+	const router = useRouter()
 	const { data, error, hasNextPage, fetchNextPage } = useInfiniteQuery<
 		Paginated<Vote>,
 		Error
@@ -48,7 +50,18 @@ export const VotesPage = () => {
 				>
 					<Grid container direction='column' spacing={2}>
 						{items?.map((v: Vote, index: number) => (
-							<Grid item container xs={12} key={index}>
+							<Grid
+								item
+								container
+								xs={12}
+								key={index}
+								onClick={() =>
+									router.push({
+										pathname: '/votes/[id]',
+										query: { id: v.id },
+									})
+								}
+							>
 								<VoteCard key={index} {...v} />
 							</Grid>
 						))}

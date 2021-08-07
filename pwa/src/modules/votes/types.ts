@@ -1,4 +1,4 @@
-type VoteCounts = {
+export type VoteCounts = {
 	yes: number
 	no: number
 	not_voting: number
@@ -13,6 +13,7 @@ export type MemberVote = {
 }
 
 export type Vote = {
+	id: string
 	bill_id: string
 	description: string
 	question: string
@@ -20,7 +21,6 @@ export type Vote = {
 	source: string
 	result: string
 	total: VoteCounts
-	metadata: string
 	date: string
 	time: string
 	title: string

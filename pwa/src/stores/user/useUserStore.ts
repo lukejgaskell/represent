@@ -1,4 +1,4 @@
-import { getUserSettings, saveUserData } from '@/queries/user'
+import { getUserSettings, saveUserData } from './api'
 
 import { UserData } from '@/stores/user/UserData.type'
 import create from 'zustand'

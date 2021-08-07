@@ -1,6 +1,6 @@
 import supabase from 'lib/supabaseClient'
 import { Paginated } from '@/types/Paginated'
-import { Vote } from '@/modules/votes/Vote.type'
+import { Vote } from './types'
 
 export async function getVotes({
 	page,
@@ -17,7 +17,7 @@ export async function getVotes({
 	const { data, error } = await supabase
 		.from<Vote>('votes')
 		.select(
-			`metadata->description, metadata->question, metadata->result,
+			`id, metadata->description, metadata->question, metadata->result,
 			metadata->total, date, chamber, metadata->source, metadata->bill->bill_id,
 			memberVotes(state, district, metadata->name, metadata->vote_position)`
 		)
