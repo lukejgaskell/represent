@@ -1,0 +1,14 @@
+{
+  "name": "represent-backend",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "@supabase/supabase-js": "^1.18.1",
+    "axios": "^0.21.1",
+    "serverless-http": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
+    "serverless-offline": "^7.0.0"
+  }
+}

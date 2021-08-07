@@ -1,0 +1,32 @@
+org: lukejgaskell
+app: represent
+service: backend
+
+frameworkVersion: "2"
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: "20201221"
+  stage: dev
+  region: us-east-1
+  environment:
+    SUPABASE_SERVICE_KEY: ${param:supabaseServiceKey}
+    API_KEY: ${param:proPublicaAPIKey}
+
+functions:
+  syncVotes:
+    runtime: nodejs14.x
+    handler: votes-sync.handler.run
+    timeout: 30
+    events:
+      - schedule: cron(0 12,20 ? * * *)
+  syncMembers:
+    runtime: nodejs14.x
+    handler: members-sync.handler.run
+    timeout: 30
+    events:
+      - schedule: cron(0 12 ? * * *)
