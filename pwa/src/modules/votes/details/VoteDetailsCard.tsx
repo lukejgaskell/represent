@@ -1,5 +1,5 @@
 import { displayDate } from '@/lib/dateUtils'
-import { Button, Divider, Grid, Link, Typography } from '@material-ui/core'
+import { Button, Divider, Grid, Typography } from '@material-ui/core'
 import React, { useState } from 'react'
 import { VoteDetails } from './types'
 import NotInterestedIcon from '@material-ui/icons/NotInterested'
