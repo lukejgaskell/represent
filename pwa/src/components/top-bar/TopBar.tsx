@@ -71,8 +71,8 @@ const TopBar = ({ pageTitle, onBack }: IProps) => {
 				<div className='hidden sm:block'>
 					<Grid container justifyContent='flex-end' spacing={1}>
 						<Grid item>
-							<Link href='/votes'>
-								<Button className='dark:text-white'>Votes</Button>
+							<Link href='/activity'>
+								<Button className='dark:text-white'>Activity</Button>
 							</Link>
 						</Grid>
 						<Grid item>

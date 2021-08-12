@@ -14,8 +14,6 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 		return <div>Bill was not found</div>
 	}
 
-	const latestActions = bill.actions?.slice(0, 7) || []
-
 	return (
 		<Grid container direction='column' spacing={1} className='pr-4 pl-4'>
 			<Grid item xs={12}>
@@ -36,9 +34,9 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 						<Typography color='textSecondary'>{`Is about ${bill.primary_subject}`}</Typography>
 					</Grid>
 				)}
-				{bill.sponsor && (
+				{bill.sponsor_name && (
 					<Grid item xs={12}>
-						<Typography color='textSecondary'>{`Sponsored by ${bill.sponsor}`}</Typography>
+						<Typography color='textSecondary'>{`Sponsored by ${bill.sponsor_name}`}</Typography>
 					</Grid>
 				)}
 				<Grid item xs={12}>
@@ -89,8 +87,30 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 			<Grid item xs={12}>
 				<Divider light />
 			</Grid>
+			<Grid item container xs={12} spacing={1}>
+				<Grid item container justifyContent='space-between' xs={12} spacing={1}>
+					<Grid item container xs={12} alignItems='center' spacing={3}>
+						<Grid item xs={7}>
+							<Typography variant='h5'>Latest Major Action</Typography>
+						</Grid>
+						<Grid item xs={5}>
+							<Typography color='textSecondary'>
+								{`(${displayDate(bill.latest_major_action_date)})`}
+							</Typography>
+						</Grid>
+					</Grid>
+					<Grid item xs={12}>
+						<Typography color='textSecondary'>
+							{bill.latest_major_action}
+						</Typography>
+					</Grid>
+				</Grid>
+			</Grid>
 			{(bill.summary || bill.summary_short) && (
 				<>
+					<Grid item xs={12}>
+						<Divider light />
+					</Grid>
 					<Grid item container xs={12} spacing={1} direction='column'>
 						<Grid item xs={12}>
 							<Typography variant='h5'>Summary</Typography>
@@ -106,39 +126,8 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 							</Button>
 						</Grid>
 					</Grid>
-					<Grid item xs={12}>
-						<Divider light />
-					</Grid>
 				</>
 			)}
-			<Grid item container xs={12} spacing={1} direction='column'>
-				<Grid item>
-					<Typography variant='h5'>Latest Actions</Typography>
-				</Grid>
-				{latestActions.map((a, index) => (
-					<Grid item container key={index} xs={12} spacing={1}>
-						<Grid item container justifyContent='space-between' xs={12}>
-							<Grid item xs={5}>
-								<Typography color='textSecondary'>{a.action_type}</Typography>
-							</Grid>
-							<Grid item xs={4}>
-								<Typography color='textSecondary'>{a.chamber}</Typography>
-							</Grid>
-							<Grid item xs={3}>
-								<Typography color='textSecondary'>
-									{displayDate(a.datetime)}
-								</Typography>
-							</Grid>
-						</Grid>
-						<Grid item xs={12}>
-							<Typography>{a.description}</Typography>
-						</Grid>
-						<Grid item xs={12}>
-							{latestActions.length - 1 > index && <Divider light />}
-						</Grid>
-					</Grid>
-				))}
-			</Grid>
 		</Grid>
 	)
 }

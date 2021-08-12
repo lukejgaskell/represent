@@ -8,7 +8,7 @@ import { getVoteDetails } from './api'
 import { Typography } from '@material-ui/core'
 import { VoteDetailsCard } from './VoteDetailsCard'
 
-export const VoteDetailsPage = () => {
+export const ActivityDetailsPage = () => {
 	const router = useRouter()
 	const id = router.query.id as string
 
@@ -17,23 +17,13 @@ export const VoteDetailsPage = () => {
 		() => getVoteDetails({ voteId: id })
 	)
 	return (
-		<DefaultLayout title='Votes' onBack={() => router.back()}>
+		<DefaultLayout title='Activity' onBack={() => router.back()}>
 			<section>
-				{isLoading && !data && (
-					<DefaultLayout title='Votes'>
-						<Typography>Loading</Typography>
-					</DefaultLayout>
-				)}
+				{isLoading && !data && <Typography>Loading</Typography>}
 				{!isLoading && error && (
-					<DefaultLayout title='Votes'>
-						<Typography>An error occured while loading</Typography>
-					</DefaultLayout>
+					<Typography>An error occured while loading</Typography>
 				)}
-				{!isLoading && !data && (
-					<DefaultLayout title='Votes'>
-						<Typography>Vote Not Found</Typography>
-					</DefaultLayout>
-				)}
+				{!isLoading && !data && <Typography>Vote Not Found</Typography>}
 				{data && <VoteDetailsCard {...data} />}
 			</section>
 		</DefaultLayout>

@@ -6,8 +6,9 @@ export async function getVoteDetails({ voteId }: { voteId: string }) {
 		.from<VoteDetails>('votes')
 		.select(
 			`id, bill_id,
-			bill:bill_id (metadata->number, metadata->title, metadata->actions, 
-				metadata->sponsor, metadata->introduced_date, metadata->primary_subject, 
+			bill:bill_id (metadata->title, metadata->enacted,
+				metadata->latest_major_action, metadata->latest_major_action_date,
+				metadata->sponsor_name, metadata->introduced_date, metadata->primary_subject, 
 				metadata->summary_short, metadata->summary, metadata->house_passage, 
 				metadata->senate_passage, metadata->primary_subject, metadata->vetoed)`
 		)

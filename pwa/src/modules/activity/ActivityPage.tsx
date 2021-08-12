@@ -5,14 +5,14 @@ import { Grid } from '@material-ui/core'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Paginated } from '@/types/Paginated'
 import { Vote } from './types'
-import { VoteCard } from '@/modules/votes/VoteCard'
-import { getVotes } from '@/modules/votes/api'
+import { VoteCard } from '@/modules/activity/VoteCard'
+import { getVotes } from '@/modules/activity/api'
 import { useInfiniteQuery } from 'react-query'
 import { useUserStore } from '@/stores/user/useUserStore'
 import { useRouter } from 'next/router'
 import { useNotificationStore } from '@/stores/notification/useNotificationStore'
 
-export const VotesPage = () => {
+export const ActivityPage = () => {
 	const { settings } = useUserStore()
 	const { notify } = useNotificationStore()
 	const router = useRouter()
@@ -66,7 +66,7 @@ export const VotesPage = () => {
 										return
 									}
 									router.push({
-										pathname: '/votes/[id]',
+										pathname: '/activity/[id]',
 										query: { id: v.id },
 									})
 								}}
