@@ -17,8 +17,8 @@ export async function getVotes({
 	const { data, error } = await supabase
 		.from<Vote>('votes')
 		.select(
-			`id, metadata->description, metadata->question, metadata->result,
-			metadata->total, date, chamber, metadata->source, metadata->bill->bill_id,
+			`id, bill_id, metadata->description, metadata->question, metadata->result,
+			metadata->total, date, chamber, metadata->source,
 			memberVotes(state, district, metadata->name, metadata->vote_position)`
 		)
 		.filter('memberVotes.state' as any, 'eq', state)
