@@ -17,7 +17,7 @@ module.exports.run = async (event, context) => {
 
     const bills = billsResponse.results[0].bills.map(b => ({
       metadata: { ...b },
-      id: bill_id,
+      id: b.bill_id,
     }))
     const { data, error } = await supabase.from("bills").upsert(bills, { returning: "minimal" })
 
