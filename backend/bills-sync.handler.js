@@ -15,7 +15,7 @@ module.exports.run = async (event, context) => {
     console.info(`fetching bills`)
     const billsResponse = await axios.get(billsUrl, { headers: { "X-API-Key": API_KEY } }).then(r => r.data)
 
-    const bills = billsResponse.results.bills.map(b => ({
+    const bills = billsResponse.results[0].bills.map(b => ({
       metadata: { ...b },
       id: bill_id,
     }))
