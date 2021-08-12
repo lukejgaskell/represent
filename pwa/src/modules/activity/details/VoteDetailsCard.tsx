@@ -90,10 +90,10 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 			<Grid item container xs={12} spacing={1}>
 				<Grid item container justifyContent='space-between' xs={12} spacing={1}>
 					<Grid item container xs={12} alignItems='center' spacing={3}>
-						<Grid item xs={9}>
+						<Grid item xs={8}>
 							<Typography variant='h5'>Latest Major Action</Typography>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item xs={4}>
 							<Typography color='textSecondary'>
 								{`(${displayDate(bill.latest_major_action_date)})`}
 							</Typography>
