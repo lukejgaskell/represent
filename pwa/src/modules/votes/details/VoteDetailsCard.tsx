@@ -10,6 +10,10 @@ type IProps = VoteDetails
 export function VoteDetailsCard({ bill_id, bill }: IProps) {
 	const [showMore, setShowMore] = useState(false)
 
+	if (!bill) {
+		return <div>Bill was not found</div>
+	}
+
 	const latestActions = bill.actions?.slice(0, 7) || []
 
 	return (
@@ -27,11 +31,18 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 				<Grid item xs={12}>
 					<Typography variant='h5'>Info</Typography>
 				</Grid>
+				{bill.primary_subject && (
+					<Grid item xs={12}>
+						<Typography color='textSecondary'>{`Is about ${bill.primary_subject}`}</Typography>
+					</Grid>
+				)}
+				{bill.sponsor && (
+					<Grid item xs={12}>
+						<Typography color='textSecondary'>{`Sponsored by ${bill.sponsor}`}</Typography>
+					</Grid>
+				)}
 				<Grid item xs={12}>
-					<Typography color='textSecondary'>{`subject: ${bill.primary_subject}`}</Typography>
-				</Grid>
-				<Grid item xs={12}>
-					<Typography color='textSecondary'>{`introduced ${displayDate(
+					<Typography color='textSecondary'>{`Introduced ${displayDate(
 						bill.introduced_date
 					)}`}</Typography>
 				</Grid>
@@ -78,24 +89,28 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 			<Grid item xs={12}>
 				<Divider light />
 			</Grid>
-			<Grid item container xs={12} spacing={1} direction='column'>
-				<Grid item xs={12}>
-					<Typography variant='h5'>Summary</Typography>
-				</Grid>
-				<Grid item xs={12}>
-					<Typography>
-						{showMore ? bill.summary : bill.summary_short}
-					</Typography>
-				</Grid>
-				<Grid item xs={12}>
-					<Button onClick={() => setShowMore(!showMore)} variant='outlined'>
-						{showMore ? 'Show Less' : 'Show More'}
-					</Button>
-				</Grid>
-			</Grid>
-			<Grid item xs={12}>
-				<Divider light />
-			</Grid>
+			{(bill.summary || bill.summary_short) && (
+				<>
+					<Grid item container xs={12} spacing={1} direction='column'>
+						<Grid item xs={12}>
+							<Typography variant='h5'>Summary</Typography>
+						</Grid>
+						<Grid item xs={12}>
+							<Typography>
+								{showMore ? bill.summary : bill.summary_short}
+							</Typography>
+						</Grid>
+						<Grid item xs={12}>
+							<Button onClick={() => setShowMore(!showMore)} variant='outlined'>
+								{showMore ? 'Show Less' : 'Show More'}
+							</Button>
+						</Grid>
+					</Grid>
+					<Grid item xs={12}>
+						<Divider light />
+					</Grid>
+				</>
+			)}
 			<Grid item container xs={12} spacing={1} direction='column'>
 				<Grid item>
 					<Typography variant='h5'>Latest Actions</Typography>
