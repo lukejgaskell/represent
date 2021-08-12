@@ -6,7 +6,6 @@ const supabase = createClient("https://ijxfwjuurxppacepegmf.supabase.in", proces
 
 const votesUrl = "https://api.propublica.org/congress/v1/both/votes/recent.json"
 const getVoteUrl = (congress, chamber, session, rollCallNumber) => `https://api.propublica.org/congress/v1/${congress}/${chamber}/sessions/${session}/votes/${rollCallNumber}.json`
-const getBillUrl = (congress, billId) => `https://api.propublica.org/congress/v1/${congress}/bills/${billId}.json`
 
 const API_KEY = process.env.API_KEY
 
@@ -51,27 +50,6 @@ async function syncMemberVotes(votes) {
   }
 }
 
-async function syncBills(votes) {
-  const billResponses = votes
-    .filter(v => v.bill_id)
-    .reduce(unique("bill_id"), [])
-    .map(v => axios.get(getBillUrl(v.metadata.congress, v.bill_id?.split("-")[0]), { headers: { "X-API-Key": API_KEY } }).then(r => r.data.results?.find(() => true)))
-
-  const results = await Promise.all(billResponses)
-
-  const items = results
-    .filter(r => r)
-    .map(r => {
-      return { id: r.bill_id, metadata: { ...r } }
-    }, [])
-
-  const { data, error } = await supabase.from("bills").upsert(items, { returning: "minimal" })
-
-  if (error) {
-    console.error(`error while saving bills to db`, error)
-  }
-}
-
 module.exports.run = async (event, context) => {
   console.info(`Cron function "${context.functionName}" is starting`)
 
@@ -86,9 +64,6 @@ module.exports.run = async (event, context) => {
       date: `${v.date}T${v.time}`,
       id: `${v.chamber}-${v.congress}-${v.session}-${v.roll_call}`,
     }))
-
-    console.info(`syncing bills`)
-    await syncBills(votes)
 
     console.info(`saving votes`)
     const { data, error } = await supabase.from("votes").upsert(votes, { returning: "minimal" })
