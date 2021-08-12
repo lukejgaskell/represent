@@ -20,7 +20,7 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 				<Typography variant='h4'>Bill {bill_id}</Typography>
 			</Grid>
 			<Grid item xs={12}>
-				<Typography>{bill.title}</Typography>
+				<Typography color='textSecondary'>{bill.title}</Typography>
 			</Grid>
 			<Grid item xs={12}>
 				<Divider light />
@@ -90,10 +90,10 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 			<Grid item container xs={12} spacing={1}>
 				<Grid item container justifyContent='space-between' xs={12} spacing={1}>
 					<Grid item container xs={12} alignItems='center' spacing={3}>
-						<Grid item xs={7}>
+						<Grid item xs={9}>
 							<Typography variant='h5'>Latest Major Action</Typography>
 						</Grid>
-						<Grid item xs={5}>
+						<Grid item xs={3}>
 							<Typography color='textSecondary'>
 								{`(${displayDate(bill.latest_major_action_date)})`}
 							</Typography>
@@ -116,7 +116,7 @@ export function VoteDetailsCard({ bill_id, bill }: IProps) {
 							<Typography variant='h5'>Summary</Typography>
 						</Grid>
 						<Grid item xs={12}>
-							<Typography>
+							<Typography color='textSecondary'>
 								{showMore ? bill.summary : bill.summary_short}
 							</Typography>
 						</Grid>
