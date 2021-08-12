@@ -4,7 +4,7 @@ const { createClient } = require("@supabase/supabase-js")
 
 const supabase = createClient("https://ijxfwjuurxppacepegmf.supabase.in", process.env.SUPABASE_SERVICE_KEY)
 
-const getStatementsUrl = today => `https://api.propublica.org/congress/v1/statements/${today}.json`
+const getStatementsUrl = today => `https://api.propublica.org/congress/v1/statements/date/${today}.json`
 
 const API_KEY = process.env.API_KEY
 
