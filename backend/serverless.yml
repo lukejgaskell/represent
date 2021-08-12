@@ -30,3 +30,15 @@ functions:
     timeout: 30
     events:
       - schedule: cron(0 12 ? * * *)
+  syncBills:
+    runtime: nodejs14.x
+    handler: bills-sync.handler.run
+    timeout: 30
+    events:
+      - schedule: cron(45 11,19 ? * * *)
+  syncStatements:
+    runtime: nodejs14.x
+    handler: statements-sync.handler.run
+    timeout: 30
+    events:
+      - schedule: cron(0 12,20 ? * * *)
