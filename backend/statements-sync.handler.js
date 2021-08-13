@@ -8,10 +8,19 @@ const getStatementsUrl = today => `https://api.propublica.org/congress/v1/statem
 
 const API_KEY = process.env.API_KEY
 
+function toIsoString(date) {
+  function pad(num) {
+    var norm = Math.floor(Math.abs(num))
+    return (norm < 10 ? "0" : "") + norm
+  }
+
+  return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate())
+}
+
 module.exports.run = async (event, context) => {
   console.info(`Cron function "${context.functionName}" is starting`)
 
-  const today = new Date().toISOString().split("T")[0]
+  const today = toIsoString(new Date())
 
   try {
     const statementsResponse = await axios.get(getStatementsUrl(today), { headers: { "X-API-Key": API_KEY } }).then(r => r.data)
