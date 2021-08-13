@@ -4,7 +4,7 @@ const { createClient } = require("@supabase/supabase-js")
 
 const supabase = createClient("https://ijxfwjuurxppacepegmf.supabase.in", process.env.SUPABASE_SERVICE_KEY)
 
-const getStatementsUrl = today => `https://api.propublica.org/congress/v1/statements/date/${today}.json`
+const getStatementsUrl = date => `https://api.propublica.org/congress/v1/statements/date/${toIsoString(date)}.json`
 
 const API_KEY = process.env.API_KEY
 
@@ -20,13 +20,18 @@ function toIsoString(date) {
 module.exports.run = async (event, context) => {
   console.info(`Cron function "${context.functionName}" is starting`)
 
-  const today = toIsoString(new Date())
+  const today = new Date()
+  const yesterday = new Date(today)
 
-  console.log(`getting statements for ${today}`)
+  yesterday.setDate(today.getDate() - 1)
+
+  console.log(`getting statements for ${today} amd ${yesterday}`)
 
   try {
-    const statementsResponse = await axios.get(getStatementsUrl(today), { headers: { "X-API-Key": API_KEY } }).then(r => r.data)
-    const statements = statementsResponse.results.map(s => ({
+    const sr1 = await axios.get(getStatementsUrl(today), { headers: { "X-API-Key": API_KEY } }).then(r => r.data)
+    const sr2 = await axios.get(getStatementsUrl(yesterday), { headers: { "X-API-Key": API_KEY } }).then(r => r.data)
+
+    const statements = sr1.results.concat(sr2.results).map(s => ({
       id: `${s.member_id}-${s.date}`,
       member_id: s.member_id,
       date: s.date,
