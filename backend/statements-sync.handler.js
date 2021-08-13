@@ -22,6 +22,8 @@ module.exports.run = async (event, context) => {
 
   const today = toIsoString(new Date())
 
+  console.log(`getting statements for ${today}`)
+
   try {
     const statementsResponse = await axios.get(getStatementsUrl(today), { headers: { "X-API-Key": API_KEY } }).then(r => r.data)
     const statements = statementsResponse.results.map(s => ({
