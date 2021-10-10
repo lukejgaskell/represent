@@ -1,0 +1,99 @@
+import React from "react"
+import { StyleSheet, View } from "react-native"
+import { Card, Paragraph, Divider } from "react-native-paper"
+import { displayDate } from "../../lib/dateUtils"
+import { Activity } from "./types"
+import { MaterialIcons, Feather, AntDesign } from "@expo/vector-icons"
+
+type IProps = Activity
+
+export default function ActivityCard({ result, description, total, date, chamber, question, memberVotes, bill_id }: IProps) {
+  return (
+    <Card style={styles.card}>
+      <Card.Content>
+        <View style={[styles.row, styles.rowSpaceBetween, styles.rowMargin]}>
+          <View style={styles.row}>
+            <MaterialIcons name="gavel" size={40} style={styles.icon} />
+            <View>
+              <Paragraph>{displayDate(date)}</Paragraph>
+              <Paragraph>{chamber}</Paragraph>
+            </View>
+          </View>
+          {bill_id && <Paragraph>{`Bill: ${bill_id}`}</Paragraph>}
+        </View>
+        <Paragraph style={styles.rowMargin}>{description}</Paragraph>
+        <Divider style={styles.rowMargin} />
+
+        <Paragraph>{`Voting ${question}`}</Paragraph>
+        <View style={[styles.row, styles.rowSpaceBetween, styles.rowMargin]}>
+          <Paragraph>{result}</Paragraph>
+          <Paragraph>{`${total.yes} Yes / ${total.not_voting + total.present} Abstain / ${total.no} No`}</Paragraph>
+        </View>
+        <Divider style={styles.rowMargin} />
+
+        <View style={[styles.row, styles.rowSpaceBetween, styles.rowMargin]}>
+          {memberVotes.map((mv, index) => {
+            return (
+              <View style={styles.row} key={index}>
+                {mv.vote_position === "Yes" && <Feather name="check-circle" size={30} color="green" />}
+                {mv.vote_position === "No" && <Feather name="x-circle" size={30} color="red" />}
+                {!["Yes", "No"].includes(mv.vote_position) && <AntDesign name="questioncircleo" size={30} color="grey" />}
+                <Paragraph style={styles.name}>{mv.name}</Paragraph>
+              </View>
+            )
+          })}
+        </View>
+      </Card.Content>
+    </Card>
+  )
+}
+
+const styles = StyleSheet.create({
+  name: { marginLeft: 5 },
+  icon: { marginRight: 5 },
+  rowSpaceBetween: {
+    justifyContent: "space-between",
+  },
+  rowMargin: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  row: {
+    width: "100%",
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+  },
+  card: {
+    width: "100%",
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  getStartedContainer: {
+    alignItems: "center",
+    marginHorizontal: 50,
+  },
+  homeScreenFilename: {
+    marginVertical: 7,
+  },
+  codeHighlightContainer: {
+    borderRadius: 3,
+    paddingHorizontal: 4,
+  },
+  getStartedText: {
+    fontSize: 17,
+    lineHeight: 24,
+    textAlign: "center",
+  },
+  helpContainer: {
+    marginTop: 15,
+    marginHorizontal: 20,
+    alignItems: "center",
+  },
+  helpLink: {
+    paddingVertical: 15,
+  },
+  helpLinkText: {
+    textAlign: "center",
+  },
+})
