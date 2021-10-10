@@ -1,16 +1,30 @@
-import * as React from "react"
-import { StyleSheet } from "react-native"
+import React, { useEffect, useContext } from "react"
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native"
 
 import EditScreenInfo from "../../components/EditScreenInfo"
 import { Text, View } from "../../components/Themed"
+import { UserContext } from "../../stores/user/UserProvider"
+import { getMembers } from "./api"
+import { MemberCard } from "./MemberCard"
+import { MembersContext } from "./MembersProvider"
 
-export default function TabTwoScreen() {
+export default function RepresentitivesScreen() {
+  const { settings } = useContext(UserContext)
+  const { items, isLoading, loadMembers } = useContext(MembersContext)
+
+  useEffect(() => {
+    if (settings?.district && settings.state && loadMembers) {
+      loadMembers({ state: settings?.state, district: settings?.district })
+    }
+  })
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabTwoScreen.tsx" />
-    </View>
+    <ScrollView>
+      {items?.map((m, index) => (
+        <TouchableOpacity key={index}>
+          <MemberCard {...m} />
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
   )
 }
 
