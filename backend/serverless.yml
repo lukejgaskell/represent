@@ -16,6 +16,7 @@ provider:
   environment:
     SUPABASE_SERVICE_KEY: ${param:supabaseServiceKey}
     API_KEY: ${param:proPublicaAPIKey}
+    GEOCODIO_TOKEN: ${param:geocodioAPIKey}
 
 functions:
   syncVotes:
