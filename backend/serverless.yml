@@ -44,7 +44,7 @@ functions:
       - schedule: cron(0 12,20 ? * * *)
   getDistrict:
     runtime: nodejs14.x
-    handler: ./api/find-district.handler.js
+    handler: ./api/find-district.handler.run
     events:
       - http:
           method: get
