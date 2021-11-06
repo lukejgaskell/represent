@@ -20,25 +20,38 @@ provider:
 functions:
   syncVotes:
     runtime: nodejs14.x
-    handler: votes-sync.handler.run
+    handler: ./syncs/votes-sync.handler.run
     timeout: 30
     events:
       - schedule: cron(0 12,20 ? * * *)
   syncMembers:
     runtime: nodejs14.x
-    handler: members-sync.handler.run
+    handler: ./syncs/members-sync.handler.run
     timeout: 30
     events:
       - schedule: cron(0 12 ? * * *)
   syncBills:
     runtime: nodejs14.x
-    handler: bills-sync.handler.run
+    handler: ./syncs/bills-sync.handler.run
     timeout: 30
     events:
       - schedule: cron(45 11,19 ? * * *)
   syncStatements:
     runtime: nodejs14.x
-    handler: statements-sync.handler.run
+    handler: ./syncs/statements-sync.handler.run
     timeout: 30
     events:
       - schedule: cron(0 12,20 ? * * *)
+  getDistrict:
+    runtime: nodejs14.x
+    handler: ./api/find-district.handler.js
+    events:
+      - http:
+          method: get
+          path: getDistrict
+          request:
+            template:
+              application/json: >
+                {
+                  "address" : "$input.params('address')"
+                }
