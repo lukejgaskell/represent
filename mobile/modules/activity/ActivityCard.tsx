@@ -4,16 +4,19 @@ import { Card, Paragraph, Divider } from "react-native-paper"
 import { displayDate } from "../../lib/dateUtils"
 import { Activity } from "./types"
 import { MaterialIcons, Feather, AntDesign } from "@expo/vector-icons"
+import useColorScheme from "../../hooks/useColorScheme"
 
 type IProps = Activity
 
 export default function ActivityCard({ result, description, total, date, chamber, question, memberVotes, bill_id }: IProps) {
+  const colorScheme = useColorScheme()
+
   return (
     <Card style={styles.card}>
       <Card.Content>
         <View style={[styles.row, styles.rowSpaceBetween, styles.rowMargin]}>
           <View style={styles.row}>
-            <MaterialIcons name="gavel" size={40} style={styles.icon} />
+            <MaterialIcons name="gavel" size={40} style={styles.icon} color={colorScheme === "light" ? "black" : "white"} />
             <View>
               <Paragraph>{displayDate(date)}</Paragraph>
               <Paragraph>{chamber}</Paragraph>

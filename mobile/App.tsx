@@ -7,7 +7,25 @@ import useCachedResources from "./hooks/useCachedResources"
 import useColorScheme from "./hooks/useColorScheme"
 import Navigation from "./navigation"
 import { AuthProvider } from "./stores/user/AuthProvider"
-import { UserProvider } from "./stores/user/UserProvider"
+import { DefaultTheme, Provider as PaperProvider, DarkTheme } from "react-native-paper"
+import { Theme } from "react-native-paper/lib/typescript/types"
+
+const lightTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: "#3F50B4",
+  },
+}
+
+const darkTheme: Theme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    primary: "#3F50B4",
+    surface: "#424242",
+  },
+}
 
 export default function App() {
   const isLoadingComplete = useCachedResources()
@@ -18,10 +36,12 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <AuthProvider>
-          <Navigation colorScheme={colorScheme} />
-        </AuthProvider>
-        <StatusBar />
+        <PaperProvider theme={colorScheme === "light" ? lightTheme : darkTheme}>
+          <AuthProvider>
+            <Navigation colorScheme={colorScheme} />
+          </AuthProvider>
+          <StatusBar />
+        </PaperProvider>
       </SafeAreaProvider>
     )
   }

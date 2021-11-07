@@ -2,6 +2,8 @@ import { UserData } from "./UserData.type"
 import axios from "axios"
 import supabase from "../../lib/supabaseClient"
 
+const getDistrictApi = "https://h9hwo88rtd.execute-api.us-east-1.amazonaws.com/prod/getDistrict"
+
 export function saveUserData(userData: UserData) {
   const userId = supabase.auth.user()?.id
   return supabase.from("users").upsert({ id: userId, data: userData })
@@ -18,5 +20,5 @@ export async function getUserSettings() {
 }
 
 export function getAddressInfo(address: string) {
-  return axios.get(`/api/district?address=${address}`).then(res => res.data)
+  return axios.get(`${getDistrictApi}?address=${address}`).then(res => res.data)
 }

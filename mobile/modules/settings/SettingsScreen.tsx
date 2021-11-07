@@ -17,7 +17,7 @@ export default function SettingsScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <Button style={styles.button} mode="contained" onPress={() => logout()}>
-        <Text style={styles.buttonText}>Sign Out</Text>
+        Sign Out
       </Button>
     </SafeAreaView>
   )
@@ -26,9 +26,8 @@ export default function SettingsScreen() {
 const createStyles = (colors: IColors) =>
   StyleSheet.create({
     container: {
-      // flex: 1,
-      // alignItems: "center",
-      // justifyContent: "center",
+      paddingRight: 10,
+      paddingLeft: 10,
     },
     button: {
       marginTop: 100,

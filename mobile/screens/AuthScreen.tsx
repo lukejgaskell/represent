@@ -39,7 +39,7 @@ export default function AuthScreen() {
   return (
     <View style={styles.container}>
       {colorScheme === "dark" ? <DarkLogo /> : <LightLogo />}
-      <Button style={styles.button} mode="contained" onPress={loginWithGoogle} icon={GoogleIcon}>
+      <Button style={styles.button} mode="outlined" onPress={loginWithGoogle} icon={GoogleIcon}>
         <Text style={styles.buttonText}>Login With Google</Text>
       </Button>
       <Text>{errorMessage}</Text>

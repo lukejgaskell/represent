@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { ActivityIndicator, Button, SafeAreaView, StyleSheet, TextInput, View } from "react-native"
+import { SafeAreaView, StyleSheet, View } from "react-native"
 import useColorScheme from "../hooks/useColorScheme"
 import Colors, { IColors } from "../constants/Colors"
 import { UserContext } from "../stores/user/UserProvider"
@@ -7,12 +7,12 @@ import { getAddressInfo } from "../stores/user/api"
 import { notify } from "../lib/notifications"
 
 import { states } from "../lib/stateHelper"
-import { Card, Paragraph, Title } from "react-native-paper"
+import { Button, Paragraph, Title, TextInput, ActivityIndicator } from "react-native-paper"
 
 function isValidStateAbreviation(abv: string) {
   return states.find(s => s.abbreviation === abv) ? true : false
 }
-
+let timer: any = null
 export default function AddDistrictScreen() {
   const colorScheme = useColorScheme()
   const colors = Colors[colorScheme]
@@ -27,15 +27,18 @@ export default function AddDistrictScreen() {
   const [district, setDistrict] = useState("")
   const [isStateError, setIsStateError] = useState(false)
   const [isTimerRunning, setIsTimerRunning] = useState(false)
+  const [isShowingDistrict, setIsShowingDistrict] = useState(false)
 
-  const canContinue = !(stateAbv.length > 0 && district.length > 0)
+  const canContinue = stateAbv.length > 0 && district.length > 0
   const canAddressSearch = address.length > 0 && city.length > 0 && state.length > 0
 
   useEffect(() => {
+    setIsTimerRunning(false)
+    clearTimeout(timer)
     if (!canAddressSearch) return
     setIsTimerRunning(true)
 
-    const timer = setTimeout(async () => {
+    timer = setTimeout(async () => {
       try {
         const res = await getAddressInfo(`${address}, ${city} ${state}`)
         if (res.district === null || res.district === undefined) {
@@ -50,8 +53,6 @@ export default function AddDistrictScreen() {
 
       setIsTimerRunning(false)
     }, 3000)
-
-    return () => clearTimeout(timer)
   }, [address, city, state])
 
   useEffect(() => {
@@ -67,55 +68,51 @@ export default function AddDistrictScreen() {
 
   return (
     <SafeAreaView>
-      <Card style={styles.container}>
-        <Card.Content>
+      <View style={styles.container}>
+        <View>
           <View>
             <View>
-              <View>
-                <Title>Help us find your representatives!</Title>
-                <Paragraph>Please enter your address or your state and congressional district</Paragraph>
-              </View>
-              <View>
-                <View>
-                  <View>
-                    <TextInput value={address} onChangeText={val => setAddress(val)} />
-                  </View>
-                  <View>
-                    <TextInput value={city} onChangeText={val => setCity(val)} />
-                  </View>
-                  <View>
-                    <TextInput value={state} onChangeText={val => setState(val)} />
-                  </View>
-                </View>
-              </View>
+              <Title style={styles.title}>Help us find your representatives!</Title>
+              <Paragraph style={styles.description}>Please enter your address or your state and congressional district</Paragraph>
             </View>
-            {isTimerRunning ? (
-              <View>
-                <ActivityIndicator />
-              </View>
-            ) : (
-              <>
-                <View>
-                  <Title>OR</Title>
-                </View>
-                <View>
-                  <View>
-                    <TextInput value={stateAbv} onChangeText={val => setStateAbv(val.toUpperCase())} />
-                  </View>
-                  <View>
-                    <TextInput value={district} onChangeText={val => setDistrict(val)} />
-                  </View>
-                </View>
-              </>
-            )}
             <View>
-              <Button title="continue" disabled={canContinue} onPress={handleContinue}>
-                Continue
-              </Button>
+              {!isShowingDistrict && (
+                <View>
+                  <View>
+                    <TextInput mode="outlined" label="Address" value={address} onChangeText={val => setAddress(val)} />
+                  </View>
+                  <View style={styles.row}>
+                    <View style={styles.column}>
+                      <TextInput mode="outlined" label="City" value={city} onChangeText={val => setCity(val)} />
+                    </View>
+                    <View style={styles.column}>
+                      <TextInput mode="outlined" label="State" value={state} onChangeText={val => setState(val)} />
+                    </View>
+                  </View>
+                </View>
+              )}
+              {isShowingDistrict && (
+                <View>
+                  <View>
+                    <TextInput mode="outlined" label="State Abbreviation" value={stateAbv} onChangeText={val => setStateAbv(val.toUpperCase())} />
+                  </View>
+                  <View>
+                    <TextInput mode="outlined" label="Congressional District" value={district} onChangeText={val => setDistrict(val)} />
+                  </View>
+                </View>
+              )}
             </View>
           </View>
-        </Card.Content>
-      </Card>
+          <View>
+            <Button mode="text" style={styles.switchButton} onPress={() => setIsShowingDistrict(!isShowingDistrict)}>
+              {isShowingDistrict ? "Enter Address Instead" : "Enter District Instead"}
+            </Button>
+            <Button mode="contained" style={styles.button} disabled={!canContinue || isTimerRunning} loading={isTimerRunning} onPress={handleContinue}>
+              Continue
+            </Button>
+          </View>
+        </View>
+      </View>
     </SafeAreaView>
   )
 }
@@ -123,8 +120,31 @@ export default function AddDistrictScreen() {
 const createStyles = (colors: IColors) =>
   StyleSheet.create({
     container: {
-      // flex: 1,
-      // alignItems: "center",
-      // justifyContent: "center",
+      paddingRight: 25,
+      paddingLeft: 25,
+      top: 40,
     },
+    title: {
+      fontSize: 24,
+    },
+    description: {
+      paddingTop: 10,
+      fontSize: 15,
+      paddingBottom: 10,
+    },
+    switchButton: { marginTop: 20 },
+    button: {
+      marginTop: 100,
+      paddingTop: 10,
+      paddingBottom: 10,
+    },
+    row: {
+      width: "100%",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    column: {
+      width: "49%",
+    },
+    spinner: {},
   })

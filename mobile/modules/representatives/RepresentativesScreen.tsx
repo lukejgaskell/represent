@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from "react"
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native"
+import { ScrollView, StyleSheet } from "react-native"
+import { View } from "../../components/Themed"
 
 import { UserContext } from "../../stores/user/UserProvider"
 import { MemberCard } from "./MemberCard"
@@ -17,9 +18,9 @@ function RepresentitivesScreenC() {
   return (
     <ScrollView>
       {items?.map((m, index) => (
-        <TouchableOpacity key={index}>
+        <View key={index}>
           <MemberCard {...m} />
-        </TouchableOpacity>
+        </View>
       ))}
     </ScrollView>
   )

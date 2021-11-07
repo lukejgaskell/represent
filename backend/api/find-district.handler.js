@@ -9,7 +9,6 @@ module.exports.run = async (event, context) => {
   try {
     const result = await geocoder.geocode(address, ["cd"]).then(r => r.results[0])
 
-    console.info(result)
     const district = result.fields.congressional_districts[0].district_number
     const state = result.address_components.state
     return { statusCode: 200, body: JSON.stringify({ ...result, district, state, fields: undefined }) }
