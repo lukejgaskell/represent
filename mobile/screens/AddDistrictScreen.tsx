@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
-import { ActivityIndicator, Button, StyleSheet, TextInput, View } from "react-native"
+import { ActivityIndicator, Button, SafeAreaView, StyleSheet, TextInput, View } from "react-native"
 import useColorScheme from "../hooks/useColorScheme"
 import Colors, { IColors } from "../constants/Colors"
 import { UserContext } from "../stores/user/UserProvider"
@@ -61,68 +61,70 @@ export default function AddDistrictScreen() {
   async function handleContinue() {
     const isValidState = stateAbv.length > 1 && isValidStateAbreviation(stateAbv)
     if (!isValidState) return setIsStateError(true)
-    const userData = { state: stateAbv, district }
+    const userData = { ...userContext.settings, state: stateAbv, district }
     if (userContext.saveSettings) userContext.saveSettings(userData)
   }
 
   return (
-    <Card style={styles.container}>
-      <Card.Content>
-        <View>
+    <SafeAreaView>
+      <Card style={styles.container}>
+        <Card.Content>
           <View>
             <View>
-              <Title>Help us find your representatives!</Title>
-              <Paragraph>Please enter your address or your state and congressional district</Paragraph>
-            </View>
-            <View>
+              <View>
+                <Title>Help us find your representatives!</Title>
+                <Paragraph>Please enter your address or your state and congressional district</Paragraph>
+              </View>
               <View>
                 <View>
-                  <TextInput value={address} onChangeText={val => setAddress(val)} />
-                </View>
-                <View>
-                  <TextInput value={city} onChangeText={val => setCity(val)} />
-                </View>
-                <View>
-                  <TextInput value={state} onChangeText={val => setState(val)} />
+                  <View>
+                    <TextInput value={address} onChangeText={val => setAddress(val)} />
+                  </View>
+                  <View>
+                    <TextInput value={city} onChangeText={val => setCity(val)} />
+                  </View>
+                  <View>
+                    <TextInput value={state} onChangeText={val => setState(val)} />
+                  </View>
                 </View>
               </View>
+            </View>
+            {isTimerRunning ? (
+              <View>
+                <ActivityIndicator />
+              </View>
+            ) : (
+              <>
+                <View>
+                  <Title>OR</Title>
+                </View>
+                <View>
+                  <View>
+                    <TextInput value={stateAbv} onChangeText={val => setStateAbv(val.toUpperCase())} />
+                  </View>
+                  <View>
+                    <TextInput value={district} onChangeText={val => setDistrict(val)} />
+                  </View>
+                </View>
+              </>
+            )}
+            <View>
+              <Button title="continue" disabled={canContinue} onPress={handleContinue}>
+                Continue
+              </Button>
             </View>
           </View>
-          {isTimerRunning ? (
-            <View>
-              <ActivityIndicator />
-            </View>
-          ) : (
-            <>
-              <View>
-                <Title>OR</Title>
-              </View>
-              <View>
-                <View>
-                  <TextInput value={stateAbv} onChangeText={val => setStateAbv(val.toUpperCase())} />
-                </View>
-                <View>
-                  <TextInput value={district} onChangeText={val => setDistrict(val)} />
-                </View>
-              </View>
-            </>
-          )}
-          <View>
-            <Button title="continue" disabled={canContinue} onPress={handleContinue}>
-              Continue
-            </Button>
-          </View>
-        </View>
-      </Card.Content>
-    </Card>
+        </Card.Content>
+      </Card>
+    </SafeAreaView>
   )
 }
 
 const createStyles = (colors: IColors) =>
   StyleSheet.create({
     container: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
+      // flex: 1,
+      // alignItems: "center",
+      // justifyContent: "center",
     },
   })

@@ -28,6 +28,7 @@ const UserProvider = (props: Props) => {
   }
 
   useEffect(() => {
+    console.log("loading user settings")
     getUserSettings().then(({ data, error }) => {
       if (error) notify("unable to load user data", "error")
       if (data) setSettings(data)

@@ -1,14 +1,11 @@
 import React, { useEffect, useContext } from "react"
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native"
 
-import EditScreenInfo from "../../components/EditScreenInfo"
-import { Text, View } from "../../components/Themed"
 import { UserContext } from "../../stores/user/UserProvider"
-import { getMembers } from "./api"
 import { MemberCard } from "./MemberCard"
-import { MembersContext } from "./MembersProvider"
+import { MembersContext, MembersProvider } from "./MembersProvider"
 
-export default function RepresentitivesScreen() {
+function RepresentitivesScreenC() {
   const { settings } = useContext(UserContext)
   const { items, isLoading, loadMembers } = useContext(MembersContext)
 
@@ -16,7 +13,7 @@ export default function RepresentitivesScreen() {
     if (settings?.district && settings.state && loadMembers) {
       loadMembers({ state: settings?.state, district: settings?.district })
     }
-  })
+  }, [])
   return (
     <ScrollView>
       {items?.map((m, index) => (
@@ -44,3 +41,11 @@ const styles = StyleSheet.create({
     width: "80%",
   },
 })
+
+export default function RepresentitivesScreen() {
+  return (
+    <MembersProvider>
+      <RepresentitivesScreenC />
+    </MembersProvider>
+  )
+}

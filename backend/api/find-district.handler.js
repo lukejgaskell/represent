@@ -12,8 +12,8 @@ module.exports.run = async (event, context) => {
     console.info(result)
     const district = result.fields.congressional_districts[0].district_number
     const state = result.address_components.state
-    return { ...result, district, state, fields: undefined }
+    return { statusCode: 200, body: { ...result, district, state, fields: undefined } }
   } catch (e) {
-    return e
+    return Error(e)
   }
 }

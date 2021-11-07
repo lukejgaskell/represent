@@ -27,12 +27,12 @@ const MembersProvider = (props: Props) => {
     setIsLoading(true)
 
     const { data, error } = await getMembers({ ...fprops })
-    if (error) {
+    if (error || !data) {
       setIsLoading(false)
       console.log("error loading members", error)
       return
     }
-    setItems(data.items)
+    setItems(data)
     setIsLoading(false)
   }
 

@@ -13,7 +13,6 @@ export async function getMembers({ state, district }: { state: string | undefine
   if (district && district.length > 0) query = query.or(`district.eq.${district},district.is.null`)
 
   const { data, error } = await query.order(`state, metadata->title, metadata->last_name` as any)
-  if (error) throw error
 
-  return data as Member[]
+  return { data, error }
 }
