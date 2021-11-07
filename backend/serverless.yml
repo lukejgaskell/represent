@@ -50,9 +50,3 @@ functions:
       - http:
           method: get
           path: getDistrict
-          request:
-            template:
-              application/json: >
-                {
-                  "address" : "$input.params('address')"
-                }
