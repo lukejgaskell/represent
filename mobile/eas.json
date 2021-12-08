@@ -1,0 +1,23 @@
+{
+  "cli": {
+    "version": ">= 0.39.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "lukejgaskell@gmail.com",
+        "ascAppId": "1594931017"
+      }
+    }
+  }
+}
