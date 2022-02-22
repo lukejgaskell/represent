@@ -20,17 +20,6 @@
       "bundleIdentifier": "com.gaskellsolutions.represent",
       "buildNumber": "1.0.9",
       "supportsTablet": false
-    },
-    "android": {
-      "package": "com.gaskellsolutions.represent",
-      "versionCode": 4,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/images/favicon.png"
     }
   }
 }
