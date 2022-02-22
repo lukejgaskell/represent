@@ -1,14 +1,20 @@
+import { AntDesign, Feather } from "@expo/vector-icons"
+import { Button, Divider, Paragraph, Title } from "react-native-paper"
+import Colors, { IColors } from "../../constants/Colors"
 import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
-import { Card, Paragraph, Divider, Title, Button } from "react-native-paper"
-import { displayDate } from "../../lib/dateUtils"
+
 import { ActivityDetails } from "./types"
-import { Feather, AntDesign } from "@expo/vector-icons"
+import { displayDate } from "../../lib/dateUtils"
+import useColorScheme from "../../hooks/useColorScheme"
 
 type IProps = ActivityDetails
 
 export default function ActivityDetailsCard({ bill, bill_id }: IProps) {
   const [showMore, setShowMore] = useState(false)
+  const colorScheme = useColorScheme()
+  const styles = createStyles(Colors[colorScheme])
+
   return (
     <View style={styles.container}>
       <Title style={styles.rowMargin}>{`Bill ${bill_id}`}</Title>
@@ -46,54 +52,62 @@ export default function ActivityDetailsCard({ bill, bill_id }: IProps) {
   )
 }
 
-const styles = StyleSheet.create({
-  name: { marginLeft: 5 },
-  icon: { marginRight: 5 },
-  rowSpaceBetween: {
-    justifyContent: "space-between",
-  },
-  rowMargin: {
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  row: {
-    width: "100%",
-    flexDirection: "row",
-    flex: 1,
-    alignItems: "center",
-  },
-  container: {
-    paddingRight: 25,
-    paddingLeft: 25,
-    width: "100%",
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  getStartedContainer: {
-    alignItems: "center",
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightContainer: {
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    lineHeight: 24,
-    textAlign: "center",
-  },
-  helpContainer: {
-    marginTop: 15,
-    marginHorizontal: 20,
-    alignItems: "center",
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    textAlign: "center",
-  },
-})
+const createStyles = (colors: IColors) =>
+  StyleSheet.create({
+    name: { marginLeft: 5 },
+    icon: { marginRight: 5 },
+    rowSpaceBetween: {
+      justifyContent: "space-between",
+    },
+    rowMargin: {
+      marginTop: 5,
+      marginBottom: 5,
+    },
+    row: {
+      width: "100%",
+      flexDirection: "row",
+      flex: 1,
+      alignItems: "center",
+    },
+    container: {
+      backgroundColor: colors.cardBackground,
+
+      marginTop: 10,
+      marginBottom: 10,
+      marginRight: 5,
+      marginLeft: 5,
+
+      paddingRight: 20,
+      paddingLeft: 20,
+      paddingTop: 10,
+      paddingBottom: 10,
+      borderRadius: 5,
+    },
+    getStartedContainer: {
+      alignItems: "center",
+      marginHorizontal: 50,
+    },
+    homeScreenFilename: {
+      marginVertical: 7,
+    },
+    codeHighlightContainer: {
+      borderRadius: 3,
+      paddingHorizontal: 4,
+    },
+    getStartedText: {
+      fontSize: 17,
+      lineHeight: 24,
+      textAlign: "center",
+    },
+    helpContainer: {
+      marginTop: 15,
+      marginHorizontal: 20,
+      alignItems: "center",
+    },
+    helpLink: {
+      paddingVertical: 15,
+    },
+    helpLinkText: {
+      textAlign: "center",
+    },
+  })

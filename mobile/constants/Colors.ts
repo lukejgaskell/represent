@@ -7,6 +7,7 @@ export type IColors = {
   tint: string
   tabIconDefault: string
   tabIconSelected: string
+  cardBackground: string
 }
 
 export default {
@@ -16,6 +17,7 @@ export default {
     tint: tintColorLight,
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorLight,
+    cardBackground: "white",
   },
   dark: {
     text: "#fff",
@@ -23,5 +25,6 @@ export default {
     tint: tintColorDark,
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorDark,
+    cardBackground: "rgb(26, 26, 27)",
   },
 }

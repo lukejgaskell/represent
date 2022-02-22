@@ -1,14 +1,15 @@
-import { StatusBar } from "expo-status-bar"
-import React from "react"
-import { SafeAreaProvider } from "react-native-safe-area-context"
 import "react-native-url-polyfill/auto"
 
+import { DarkTheme, DefaultTheme, Provider as PaperProvider } from "react-native-paper"
+
+import { AuthProvider } from "./stores/user/AuthProvider"
+import Navigation from "./navigation"
+import React from "react"
+import { SafeAreaProvider } from "react-native-safe-area-context"
+import { StatusBar } from "expo-status-bar"
+import { Theme } from "react-native-paper/lib/typescript/types"
 import useCachedResources from "./hooks/useCachedResources"
 import useColorScheme from "./hooks/useColorScheme"
-import Navigation from "./navigation"
-import { AuthProvider } from "./stores/user/AuthProvider"
-import { DefaultTheme, Provider as PaperProvider, DarkTheme } from "react-native-paper"
-import { Theme } from "react-native-paper/lib/typescript/types"
 
 const lightTheme = {
   ...DefaultTheme,

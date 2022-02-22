@@ -1,21 +1,23 @@
+import { ActivityIndicator, Button, Paragraph, TextInput, Title } from "react-native-paper"
+import Colors, { IColors } from "../constants/Colors"
 import React, { useContext, useEffect, useState } from "react"
 import { SafeAreaView, StyleSheet, View } from "react-native"
-import useColorScheme from "../hooks/useColorScheme"
-import Colors, { IColors } from "../constants/Colors"
+
 import { UserContext } from "../stores/user/UserProvider"
 import { getAddressInfo } from "../stores/user/api"
 import { notify } from "../lib/notifications"
-
 import { states } from "../lib/stateHelper"
-import { Button, Paragraph, Title, TextInput, ActivityIndicator } from "react-native-paper"
+import useColorScheme from "../hooks/useColorScheme"
+import { useNavigation } from "@react-navigation/native"
 
 function isValidStateAbreviation(abv: string) {
   return states.find(s => s.abbreviation === abv) ? true : false
 }
 let timer: any = null
+
 export default function AddDistrictScreen() {
   const colorScheme = useColorScheme()
-  const colors = Colors[colorScheme]
+  const navigation = useNavigation()
   const styles = createStyles(Colors[colorScheme])
 
   const userContext = useContext(UserContext)
@@ -64,6 +66,7 @@ export default function AddDistrictScreen() {
     if (!isValidState) return setIsStateError(true)
     const userData = { ...userContext.settings, state: stateAbv, district }
     if (userContext.saveSettings) userContext.saveSettings(userData)
+    if (navigation.canGoBack()) navigation.goBack()
   }
 
   return (
@@ -134,7 +137,7 @@ const createStyles = (colors: IColors) =>
     },
     switchButton: { marginTop: 20 },
     button: {
-      marginTop: 100,
+      marginTop: 50,
       paddingTop: 10,
       paddingBottom: 10,
     },

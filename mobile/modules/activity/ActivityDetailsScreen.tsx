@@ -1,14 +1,20 @@
 import * as React from "react"
-import { ActivityProvider } from "./ActivityProvider"
-import { ScrollView } from "react-native-gesture-handler"
-import { getActivityDetails } from "./api"
+
+import { ActivityIndicator, Text } from "react-native-paper"
+
 import { ActivityDetails } from "./types"
 import ActivityDetailsCard from "./ActivityDetails"
-import useColorScheme from "../../hooks/useColorScheme"
-import Colors from "../../constants/Colors"
-import { Text, ActivityIndicator } from "react-native-paper"
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
+import { ActivityProvider } from "./ActivityProvider"
 import { ActivityStackParamList } from "../../types"
+import Colors from "../../constants/Colors"
+import { NativeStackScreenProps } from "@react-navigation/native-stack"
+import { ScrollView } from "react-native-gesture-handler"
+import { getActivityDetails } from "./api"
+import useColorScheme from "../../hooks/useColorScheme"
+
+export type IOwnProps = {
+  activityId: string
+}
 
 type IProps = NativeStackScreenProps<ActivityStackParamList, "Details">
 
@@ -20,11 +26,15 @@ function ActivityDetailsScreenC({ route }: IProps) {
   const colorScheme = useColorScheme()
   const colors = Colors[colorScheme]
 
-  React.useEffect(() => {
+  function loadData() {
     getActivityDetails({ activityId }).then(({ data, error }) => {
       if (data) setDetails(data)
       setIsLoading(false)
     })
+  }
+
+  React.useEffect(() => {
+    loadData()
   }, [])
 
   return (

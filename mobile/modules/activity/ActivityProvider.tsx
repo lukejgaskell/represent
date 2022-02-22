@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react"
-import { getActivity } from "./api"
+
 import { Activity } from "./types"
+import { getActivity } from "./api"
 
 type ContextProps = {
   items: Activity[]
@@ -23,24 +24,24 @@ interface Props {
 const ActivityProvider = (props: Props) => {
   // user null = loading
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [currentPage, setCurrentPage] = useState<number>(0)
+  const [page, setPage] = useState<number>(0)
   const [items, setItems] = useState<Activity[]>([])
 
   async function loadActivity(fprops: ILoadProps) {
     setIsLoading(true)
-    if (fprops.reset) {
-      setItems([])
-      setCurrentPage(0)
-    }
 
-    const { data, error } = await getActivity({ ...fprops, page: currentPage })
+    const currPage = fprops.reset ? 0 : page
+    const currItems = fprops.reset ? [] : items
+
+    const { data, error } = await getActivity({ ...fprops, page: currPage })
     if (error) {
       setIsLoading(false)
       console.log("error loading activity", error)
       return
     }
-    setItems(items.concat(data?.items || []))
-    setCurrentPage(currentPage + 1)
+
+    setItems(currItems.concat(data?.items || []))
+    setPage(currPage + 1)
     setIsLoading(false)
   }
 

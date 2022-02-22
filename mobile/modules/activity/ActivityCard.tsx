@@ -1,15 +1,19 @@
-import React from "react"
+import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons"
+import { Card, Divider, Paragraph } from "react-native-paper"
 import { StyleSheet, View } from "react-native"
-import { Card, Paragraph, Divider } from "react-native-paper"
-import { displayDate } from "../../lib/dateUtils"
+
 import { Activity } from "./types"
-import { MaterialIcons, Feather, AntDesign } from "@expo/vector-icons"
+import Colors from "../../constants/Colors"
+import React from "react"
+import { displayDate } from "../../lib/dateUtils"
 import useColorScheme from "../../hooks/useColorScheme"
 
 type IProps = Activity
 
 export default function ActivityCard({ result, description, total, date, chamber, question, memberVotes, bill_id }: IProps) {
   const colorScheme = useColorScheme()
+
+  const styles = getStyles(colorScheme)
 
   return (
     <Card style={styles.card}>
@@ -51,52 +55,55 @@ export default function ActivityCard({ result, description, total, date, chamber
   )
 }
 
-const styles = StyleSheet.create({
-  name: { marginLeft: 5 },
-  icon: { marginRight: 5 },
-  rowSpaceBetween: {
-    justifyContent: "space-between",
-  },
-  rowMargin: {
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  row: {
-    width: "100%",
-    flexDirection: "row",
-    flex: 1,
-    alignItems: "center",
-  },
-  card: {
-    width: "100%",
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  getStartedContainer: {
-    alignItems: "center",
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightContainer: {
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    lineHeight: 24,
-    textAlign: "center",
-  },
-  helpContainer: {
-    marginTop: 15,
-    marginHorizontal: 20,
-    alignItems: "center",
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    textAlign: "center",
-  },
-})
+const getStyles = (mode: "light" | "dark") => {
+  return StyleSheet.create({
+    name: { marginLeft: 5 },
+    icon: { marginRight: 5 },
+    rowSpaceBetween: {
+      justifyContent: "space-between",
+    },
+    rowMargin: {
+      marginTop: 5,
+      marginBottom: 5,
+    },
+    row: {
+      width: "100%",
+      flexDirection: "row",
+      flex: 1,
+      alignItems: "center",
+    },
+    card: {
+      width: "100%",
+      backgroundColor: Colors[mode].cardBackground,
+      marginTop: 5,
+      marginBottom: 5,
+    },
+    getStartedContainer: {
+      alignItems: "center",
+      marginHorizontal: 50,
+    },
+    homeScreenFilename: {
+      marginVertical: 7,
+    },
+    codeHighlightContainer: {
+      borderRadius: 3,
+      paddingHorizontal: 4,
+    },
+    getStartedText: {
+      fontSize: 17,
+      lineHeight: 24,
+      textAlign: "center",
+    },
+    helpContainer: {
+      marginTop: 15,
+      marginHorizontal: 20,
+      alignItems: "center",
+    },
+    helpLink: {
+      paddingVertical: 15,
+    },
+    helpLinkText: {
+      textAlign: "center",
+    },
+  })
+}

@@ -3,11 +3,11 @@
  * https://reactnavigation.org/docs/typescript/
  */
 
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/native"
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
 
-import { IProps as IActivityDetailsProps } from "./modules/activity/ActivityDetailsScreen"
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs"
+import { IOwnProps as IActivityDetailsProps } from "./modules/activity/ActivityDetailsScreen"
+import { NativeStackScreenProps } from "@react-navigation/native-stack"
 
 declare global {
   namespace ReactNavigation {
@@ -29,10 +29,15 @@ export type ActivityStackParamList = {
   Details: IActivityDetailsProps
 }
 
+export type SettingsStackParamList = {
+  List: undefined
+  AddDistrict: undefined
+}
+
 export type RootTabParamList = {
   Activity: NavigatorScreenParams<ActivityStackParamList>
   Representatives: undefined
-  Settings: undefined
+  Settings: NavigatorScreenParams<SettingsStackParamList>
 }
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList> = CompositeScreenProps<

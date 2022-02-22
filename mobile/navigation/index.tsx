@@ -1,28 +1,29 @@
+import * as React from "react"
+
+import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native"
+import { UserContext, UserProvider } from "../stores/user/UserProvider"
+
+import ActivityDetailsScreen from "../modules/activity/ActivityDetailsScreen"
+import ActivityScreen from "../modules/activity/ActivityScreen"
+import AddDistrictScreen from "../screens/AddDistrictScreen"
+import { AuthContext } from "../stores/user/AuthProvider"
+import AuthScreen from "../screens/AuthScreen"
+import { ColorSchemeName } from "react-native"
+import Colors from "../constants/Colors"
 /**
  * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
  * https://reactnavigation.org/docs/getting-started
  *
  */
 import { FontAwesome } from "@expo/vector-icons"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import * as React from "react"
-import { ColorSchemeName } from "react-native"
-
-import Colors from "../constants/Colors"
-import useColorScheme from "../hooks/useColorScheme"
-import ActivityScreen from "../modules/activity/ActivityScreen"
-import RepresentativesScreen from "../modules/representatives/RepresentativesScreen"
-import AuthScreen from "../screens/AuthScreen"
-import SettingsScreen from "../modules/settings/SettingsScreen"
-import { AuthContext } from "../stores/user/AuthProvider"
 import LoadingScreen from "../screens/LoadingScreen"
-import ActivityDetailsScreen from "../modules/activity/ActivityDetailsScreen"
+import RepresentativesScreen from "../modules/representatives/RepresentativesScreen"
+import SettingsScreen from "../modules/settings/SettingsScreen"
 import Toast from "react-native-toast-message"
-import { UserContext, UserProvider } from "../stores/user/UserProvider"
 import WelcomeScreen from "../screens/WelcomeScreen"
-import AddDistrictScreen from "../screens/AddDistrictScreen"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import useColorScheme from "../hooks/useColorScheme"
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -36,9 +37,20 @@ const ActivityStack = createNativeStackNavigator()
 function ActivityNavigator() {
   return (
     <ActivityStack.Navigator initialRouteName="List">
-      <Stack.Screen name="List" options={{ title: "Activity" }} component={ActivityScreen} />
-      <Stack.Screen name="Details" options={{ title: "Details" }} component={ActivityDetailsScreen} />
+      <ActivityStack.Screen name="List" options={{ title: "Activity" }} component={ActivityScreen} />
+      <ActivityStack.Screen name="Details" options={{ title: "Details" }} component={ActivityDetailsScreen} />
     </ActivityStack.Navigator>
+  )
+}
+
+const SettingsStack = createNativeStackNavigator()
+
+function SettingsNavigator() {
+  return (
+    <SettingsStack.Navigator initialRouteName="List">
+      <SettingsStack.Screen name="List" options={{ title: "Settings" }} component={SettingsScreen} />
+      <SettingsStack.Screen name="AddDistrict" options={{ title: "State | District" }} component={AddDistrictScreen} />
+    </SettingsStack.Navigator>
   )
 }
 
@@ -73,9 +85,9 @@ function BottomTabNavigator() {
         />
         <BottomTab.Screen
           name="Settings"
-          component={SettingsScreen}
+          component={SettingsNavigator}
           options={{
-            title: "Settings",
+            headerShown: false,
             tabBarIcon: ({ color }) => <TabBarIcon name="cog" color={color} />,
           }}
         />
@@ -120,10 +132,10 @@ function LoggedInNavigator() {
   const { settings, isLoading } = React.useContext(UserContext)
   return (
     <Stack.Navigator>
-      {isLoading && <Stack.Screen name="loading" component={LoadingScreen} options={{ headerShown: false }} />}
-      {!settings?.hasSeenWelcome && <Stack.Screen name="welcome" component={WelcomeScreen} options={{ headerShown: false }} />}
-      {(!settings?.district || !settings?.state) && <Stack.Screen name="add-district" component={AddDistrictScreen} options={{ headerShown: false }} />}
-      {<Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />}
+      {isLoading && <Stack.Screen name="loading" component={LoadingScreen} options={{ headerShown: false, animation: "none" }} />}
+      {!settings?.hasSeenWelcome && <Stack.Screen name="welcome" component={WelcomeScreen} options={{ headerShown: false, animation: "none" }} />}
+      {(!settings?.district || !settings?.state) && <Stack.Screen name="add-district" component={AddDistrictScreen} options={{ headerShown: false, animation: "none" }} />}
+      {<Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false, animation: "none" }} />}
     </Stack.Navigator>
   )
 }

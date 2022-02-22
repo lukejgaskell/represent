@@ -1,7 +1,10 @@
+import { Button, Card, Divider, Text, Title } from "react-native-paper"
+import { Linking, StyleSheet, View } from "react-native"
+
+import Colors from "../../constants/Colors"
 import { Member } from "./types"
 import React from "react"
-import { Button, Card, Text, Title, Divider } from "react-native-paper"
-import { Linking, View, StyleSheet } from "react-native"
+import useColorScheme from "../../hooks/useColorScheme"
 
 type IProps = Member
 
@@ -19,6 +22,10 @@ export function MemberCard({
   contact_form,
   next_election,
 }: IProps) {
+  const colorScheme = useColorScheme()
+
+  const styles = getStyles(colorScheme)
+
   return (
     <Card style={styles.card}>
       <Card.Content>
@@ -95,50 +102,52 @@ export function MemberCard({
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  card: {
-    width: "100%",
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  rowMargin: {
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  row: {
-    width: "100%",
-    flexWrap: "wrap",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  column: {
-    paddingTop: 10,
-    width: "49%",
-  },
-  youtube_button: {
-    color: "white",
-    backgroundColor: "#B91C1C",
-  },
-  facebook_button: {
-    color: "white",
-    backgroundColor: "#1877F2",
-  },
-  twitter_button: {
-    color: "white",
-    backgroundColor: "#1DA1F2",
-  },
-  contact_button: {
-    color: "white",
-    backgroundColor: "#047857",
-  },
-})
+const getStyles = (mode: "light" | "dark") =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: "bold",
+    },
+    card: {
+      width: "100%",
+      backgroundColor: Colors[mode].cardBackground,
+      marginTop: 5,
+      marginBottom: 5,
+    },
+    rowMargin: {
+      marginTop: 10,
+      marginBottom: 10,
+    },
+    row: {
+      width: "100%",
+      flexWrap: "wrap",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    column: {
+      paddingTop: 10,
+      width: "49%",
+    },
+    youtube_button: {
+      color: "white",
+      backgroundColor: "#B91C1C",
+    },
+    facebook_button: {
+      color: "white",
+      backgroundColor: "#1877F2",
+    },
+    twitter_button: {
+      color: "white",
+      backgroundColor: "#1DA1F2",
+    },
+    contact_button: {
+      color: "white",
+      backgroundColor: "#047857",
+    },
+  })

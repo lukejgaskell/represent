@@ -1,13 +1,16 @@
+import * as AuthSession from "expo-auth-session"
+
+import { Button, Text } from "react-native-paper"
+import Colors, { IColors } from "../constants/Colors"
 import React, { useState } from "react"
 import { StyleSheet, View } from "react-native"
-import useColorScheme from "../hooks/useColorScheme"
-import { Button, Text } from "react-native-paper"
 import supabaseClient, { supabaseAuthUrl } from "../lib/supabaseClient"
-import GoogleIcon from "../components/images/GoogleIcon"
+
+import Constants from "expo-constants"
 import DarkLogo from "../components/images/DarkLogo"
-import Colors, { IColors } from "../constants/Colors"
+import GoogleIcon from "../components/images/GoogleIcon"
 import LightLogo from "../components/images/LightLogo"
-import * as AuthSession from "expo-auth-session"
+import useColorScheme from "../hooks/useColorScheme"
 
 export default function AuthScreen() {
   const [errorMessage, setErrorMessage] = useState<String | null>(null)
@@ -17,23 +20,33 @@ export default function AuthScreen() {
   async function loginWithGoogle() {
     setErrorMessage(null)
     const provider = "google"
-    const redirectUri = AuthSession.makeRedirectUri({ useProxy: false })
 
-    AuthSession.startAsync({
-      authUrl: `${supabaseAuthUrl}?provider=${provider}&redirect_to=${redirectUri}`,
+    const SCHEME = Constants.manifest?.scheme
+    const proxyRedirectUri = AuthSession.makeRedirectUri({
+      useProxy: true,
+    }) // https://auth.expo.io
+    const redirectUri = AuthSession.makeRedirectUri({
+      native: `${SCHEME}://redirect`,
+      useProxy: false,
+    }) // Some URL which we don't know beforehand
+
+    const response = await AuthSession.startAsync({
+      authUrl: `${supabaseAuthUrl}?provider=${provider}&redirect_to=${proxyRedirectUri}`,
       returnUrl: redirectUri,
-    }).then(async (response: any) => {
-      if (!response) return
-
-      const { user, session, error } = await supabaseClient.auth.signIn({
-        refreshToken: response.params?.refresh_token,
-      })
-
-      if (error) {
-        setErrorMessage(error.message)
-        return
-      }
     })
+
+    if (!response || response.type !== "success") {
+      return
+    }
+
+    const { user, session, error } = await supabaseClient.auth.signIn({
+      refreshToken: response.params?.refresh_token,
+    })
+
+    if (error) {
+      setErrorMessage(error.message)
+      return
+    }
   }
 
   return (

@@ -2,7 +2,7 @@
   "expo": {
     "name": "represent",
     "slug": "represent",
-    "version": "1.0.1",
+    "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "com.gaskellsolutions.represent",
@@ -18,12 +18,12 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.gaskellsolutions.represent",
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.7",
       "supportsTablet": false
     },
     "android": {
       "package": "com.gaskellsolutions.represent",
-      "versionCode": 2,
+      "versionCode": 4,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
