@@ -2,7 +2,7 @@
   "expo": {
     "name": "Represet",
     "slug": "represent",
-    "version": "1.0.8",
+    "version": "1.0.9",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "com.gaskellsolutions.represent",
@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#2B2E4A"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -18,7 +18,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.gaskellsolutions.represent",
-      "buildNumber": "1.0.8",
+      "buildNumber": "1.0.9",
       "supportsTablet": false
     },
     "android": {
