@@ -2,11 +2,12 @@
   "expo": {
     "name": "Represent",
     "slug": "represent",
-    "version": "1.0.10",
+    "version": "1.0.12",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "com.gaskellsolutions.represent",
     "userInterfaceStyle": "automatic",
+    "backgroundColor": "#2B2E4A",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
@@ -18,7 +19,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.gaskellsolutions.represent",
-      "buildNumber": "1.0.10",
+      "buildNumber": "1.0.12",
       "supportsTablet": false
     }
   }

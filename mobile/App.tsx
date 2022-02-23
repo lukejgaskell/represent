@@ -8,7 +8,6 @@ import React from "react"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import { StatusBar } from "expo-status-bar"
 import { Theme } from "react-native-paper/lib/typescript/types"
-import useCachedResources from "./hooks/useCachedResources"
 import useColorScheme from "./hooks/useColorScheme"
 
 const lightTheme = {
@@ -29,21 +28,16 @@ const darkTheme: Theme = {
 }
 
 export default function App() {
-  const isLoadingComplete = useCachedResources()
   const colorScheme = useColorScheme()
 
-  if (!isLoadingComplete) {
-    return null
-  } else {
-    return (
-      <SafeAreaProvider>
-        <PaperProvider theme={colorScheme === "light" ? lightTheme : darkTheme}>
-          <AuthProvider>
-            <Navigation colorScheme={colorScheme} />
-          </AuthProvider>
-          <StatusBar />
-        </PaperProvider>
-      </SafeAreaProvider>
-    )
-  }
+  return (
+    <SafeAreaProvider>
+      <PaperProvider theme={colorScheme === "light" ? lightTheme : darkTheme}>
+        <AuthProvider>
+          <Navigation colorScheme={colorScheme} />
+        </AuthProvider>
+        <StatusBar />
+      </PaperProvider>
+    </SafeAreaProvider>
+  )
 }

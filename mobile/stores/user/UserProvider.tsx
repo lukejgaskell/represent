@@ -1,6 +1,7 @@
-import React, { createContext, useState, useEffect } from "react"
-import { UserData } from "./UserData.type"
+import React, { createContext, useEffect, useState } from "react"
 import { getUserSettings, saveUserData } from "./api"
+
+import { UserData } from "./UserData.type"
 import { notify } from "../../lib/notifications"
 type ContextProps = {
   isLoading: boolean
@@ -28,7 +29,6 @@ const UserProvider = (props: Props) => {
   }
 
   useEffect(() => {
-    console.log("loading user settings")
     getUserSettings().then(({ data, error }) => {
       if (error) notify("unable to load user data", "error")
       if (data) setSettings(data)

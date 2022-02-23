@@ -28,7 +28,7 @@ export default function SettingsScreen() {
           title="State"
           right={() => <Text style={styles.text}>{`${settings?.state}`}</Text>}
           onPress={() => {
-            navigation.navigate("Root", { screen: "Settings", params: { screen: "AddDistrict" } })
+            navigation.navigate("Settings", { screen: "AddDistrict" })
           }}
         />
         <List.Item
@@ -36,7 +36,7 @@ export default function SettingsScreen() {
           title="District"
           right={() => <Text style={styles.text}>{`${settings?.district}`}</Text>}
           onPress={() => {
-            navigation.navigate("Root", { screen: "Settings", params: { screen: "AddDistrict" } })
+            navigation.navigate("Settings", { screen: "AddDistrict" })
           }}
         />
       </List.Section>

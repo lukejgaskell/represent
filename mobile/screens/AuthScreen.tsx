@@ -63,6 +63,7 @@ export default function AuthScreen() {
 const createStyles = (colors: IColors) =>
   StyleSheet.create({
     container: {
+      backgroundColor: colors.authBackground,
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
