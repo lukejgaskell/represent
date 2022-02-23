@@ -15,7 +15,7 @@ import useColorScheme from "../hooks/useColorScheme"
 export default function AuthScreen() {
   const [errorMessage, setErrorMessage] = useState<String | null>(null)
   const colorScheme = useColorScheme()
-  const styles = createStyles(Colors[colorScheme])
+  const styles = createStyles(colorScheme)
 
   async function loginWithGoogle() {
     setErrorMessage(null)
@@ -51,29 +51,33 @@ export default function AuthScreen() {
 
   return (
     <View style={styles.container}>
-      {colorScheme === "dark" ? <DarkLogo /> : <LightLogo />}
-      <Button style={styles.button} mode="outlined" onPress={loginWithGoogle} icon={GoogleIcon}>
-        <Text style={styles.buttonText}>Login With Google</Text>
+      <DarkLogo />
+      <Button uppercase={false} style={styles.button} mode="contained" onPress={loginWithGoogle} icon={GoogleIcon}>
+        <Text style={styles.buttonText}>Continue With Google</Text>
       </Button>
       <Text>{errorMessage}</Text>
     </View>
   )
 }
 
-const createStyles = (colors: IColors) =>
+const createStyles = (colorScheme: "light" | "dark") =>
   StyleSheet.create({
     container: {
-      backgroundColor: colors.authBackground,
+      backgroundColor: Colors.dark.authBackground,
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
     },
     button: {
       marginTop: 100,
+      backgroundColor: Colors.dark.text,
+      borderRadius: 10,
+      paddingRight: 10,
+      paddingLeft: 10,
     },
     buttonText: {
-      fontSize: 20,
-      color: colors.text,
+      fontSize: 18,
+      color: Colors.light.text,
     },
     separator: {
       marginVertical: 30,

@@ -10,7 +10,6 @@ import AddDistrictScreen from "../screens/AddDistrictScreen"
 import { AuthContext } from "../stores/user/AuthProvider"
 import AuthScreen from "../screens/AuthScreen"
 import Colors from "../constants/Colors"
-import DarkLogo from "../components/images/DarkLogo"
 import DarkLogoNoText from "../components/images/DarkLogoNoText"
 import { FontAwesome } from "@expo/vector-icons"
 import { IconButton } from "react-native-paper"
@@ -122,8 +121,7 @@ function RootNavigator() {
   React.useEffect(() => {
     if (auth.user === false) {
       setIsAnimationComplete(true)
-    }
-    if (isLoadingComplete && !isAnimationComplete && auth.user) {
+    } else if (isLoadingComplete && !isAnimationComplete) {
       Animated.timing(animationValue, {
         toValue: 1,
         duration: 500,
@@ -139,7 +137,7 @@ function RootNavigator() {
   if (auth.user === false) {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="Auth" component={AuthScreen} options={{ headerShown: false, animation: "none" }} />
+        <Stack.Screen name="Auth" component={AuthScreen} options={{ headerShown: false, animation: "fade" }} />
       </Stack.Navigator>
     )
   }

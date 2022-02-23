@@ -21,6 +21,7 @@
       "bundleIdentifier": "com.gaskellsolutions.represent",
       "buildNumber": "1.0.13",
       "supportsTablet": false
-    }
+    },
+    "plugins": ["sentry-expo"]
   }
 }
