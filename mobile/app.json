@@ -2,7 +2,7 @@
   "expo": {
     "name": "Represent",
     "slug": "represent",
-    "version": "1.0.13",
+    "version": "1.0.14",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "com.gaskellsolutions.represent",
@@ -19,7 +19,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.gaskellsolutions.represent",
-      "buildNumber": "1.0.13",
+      "buildNumber": "1.0.14",
       "supportsTablet": false
     },
     "plugins": ["sentry-expo"]
