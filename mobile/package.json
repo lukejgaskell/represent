@@ -55,7 +55,8 @@
     "sentry-expo": "^4.0.0",
     "styled-components": "^5.3.1",
     "styled-system": "^5.1.5",
-    "zustand": "^3.5.10"
+    "zustand": "^3.5.10",
+    "expo-apple-authentication": "~3.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
