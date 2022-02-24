@@ -1,6 +1,6 @@
 import { Button, Card, List, Text, TouchableRipple } from "react-native-paper"
 import Colors, { IColors } from "../../constants/Colors"
-import { StyleSheet, View } from "react-native"
+import { Linking, StyleSheet, View } from "react-native"
 
 import React from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -8,6 +8,8 @@ import { UserContext } from "../../stores/user/UserProvider"
 import supabaseClient from "../../lib/supabaseClient"
 import useColorScheme from "../../hooks/useColorScheme"
 import { useNavigation } from "@react-navigation/native"
+
+const PRIVACY_POLICY_URL = "https://gaskellsolutions.com/privacy-policy"
 
 export default function SettingsScreen() {
   const navigation = useNavigation()
@@ -37,6 +39,16 @@ export default function SettingsScreen() {
           right={() => <Text style={styles.text}>{`${settings?.district}`}</Text>}
           onPress={() => {
             navigation.navigate("Settings", { screen: "AddDistrict" })
+          }}
+        />
+      </List.Section>
+      <List.Section style={styles.section}>
+        <List.Subheader>About</List.Subheader>
+        <List.Item
+          style={styles.item}
+          title="Privacy Policy"
+          onPress={() => {
+            Linking.canOpenURL(PRIVACY_POLICY_URL).then(() => Linking.openURL(PRIVACY_POLICY_URL))
           }}
         />
       </List.Section>
