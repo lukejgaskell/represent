@@ -17,10 +17,6 @@ export default function SettingsScreen() {
   const styles = createStyles(Colors[colorScheme])
   const { settings } = React.useContext(AppContext)
 
-  async function logout() {
-    await supabaseClient.auth.signOut()
-  }
-
   return (
     <SafeAreaView style={styles.container}>
       <List.Section style={styles.section}>
@@ -52,9 +48,6 @@ export default function SettingsScreen() {
           }}
         />
       </List.Section>
-      <Button style={styles.button} mode="contained" onPress={() => logout()}>
-        Sign Out
-      </Button>
     </SafeAreaView>
   )
 }

@@ -20,7 +20,7 @@ export default function AddDistrictScreen() {
   const navigation = useNavigation()
   const styles = createStyles(Colors[colorScheme])
 
-  const AppContext = useContext(AppContext)
+  const { saveSettings, settings } = useContext(AppContext)
 
   const [address, setAddress] = useState("")
   const [city, setCity] = useState("")
@@ -64,8 +64,8 @@ export default function AddDistrictScreen() {
   async function handleContinue() {
     const isValidState = stateAbv.length > 1 && isValidStateAbreviation(stateAbv)
     if (!isValidState) return setIsStateError(true)
-    const userData = { ...AppContext.settings, state: stateAbv, district }
-    if (AppContext.saveSettings) AppContext.saveSettings(userData)
+    const userData = { ...settings, state: stateAbv, district }
+    if (saveSettings) saveSettings(userData)
     if (navigation.canGoBack()) navigation.goBack()
   }
 
