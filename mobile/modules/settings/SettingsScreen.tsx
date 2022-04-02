@@ -2,9 +2,9 @@ import { Button, Card, List, Text, TouchableRipple } from "react-native-paper"
 import Colors, { IColors } from "../../constants/Colors"
 import { Linking, StyleSheet, View } from "react-native"
 
+import { AppContext } from "../../stores/user/AppProvider"
 import React from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
-import { UserContext } from "../../stores/user/UserProvider"
 import supabaseClient from "../../lib/supabaseClient"
 import useColorScheme from "../../hooks/useColorScheme"
 import { useNavigation } from "@react-navigation/native"
@@ -15,7 +15,7 @@ export default function SettingsScreen() {
   const navigation = useNavigation()
   const colorScheme = useColorScheme()
   const styles = createStyles(Colors[colorScheme])
-  const { settings } = React.useContext(UserContext)
+  const { settings } = React.useContext(AppContext)
 
   async function logout() {
     await supabaseClient.auth.signOut()

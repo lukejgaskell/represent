@@ -5,13 +5,13 @@ import { Animated, NativeScrollEvent, RefreshControl } from "react-native"
 import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler"
 
 import ActivityCard from "./ActivityCard"
-import { UserContext } from "../../stores/user/UserProvider"
+import { AppContext } from "../../stores/user/AppProvider"
 import { notify } from "../../lib/notifications"
 import { useNavigation } from "@react-navigation/core"
 
 function ActivityScreenC() {
   const { isLoading, loadActivity, items } = React.useContext(ActivityContext)
-  const { settings } = React.useContext(UserContext)
+  const { settings } = React.useContext(AppContext)
   const [scrollY, setScrollY] = React.useState(new Animated.Value(0))
   const navigation = useNavigation()
 

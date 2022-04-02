@@ -2,7 +2,7 @@ import "react-native-url-polyfill/auto"
 
 import { DarkTheme, DefaultTheme, Provider as PaperProvider } from "react-native-paper"
 
-import { AuthProvider } from "./stores/user/AuthProvider"
+import { AppProvider } from "./stores/user/AppProvider"
 import Colors from "./constants/Colors"
 import Navigation from "./navigation"
 import React from "react"
@@ -34,9 +34,9 @@ export default function App() {
   return (
     <SafeAreaProvider style={{ backgroundColor: Colors.dark.authBackground }}>
       <PaperProvider theme={colorScheme === "light" ? lightTheme : darkTheme}>
-        <AuthProvider>
+        <AppProvider>
           <Navigation colorScheme={colorScheme} />
-        </AuthProvider>
+        </AppProvider>
         <StatusBar />
       </PaperProvider>
     </SafeAreaProvider>

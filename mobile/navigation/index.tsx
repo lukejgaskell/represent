@@ -2,13 +2,11 @@ import * as React from "react"
 
 import { Animated, ColorSchemeName, View } from "react-native"
 import { DarkTheme, DefaultTheme, NavigationContainer, useNavigation, useNavigationState } from "@react-navigation/native"
-import { UserContext, UserProvider } from "../stores/user/UserProvider"
 
 import ActivityDetailsScreen from "../modules/activity/ActivityDetailsScreen"
 import ActivityScreen from "../modules/activity/ActivityScreen"
 import AddDistrictScreen from "../screens/AddDistrictScreen"
-import { AuthContext } from "../stores/user/AuthProvider"
-import AuthScreen from "../screens/AuthScreen"
+import { AppContext } from "../stores/user/AppProvider"
 import Colors from "../constants/Colors"
 import DarkLogoNoText from "../components/images/DarkLogoNoText"
 import { FontAwesome } from "@expo/vector-icons"
@@ -112,16 +110,13 @@ function BottomTabNavigator() {
 const Stack = createNativeStackNavigator()
 
 function RootNavigator() {
-  const auth = React.useContext(AuthContext)
   const areCashedResourcesReady = useCachedResources()
-  const isLoadingComplete = areCashedResourcesReady && auth.user !== null
+  const isLoadingComplete = areCashedResourcesReady
   const [isAnimationComplete, setIsAnimationComplete] = useState(false)
   const [animationValue, setAnimationValue] = useState(new Animated.Value(0))
 
   React.useEffect(() => {
-    if (auth.user === false) {
-      setIsAnimationComplete(true)
-    } else if (isLoadingComplete && !isAnimationComplete) {
+    if (isLoadingComplete && !isAnimationComplete) {
       Animated.timing(animationValue, {
         toValue: 1,
         duration: 500,
@@ -132,14 +127,6 @@ function RootNavigator() {
 
   if (!isLoadingComplete) {
     return null
-  }
-
-  if (auth.user === false) {
-    return (
-      <Stack.Navigator>
-        <Stack.Screen name="Auth" component={AuthScreen} options={{ headerShown: false, animation: "fade" }} />
-      </Stack.Navigator>
-    )
   }
 
   if (!isAnimationComplete) {
@@ -168,15 +155,11 @@ function RootNavigator() {
     )
   }
 
-  return (
-    <UserProvider>
-      <LoggedInNavigator />
-    </UserProvider>
-  )
+  return <LoggedInNavigator />
 }
 
 function LoggedInNavigator() {
-  const { settings, isLoading } = React.useContext(UserContext)
+  const { settings, isLoading } = React.useContext(AppContext)
 
   return (
     <Stack.Navigator>

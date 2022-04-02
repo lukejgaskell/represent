@@ -2,11 +2,11 @@ import { MembersContext, MembersProvider } from "./MembersProvider"
 import React, { useContext, useEffect } from "react"
 import { RefreshControl, ScrollView, StyleSheet } from "react-native"
 
+import { AppContext } from "../../stores/user/AppProvider"
 import { MemberCard } from "./MemberCard"
-import { UserContext } from "../../stores/user/UserProvider"
 
 function RepresentitivesScreenC() {
-  const { settings } = useContext(UserContext)
+  const { settings } = useContext(AppContext)
   const { items, isLoading, loadMembers } = useContext(MembersContext)
 
   function loadData() {

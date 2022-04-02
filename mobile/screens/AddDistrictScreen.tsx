@@ -3,7 +3,7 @@ import Colors, { IColors } from "../constants/Colors"
 import React, { useContext, useEffect, useState } from "react"
 import { SafeAreaView, StyleSheet, View } from "react-native"
 
-import { UserContext } from "../stores/user/UserProvider"
+import { AppContext } from "../stores/user/AppProvider"
 import { getAddressInfo } from "../stores/user/api"
 import { notify } from "../lib/notifications"
 import { states } from "../lib/stateHelper"
@@ -20,7 +20,7 @@ export default function AddDistrictScreen() {
   const navigation = useNavigation()
   const styles = createStyles(Colors[colorScheme])
 
-  const userContext = useContext(UserContext)
+  const AppContext = useContext(AppContext)
 
   const [address, setAddress] = useState("")
   const [city, setCity] = useState("")
@@ -64,8 +64,8 @@ export default function AddDistrictScreen() {
   async function handleContinue() {
     const isValidState = stateAbv.length > 1 && isValidStateAbreviation(stateAbv)
     if (!isValidState) return setIsStateError(true)
-    const userData = { ...userContext.settings, state: stateAbv, district }
-    if (userContext.saveSettings) userContext.saveSettings(userData)
+    const userData = { ...AppContext.settings, state: stateAbv, district }
+    if (AppContext.saveSettings) AppContext.saveSettings(userData)
     if (navigation.canGoBack()) navigation.goBack()
   }
 
