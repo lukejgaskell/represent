@@ -15,6 +15,8 @@ export default function ActivityDetailsCard({ bill, bill_id }: IProps) {
   const colorScheme = useColorScheme()
   const styles = createStyles(Colors[colorScheme])
 
+  console.log(`attempting render`, bill)
+
   return (
     <View style={styles.container}>
       <Title style={styles.rowMargin}>{`Bill ${bill_id}`}</Title>
@@ -40,14 +42,14 @@ export default function ActivityDetailsCard({ bill, bill_id }: IProps) {
         <Paragraph>{bill.latest_major_action_date}</Paragraph>
       </View>
       <Paragraph style={styles.rowMargin}>{bill.latest_major_action}</Paragraph>
-      <Divider style={styles.rowMargin} />
-      {bill.summary_short && (
+      {bill.summary_short ? (
         <>
+          <Divider style={styles.rowMargin} />
           <Title style={styles.rowMargin}>Summary</Title>
           <Paragraph style={styles.rowMargin}>{showMore ? bill.summary : bill.summary_short}</Paragraph>
           {bill.summary && bill.summary !== bill.summary_short && <Button onPress={() => setShowMore(!showMore)}>{showMore ? "Show Less" : "Show More"}</Button>}
         </>
-      )}
+      ) : null}
     </View>
   )
 }
