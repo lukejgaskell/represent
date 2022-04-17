@@ -2,7 +2,7 @@ import { Card, Paragraph } from "react-native-paper"
 import { StyleSheet, View } from "react-native"
 
 import Colors from "../../../constants/Colors"
-import { MaterialIcons } from "@expo/vector-icons"
+import { FontAwesome } from "@expo/vector-icons"
 import React from "react"
 import { Statement } from "./types"
 import { displayDate } from "../../../lib/dateUtils"
@@ -18,8 +18,8 @@ export default function StatementCard({ url, date, party, statement_type, title,
       <Card.Content>
         <View style={[styles.row, styles.rowSpaceBetween, styles.rowMargin]}>
           <View style={styles.row}>
-            <MaterialIcons
-              name="gavel"
+            <FontAwesome
+              name="bullhorn"
               size={40}
               style={styles.icon}
               color={colorScheme === "light" ? "black" : "white"}

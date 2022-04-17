@@ -1,6 +1,6 @@
 import { Button, Paragraph } from "react-native-paper"
 import Colors, { IColors } from "../../../constants/Colors"
-import { Ionicons, MaterialIcons } from "@expo/vector-icons"
+import { FontAwesome, Ionicons } from "@expo/vector-icons"
 import { Linking, StyleSheet, Text, View } from "react-native"
 
 import React from "react"
@@ -16,8 +16,8 @@ export default function StatementDetailsComponent({ url, date, title, chamber, n
     <View style={styles.container}>
       <View style={[styles.row, styles.rowSpaceBetween, styles.rowMargin]}>
         <View style={styles.row}>
-          <MaterialIcons
-            name="gavel"
+          <FontAwesome
+            name="bullhorn"
             size={40}
             style={styles.icon}
             color={colorScheme === "light" ? "black" : "white"}
