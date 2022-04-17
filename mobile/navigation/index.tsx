@@ -1,9 +1,10 @@
 import * as React from "react"
 
 import { Animated, ColorSchemeName, View } from "react-native"
-import { DarkTheme, DefaultTheme, NavigationContainer, useNavigation, useNavigationState } from "@react-navigation/native"
+import { DarkTheme, DefaultTheme, NavigationContainer, useNavigation } from "@react-navigation/native"
 
 import ActivityDetailsScreen from "../modules/activity/ActivityDetailsScreen"
+import { ActivityProvider } from "../modules/activity/ActivityProvider"
 import ActivityScreen from "../modules/activity/ActivityScreen"
 import AddDistrictScreen from "../screens/AddDistrictScreen"
 import { AppContext } from "../stores/user/AppProvider"
@@ -36,10 +37,12 @@ const ActivityStack = createNativeStackNavigator()
 
 function ActivityNavigator() {
   return (
-    <ActivityStack.Navigator initialRouteName="List">
-      <ActivityStack.Screen name="List" options={{ title: "Activity", headerRight: () => <UserHeaderButton /> }} component={ActivityScreen} />
-      <ActivityStack.Screen name="Details" options={{ title: "Details", headerRight: () => <UserHeaderButton /> }} component={ActivityDetailsScreen} />
-    </ActivityStack.Navigator>
+    <ActivityProvider>
+      <ActivityStack.Navigator initialRouteName="List">
+        <ActivityStack.Screen name="List" options={{ title: "Activity", headerRight: () => <UserHeaderButton /> }} component={ActivityScreen} />
+        <ActivityStack.Screen name="Details" options={{ title: "Details", headerRight: () => <UserHeaderButton /> }} component={ActivityDetailsScreen} />
+      </ActivityStack.Navigator>
+    </ActivityProvider>
   )
 }
 

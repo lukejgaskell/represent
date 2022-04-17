@@ -2,15 +2,13 @@ import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons"
 import { Card, Divider, Paragraph } from "react-native-paper"
 import { StyleSheet, View } from "react-native"
 
-import { Activity } from "./types"
-import Colors from "../../constants/Colors"
+import Colors from "../../../constants/Colors"
 import React from "react"
-import { displayDate } from "../../lib/dateUtils"
-import useColorScheme from "../../hooks/useColorScheme"
+import { Vote } from "./types"
+import { displayDate } from "../../../lib/dateUtils"
+import useColorScheme from "../../../hooks/useColorScheme"
 
-type IProps = Activity
-
-export default function ActivityCard({ result, description, total, date, chamber, question, memberVotes, bill_id }: IProps) {
+export default function VoteCard({ result, description, total, date, chamber, question, memberVotes, bill_id }: Vote) {
   const colorScheme = useColorScheme()
 
   const styles = getStyles(colorScheme)
@@ -20,7 +18,12 @@ export default function ActivityCard({ result, description, total, date, chamber
       <Card.Content>
         <View style={[styles.row, styles.rowSpaceBetween, styles.rowMargin]}>
           <View style={styles.row}>
-            <MaterialIcons name="gavel" size={40} style={styles.icon} color={colorScheme === "light" ? "black" : "white"} />
+            <MaterialIcons
+              name="gavel"
+              size={40}
+              style={styles.icon}
+              color={colorScheme === "light" ? "black" : "white"}
+            />
             <View>
               <Paragraph>{displayDate(date)}</Paragraph>
               <Paragraph>{chamber}</Paragraph>
@@ -34,7 +37,7 @@ export default function ActivityCard({ result, description, total, date, chamber
         <Paragraph>{`Voting ${question}`}</Paragraph>
         <View style={[styles.row, styles.rowSpaceBetween, styles.rowMargin]}>
           <Paragraph>{result}</Paragraph>
-          <Paragraph>{`${total.yes} Yes / ${total.not_voting + total.present} Abstain / ${total.no} No`}</Paragraph>
+          <Paragraph>{`${total?.yes} Yes / ${total?.not_voting + total?.present} Abstain / ${total?.no} No`}</Paragraph>
         </View>
         <Divider style={styles.rowMargin} />
 
@@ -44,7 +47,9 @@ export default function ActivityCard({ result, description, total, date, chamber
               <View style={styles.row} key={index}>
                 {mv.vote_position === "Yes" && <Feather name="check-circle" size={30} color="green" />}
                 {mv.vote_position === "No" && <Feather name="x-circle" size={30} color="red" />}
-                {!["Yes", "No"].includes(mv.vote_position) && <AntDesign name="questioncircleo" size={30} color="grey" />}
+                {!["Yes", "No"].includes(mv.vote_position) && (
+                  <AntDesign name="questioncircleo" size={30} color="grey" />
+                )}
                 <Paragraph style={styles.name}>{mv.name}</Paragraph>
               </View>
             )

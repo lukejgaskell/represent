@@ -1,23 +1,30 @@
 import * as React from "react"
 
-import { ActivityContext, ActivityProvider } from "./ActivityProvider"
+import { Activity, ActivityType } from "./types"
 import { Animated, NativeScrollEvent, RefreshControl } from "react-native"
 import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler"
 
-import ActivityCard from "./ActivityCard"
-import { AppContext } from "../../stores/user/AppProvider"
-import { notify } from "../../lib/notifications"
+import { ActivityContext } from "./ActivityProvider"
+import { Statement } from "./statements/types"
+import StatementCard from "./statements/StatementCard"
+import { Vote } from "./votes/types"
+import VoteCard from "./votes/VoteCard"
 import { useNavigation } from "@react-navigation/core"
 
-function ActivityScreenC() {
-  const { isLoading, loadActivity, items } = React.useContext(ActivityContext)
-  const { settings } = React.useContext(AppContext)
+function renderCard(activity: Activity) {
+  if (activity.type === "vote") return <VoteCard {...(activity as Vote)} />
+  if (activity.type === "statement") return <StatementCard {...(activity as Statement)} />
+  return null
+}
+
+export default function ActivityScreenC() {
+  const { isLoadingList, loadActivity, items } = React.useContext(ActivityContext)
   const [scrollY, setScrollY] = React.useState(new Animated.Value(0))
   const navigation = useNavigation()
 
   function loadData(reset = true) {
-    if (settings?.district && settings.state && loadActivity) {
-      loadActivity({ district: settings.district, state: settings.state, reset })
+    if (loadActivity) {
+      loadActivity({ reset })
     }
   }
 
@@ -37,34 +44,25 @@ function ActivityScreenC() {
         useNativeDriver: false,
       })}
       onMomentumScrollEnd={({ nativeEvent }) => {
-        if (isCloseToBottom(nativeEvent) && !isLoading) {
+        if (isCloseToBottom(nativeEvent) && !isLoadingList) {
           loadData(false)
         }
       }}
-      refreshControl={<RefreshControl refreshing={isLoading || false} onRefresh={loadData} />}
+      refreshControl={<RefreshControl refreshing={isLoadingList || false} onRefresh={loadData} />}
     >
       {items?.map((a, index) => (
         <TouchableWithoutFeedback
           key={index}
           onPress={() => {
-            if (!a.bill_id) {
-              notify("Vote is not related to a bill")
-              return
-            }
-            navigation.navigate("Root", { screen: "Activity", params: { screen: "Details", params: { activityId: a.id } } })
+            navigation.navigate("Root", {
+              screen: "Activity",
+              params: { screen: "Details", params: { id: a.id, type: a.type as ActivityType } },
+            })
           }}
         >
-          <ActivityCard {...a} />
+          {renderCard(a)}
         </TouchableWithoutFeedback>
       ))}
     </ScrollView>
-  )
-}
-
-export default function ActivityScreen() {
-  return (
-    <ActivityProvider>
-      <ActivityScreenC />
-    </ActivityProvider>
   )
 }

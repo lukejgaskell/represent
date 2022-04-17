@@ -1,55 +1,51 @@
 import * as React from "react"
 
+import { Activity, ActivityType } from "./types"
 import { ActivityIndicator, Text } from "react-native-paper"
 
-import { ActivityDetails } from "./types"
-import ActivityDetailsCard from "./ActivityDetails"
-import { ActivityProvider } from "./ActivityProvider"
+import { ActivityContext } from "./ActivityProvider"
 import { ActivityStackParamList } from "../../types"
 import Colors from "../../constants/Colors"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { ScrollView } from "react-native-gesture-handler"
-import { getActivityDetails } from "./api"
+import { Statement } from "./statements/types"
+import StatementDetailsComponent from "./statements/StatementDetails"
+import { Vote } from "./votes/types"
+import VoteDetailsComponent from "./votes/VoteDetails"
 import useColorScheme from "../../hooks/useColorScheme"
 
 export type IOwnProps = {
-  activityId: string
+  id: string
+  type: ActivityType
 }
 
 type IProps = NativeStackScreenProps<ActivityStackParamList, "Details">
 
-function ActivityDetailsScreenC({ route }: IProps) {
-  const { activityId } = route.params
+function renderCard(activity: Activity) {
+  if (activity.type === "vote") return <VoteDetailsComponent {...(activity as Vote)} />
+  if (activity.type === "statement") return <StatementDetailsComponent {...(activity as Statement)} />
+}
 
-  const [details, setDetails] = React.useState<ActivityDetails | null>(null)
-  const [isLoading, setIsLoading] = React.useState(true)
+export default function ActivityDetailsScreenC({ route }: IProps) {
+  const { id, type } = route.params
+
+  const { isLoadingItem, loadSelectedActivity, unloadSelectedActvitity, selectedItem } =
+    React.useContext(ActivityContext)
   const colorScheme = useColorScheme()
   const colors = Colors[colorScheme]
 
-  function loadData() {
-    getActivityDetails({ activityId }).then(({ data, error }) => {
-      if (data) setDetails(data)
-      setIsLoading(false)
-    })
-  }
-
   React.useEffect(() => {
-    loadData()
-  }, [])
+    if (loadSelectedActivity) {
+      loadSelectedActivity(id, type)
+    }
+    return unloadSelectedActvitity
+  }, [id, type])
 
   return (
     <ScrollView>
-      {isLoading && !details && <ActivityIndicator size="large" color={colors.text} />}
-      {details && <ActivityDetailsCard {...details} />}
-      {!isLoading && !details && <Text>Could not find selected activity</Text>}
+      {isLoadingItem && !selectedItem && <ActivityIndicator size="large" color={colors.text} />}
+      {!isLoadingItem && selectedItem && renderCard(selectedItem)}
+      {!isLoadingItem && !selectedItem && <Text>Could not find selected activity</Text>}
     </ScrollView>
-  )
-}
-
-export default function ActivityDetailsScreen(props: IProps) {
-  return (
-    <ActivityProvider>
-      <ActivityDetailsScreenC {...props} />
-    </ActivityProvider>
   )
 }
