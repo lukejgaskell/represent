@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react"
-import { getMembers } from "./api"
+
 import { Member } from "./types"
+import { getMembers } from "./api"
 
 type ContextProps = {
   items: Member[]
@@ -29,7 +30,6 @@ const MembersProvider = (props: Props) => {
     const { data, error } = await getMembers({ ...fprops })
     if (error || !data) {
       setIsLoading(false)
-      console.log("error loading members", error)
       return
     }
     setItems(data)

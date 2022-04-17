@@ -66,7 +66,6 @@ const ActivityProvider = (props: Props) => {
 
     if (activity.error) {
       setIsLoadingList(false)
-      console.log("error loading activity", activity.error)
       return
     }
 

@@ -1,4 +1,4 @@
-import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons"
+import { AntDesign, Feather, FontAwesome5, MaterialIcons } from "@expo/vector-icons"
 import { Bill, Vote } from "./types"
 import { Button, Divider, Paragraph, Title } from "react-native-paper"
 import Colors, { IColors } from "../../../constants/Colors"
@@ -56,14 +56,28 @@ function renderVote(vote: Vote) {
   )
 }
 
-function renderBill(bill_id: string, bill: Bill) {
+function renderBill(bill_id: string, bill: Bill, vote: Vote) {
   const [showMore, setShowMore] = useState(false)
   const colorScheme = useColorScheme()
   const styles = createStyles(Colors[colorScheme])
 
   return (
     <View style={styles.container}>
-      <Title style={styles.rowMargin}>{`Bill ${bill_id}`}</Title>
+      <View style={[styles.row, styles.rowSpaceBetween, styles.rowMargin]}>
+        <View style={styles.row}>
+          <FontAwesome5
+            name="scroll"
+            size={35}
+            style={styles.icon}
+            color={colorScheme === "light" ? "black" : "white"}
+          />
+          <View>
+            <Paragraph>{displayDate(vote.date)}</Paragraph>
+            <Paragraph>{vote.chamber}</Paragraph>
+          </View>
+        </View>
+        {bill_id && <Paragraph>{`Bill: ${bill_id}`}</Paragraph>}
+      </View>
       <Paragraph style={styles.rowMargin}>{bill.title}</Paragraph>
       <Divider style={styles.rowMargin} />
       <Title style={styles.rowMargin}>Info</Title>
@@ -76,7 +90,7 @@ function renderBill(bill_id: string, bill: Bill) {
           ) : (
             <AntDesign name="questioncircleo" size={30} color="grey" />
           )}
-          <Paragraph>House</Paragraph>
+          <Paragraph style={styles.name}>House</Paragraph>
         </View>
         <View style={styles.row}>
           {bill.senate_passage ? (
@@ -84,7 +98,7 @@ function renderBill(bill_id: string, bill: Bill) {
           ) : (
             <AntDesign name="questioncircleo" size={30} color="grey" />
           )}
-          <Paragraph>Senate</Paragraph>
+          <Paragraph style={styles.name}>Senate</Paragraph>
         </View>
       </View>
       <Divider style={styles.rowMargin} />
@@ -108,7 +122,7 @@ function renderBill(bill_id: string, bill: Bill) {
 }
 export default function VoteDetailsComponent(vote: Vote) {
   if (vote.bill_id && vote.bill) {
-    return renderBill(vote.bill_id, vote.bill)
+    return renderBill(vote.bill_id, vote.bill, vote)
   }
 
   return renderVote(vote)

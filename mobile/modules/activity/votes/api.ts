@@ -11,7 +11,7 @@ export async function getVotes({ voteIds, state, district }: GetVotesProps) {
   const { data, error } = await supabase
     .from<VoteResponse>("votes")
     .select(
-      `id, metadata, bill_id,
+      `id, metadata, bill_id, date,
       memberVotes(state, district, metadata->name, metadata->vote_position),
       bill:bill_id (metadata->title, metadata->enacted,
         metadata->latest_major_action, metadata->latest_major_action_date,
@@ -34,6 +34,7 @@ export async function getVotes({ voteIds, state, district }: GetVotesProps) {
     memberVotes: d.memberVotes,
     type: "vote",
     id: d.id,
+    date: d.date,
   }))
 
   return { data: result, error: null }

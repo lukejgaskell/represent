@@ -1,4 +1,4 @@
-import { AntDesign, Feather, MaterialIcons } from "@expo/vector-icons"
+import { AntDesign, Feather, FontAwesome5, MaterialIcons } from "@expo/vector-icons"
 import { Card, Divider, Paragraph } from "react-native-paper"
 import { StyleSheet, View } from "react-native"
 
@@ -8,22 +8,42 @@ import { Vote } from "./types"
 import { displayDate } from "../../../lib/dateUtils"
 import useColorScheme from "../../../hooks/useColorScheme"
 
-export default function VoteCard({ result, description, total, date, chamber, question, memberVotes, bill_id }: Vote) {
+export default function VoteCard({
+  id,
+  result,
+  description,
+  total,
+  date,
+  chamber,
+  question,
+  memberVotes,
+  bill_id,
+}: Vote) {
   const colorScheme = useColorScheme()
-
   const styles = getStyles(colorScheme)
+
+  const isBill = !!bill_id
 
   return (
     <Card style={styles.card}>
       <Card.Content>
         <View style={[styles.row, styles.rowSpaceBetween, styles.rowMargin]}>
           <View style={styles.row}>
-            <MaterialIcons
-              name="gavel"
-              size={40}
-              style={styles.icon}
-              color={colorScheme === "light" ? "black" : "white"}
-            />
+            {isBill ? (
+              <FontAwesome5
+                name="scroll"
+                size={35}
+                style={styles.icon}
+                color={colorScheme === "light" ? "black" : "white"}
+              />
+            ) : (
+              <MaterialIcons
+                name="gavel"
+                size={40}
+                style={styles.icon}
+                color={colorScheme === "light" ? "black" : "white"}
+              />
+            )}
             <View>
               <Paragraph>{displayDate(date)}</Paragraph>
               <Paragraph>{chamber}</Paragraph>
