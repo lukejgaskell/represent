@@ -26,7 +26,14 @@ import { useState } from "react"
 function UserHeaderButton() {
   const navigation = useNavigation()
 
-  return <IconButton size={30} icon="account-cog" style={{ marginTop: -3, marginRight: -5 }} onPress={() => navigation.navigate("Settings")} />
+  return (
+    <IconButton
+      size={30}
+      icon="account-cog"
+      style={{ marginTop: -3, marginRight: -5 }}
+      onPress={() => navigation.navigate("Settings")}
+    />
+  )
 }
 
 function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>["name"]; color: string }) {
@@ -39,8 +46,16 @@ function ActivityNavigator() {
   return (
     <ActivityProvider>
       <ActivityStack.Navigator initialRouteName="List">
-        <ActivityStack.Screen name="List" options={{ title: "Activity", headerRight: () => <UserHeaderButton /> }} component={ActivityScreen} />
-        <ActivityStack.Screen name="Details" options={{ title: "Details", headerRight: () => <UserHeaderButton /> }} component={ActivityDetailsScreen} />
+        <ActivityStack.Screen
+          name="List"
+          options={{ title: "Activity", headerRight: () => <UserHeaderButton /> }}
+          component={ActivityScreen}
+        />
+        <ActivityStack.Screen
+          name="Details"
+          options={{ title: "Details", headerRight: () => <UserHeaderButton /> }}
+          component={ActivityDetailsScreen}
+        />
       </ActivityStack.Navigator>
     </ActivityProvider>
   )
@@ -51,7 +66,11 @@ const MembersStack = createNativeStackNavigator()
 function MembersNavigator() {
   return (
     <MembersStack.Navigator initialRouteName="List">
-      <MembersStack.Screen name="List" options={{ title: "Representatives", headerRight: () => <UserHeaderButton /> }} component={RepresentativesScreen} />
+      <MembersStack.Screen
+        name="List"
+        options={{ title: "Representatives", headerRight: () => <UserHeaderButton /> }}
+        component={RepresentativesScreen}
+      />
     </MembersStack.Navigator>
   )
 }
@@ -64,7 +83,12 @@ function SettingsNavigator() {
     <SettingsStack.Navigator initialRouteName="List">
       <SettingsStack.Screen
         name="List"
-        options={{ title: "Settings", headerLeft: () => <IconButton icon="window-close" style={{ marginLeft: -10 }} onPress={() => navigation.navigate("Root")} /> }}
+        options={{
+          title: "Settings",
+          headerLeft: () => (
+            <IconButton icon="window-close" style={{ marginLeft: -10 }} onPress={() => navigation.navigate("Root")} />
+          ),
+        }}
         component={SettingsScreen}
       />
       <SettingsStack.Screen name="AddDistrict" options={{ title: "State | District" }} component={AddDistrictScreen} />
@@ -82,7 +106,7 @@ function BottomTabNavigator() {
       <BottomTab.Navigator
         initialRouteName="Activity"
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme].tint,
+          tabBarActiveTintColor: Colors[colorScheme].actionText,
         }}
       >
         <BottomTab.Screen
@@ -166,9 +190,19 @@ function LoggedInNavigator() {
 
   return (
     <Stack.Navigator>
-      {isLoading && <Stack.Screen name="loading" component={LoadingScreen} options={{ headerShown: false, animation: "none" }} />}
-      {!settings?.hasSeenWelcome && <Stack.Screen name="welcome" component={WelcomeScreen} options={{ headerShown: false, animation: "none" }} />}
-      {(!settings?.district || !settings?.state) && <Stack.Screen name="add-district" component={AddDistrictScreen} options={{ headerShown: false, animation: "none" }} />}
+      {isLoading && (
+        <Stack.Screen name="loading" component={LoadingScreen} options={{ headerShown: false, animation: "none" }} />
+      )}
+      {!settings?.hasSeenWelcome && (
+        <Stack.Screen name="welcome" component={WelcomeScreen} options={{ headerShown: false, animation: "none" }} />
+      )}
+      {(!settings?.district || !settings?.state) && (
+        <Stack.Screen
+          name="add-district"
+          component={AddDistrictScreen}
+          options={{ headerShown: false, animation: "none" }}
+        />
+      )}
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false, animation: "none" }} />
       <Stack.Screen
         name="Settings"

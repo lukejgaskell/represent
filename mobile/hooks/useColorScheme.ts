@@ -28,6 +28,5 @@ export default function useColorScheme(delay = 500): NonNullable<ColorSchemeName
       clearTimeout(timeout)
     }
   }
-
   return colorScheme as NonNullable<ColorSchemeName>
 }

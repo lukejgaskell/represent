@@ -9,6 +9,7 @@ import useColorScheme from "../hooks/useColorScheme"
 
 export default function WelcomeScreen() {
   const colorScheme = useColorScheme()
+  const colors = Colors[colorScheme]
   const styles = createStyles(Colors[colorScheme])
   const { settings, saveSettings } = useContext(AppContext)
 
@@ -22,16 +23,18 @@ export default function WelcomeScreen() {
         <Title style={styles.titleOne}>Welcome to Represent</Title>
 
         <Paragraph>
-          We aim to give you simple information about what your elected officials are doing on your behalf. Represent presents information about what&apos;s happening in the House
-          and Senate.
+          We aim to give you simple information about what your elected officials are doing on your behalf. Represent
+          presents information about what&apos;s happening in the House and Senate.
         </Paragraph>
 
         <Title style={styles.titleTwo}>Getting Started</Title>
 
-        <Paragraph>1. You can keep up with what votes have recently been voted on in Congress by clicking on the votes tab.</Paragraph>
         <Paragraph>
-          2. Take a look at the representatives tab where you can see who your representatives are and how they&apos;ve been voting. You can also find useful links to get more
-          information about what they are doing.
+          1. You can keep up with what votes have recently been voted on in Congress by clicking on the votes tab.
+        </Paragraph>
+        <Paragraph>
+          2. Take a look at the representatives tab where you can see who your representatives are and how they&apos;ve
+          been voting. You can also find useful links to get more information about what they are doing.
         </Paragraph>
         <Button style={styles.button} mode="contained" onPress={handleContinue}>
           Continue
@@ -46,7 +49,7 @@ const createStyles = (colors: IColors) =>
     container: {
       paddingRight: 25,
       paddingLeft: 25,
-      top: 100,
+      paddingTop: 100,
     },
     titleOne: {
       paddingBottom: 20,

@@ -24,6 +24,7 @@ const AppProvider = (props: Props) => {
 
   async function saveSettings(val: AppData) {
     try {
+      console.log("saving!")
       await AsyncStorage.setItem(settingsItemKey, JSON.stringify(val))
       setSettings(val)
     } catch (e) {

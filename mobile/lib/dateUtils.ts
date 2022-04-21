@@ -22,6 +22,6 @@ export function displayDate(datetime: string) {
     ? formatDistance(new Date(datetime), new Date(), {
         addSuffix: true,
       })
-    : new Date(datetime).toLocaleDateString().replaceAll("/", "-")
+    : new Date(datetime).toLocaleDateString().replace(/\//g, "-")
   return dateDisp
 }

@@ -8,6 +8,10 @@
       "distribution": "internal",
       "releaseChannel": "development"
     },
+    "staging": {
+      "distribution": "internal",
+      "releaseChannel": "staging"
+    },
     "production": {
       "releaseChannel": "production"
     }
