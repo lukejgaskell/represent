@@ -1,4 +1,4 @@
-import { Button, Paragraph, Title } from "react-native-paper"
+import { Button, Paragraph, Text, Title } from "react-native-paper"
 import Colors, { IColors } from "../constants/Colors"
 import { StyleSheet, View } from "react-native"
 
@@ -36,7 +36,7 @@ export default function WelcomeScreen() {
           been voting. You can also find useful links to get more information about what they are doing.
         </Paragraph>
         <Button style={styles.button} mode="contained" onPress={handleContinue}>
-          Continue
+          <Text style={styles.buttonText}>Continue</Text>
         </Button>
       </View>
     </SafeAreaView>
@@ -59,10 +59,9 @@ const createStyles = (colors: IColors) =>
       paddingBottom: 20,
       fontSize: 25,
     },
+    buttonText: { lineHeight: 40 },
     button: {
       marginTop: 100,
       fontSize: 25,
-      paddingTop: 10,
-      paddingBottom: 10,
     },
   })

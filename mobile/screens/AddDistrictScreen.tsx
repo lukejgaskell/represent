@@ -1,4 +1,4 @@
-import { Button, Paragraph, TextInput, Title } from "react-native-paper"
+import { Button, Paragraph, Text, TextInput, Title } from "react-native-paper"
 import Colors, { IColors } from "../constants/Colors"
 import React, { useEffect, useState } from "react"
 import { SafeAreaView, StyleSheet, View } from "react-native"
@@ -122,8 +122,14 @@ export default function AddDistrictScreen() {
             </View>
           </View>
           <View>
-            <Button mode="text" style={styles.switchButton} onPress={() => setIsShowingDistrict(!isShowingDistrict)}>
-              {isShowingDistrict ? "Enter Address Instead" : "Enter District Instead"}
+            <Button
+              mode="outlined"
+              style={styles.switchButton}
+              onPress={() => setIsShowingDistrict(!isShowingDistrict)}
+            >
+              <Text style={styles.buttonText}>
+                {isShowingDistrict ? "Enter Address Instead" : "Enter District Instead"}
+              </Text>
             </Button>
             <Button
               mode="contained"
@@ -132,7 +138,7 @@ export default function AddDistrictScreen() {
               loading={isTimerRunning}
               onPress={handleContinue}
             >
-              Continue
+              <Text style={styles.buttonText}>Continue</Text>
             </Button>
           </View>
         </View>
@@ -157,10 +163,9 @@ const createStyles = (colors: IColors) =>
       paddingBottom: 10,
     },
     switchButton: { marginTop: 20 },
+    buttonText: { lineHeight: 40 },
     button: {
       marginTop: 50,
-      paddingTop: 10,
-      paddingBottom: 10,
     },
     row: {
       width: "100%",
