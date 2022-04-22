@@ -1,20 +1,19 @@
 import { Button, Paragraph, Title } from "react-native-paper"
 import Colors, { IColors } from "../constants/Colors"
-import React, { useContext } from "react"
 import { StyleSheet, View } from "react-native"
 
-import { AppContext } from "../stores/user/AppProvider"
+import React from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
 import useColorScheme from "../hooks/useColorScheme"
+import { useSettingsStore } from "../stores/useSettingsStore"
 
 export default function WelcomeScreen() {
   const colorScheme = useColorScheme()
-  const colors = Colors[colorScheme]
   const styles = createStyles(Colors[colorScheme])
-  const { settings, saveSettings } = useContext(AppContext)
+  const { saveSettings } = useSettingsStore()
 
   function handleContinue() {
-    if (saveSettings) saveSettings({ ...settings, hasSeenWelcome: true })
+    saveSettings({ hasSeenWelcome: true })
   }
 
   return (

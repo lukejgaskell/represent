@@ -1,14 +1,14 @@
-import { ActivityIndicator, Button, Paragraph, TextInput, Title } from "react-native-paper"
+import { Button, Paragraph, TextInput, Title } from "react-native-paper"
 import Colors, { IColors } from "../constants/Colors"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { SafeAreaView, StyleSheet, View } from "react-native"
 
-import { AppContext } from "../stores/user/AppProvider"
-import { getAddressInfo } from "../stores/user/api"
+import { getAddressInfo } from "../apis/getDistrict"
 import { notify } from "../lib/notifications"
 import { states } from "../lib/stateHelper"
 import useColorScheme from "../hooks/useColorScheme"
 import { useNavigation } from "@react-navigation/native"
+import { useSettingsStore } from "../stores/useSettingsStore"
 
 function isValidStateAbreviation(abv: string) {
   return states.find(s => s.abbreviation === abv) ? true : false
@@ -20,7 +20,7 @@ export default function AddDistrictScreen() {
   const navigation = useNavigation()
   const styles = createStyles(Colors[colorScheme])
 
-  const { saveSettings, settings } = useContext(AppContext)
+  const { saveSettings } = useSettingsStore()
 
   const [address, setAddress] = useState("")
   const [city, setCity] = useState("")
@@ -44,7 +44,10 @@ export default function AddDistrictScreen() {
       try {
         const res = await getAddressInfo(`${address}, ${city} ${state}`)
         if (res.district === null || res.district === undefined) {
-          notify("We were unable to determine your district from your address, please fix your address or type your district manually.", "error")
+          notify(
+            "We were unable to determine your district from your address, please fix your address or type your district manually.",
+            "error"
+          )
         } else {
           setDistrict(res.district?.toString())
           setStateAbv(res.state?.toString())
@@ -64,7 +67,7 @@ export default function AddDistrictScreen() {
   async function handleContinue() {
     const isValidState = stateAbv.length > 1 && isValidStateAbreviation(stateAbv)
     if (!isValidState) return setIsStateError(true)
-    const userData = { ...settings, state: stateAbv, district }
+    const userData = { state: stateAbv, district }
     if (saveSettings) saveSettings(userData)
     if (navigation.canGoBack()) navigation.goBack()
   }
@@ -76,7 +79,9 @@ export default function AddDistrictScreen() {
           <View>
             <View>
               <Title style={styles.title}>Help us find your representatives!</Title>
-              <Paragraph style={styles.description}>Please enter your address or your state and congressional district</Paragraph>
+              <Paragraph style={styles.description}>
+                Please enter your address or your state and congressional district
+              </Paragraph>
             </View>
             <View>
               {!isShowingDistrict && (
@@ -97,10 +102,20 @@ export default function AddDistrictScreen() {
               {isShowingDistrict && (
                 <View>
                   <View>
-                    <TextInput mode="outlined" label="State Abbreviation" value={stateAbv} onChangeText={val => setStateAbv(val.toUpperCase())} />
+                    <TextInput
+                      mode="outlined"
+                      label="State Abbreviation"
+                      value={stateAbv}
+                      onChangeText={val => setStateAbv(val.toUpperCase())}
+                    />
                   </View>
                   <View>
-                    <TextInput mode="outlined" label="Congressional District" value={district} onChangeText={val => setDistrict(val)} />
+                    <TextInput
+                      mode="outlined"
+                      label="Congressional District"
+                      value={district}
+                      onChangeText={val => setDistrict(val)}
+                    />
                   </View>
                 </View>
               )}
@@ -110,7 +125,13 @@ export default function AddDistrictScreen() {
             <Button mode="text" style={styles.switchButton} onPress={() => setIsShowingDistrict(!isShowingDistrict)}>
               {isShowingDistrict ? "Enter Address Instead" : "Enter District Instead"}
             </Button>
-            <Button mode="contained" style={styles.button} disabled={!canContinue || isTimerRunning} loading={isTimerRunning} onPress={handleContinue}>
+            <Button
+              mode="contained"
+              style={styles.button}
+              disabled={!canContinue || isTimerRunning}
+              loading={isTimerRunning}
+              onPress={handleContinue}
+            >
               Continue
             </Button>
           </View>

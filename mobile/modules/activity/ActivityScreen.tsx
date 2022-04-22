@@ -4,12 +4,13 @@ import { Activity, ActivityType } from "./types"
 import { Animated, NativeScrollEvent, RefreshControl } from "react-native"
 import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handler"
 
-import { ActivityContext } from "./ActivityProvider"
 import { Statement } from "./statements/types"
 import StatementCard from "./statements/StatementCard"
 import { Vote } from "./votes/types"
 import VoteCard from "./votes/VoteCard"
+import { useActivityStore } from "./useActivityStore"
 import { useNavigation } from "@react-navigation/core"
+import { useSettingsStore } from "../../stores/useSettingsStore"
 
 function renderCard(activity: Activity) {
   if (activity.type === "vote") return <VoteCard {...(activity as Vote)} />
@@ -18,14 +19,13 @@ function renderCard(activity: Activity) {
 }
 
 export default function ActivityScreenC() {
-  const { isLoadingList, loadActivity, items } = React.useContext(ActivityContext)
+  const { isLoadingList, loadActivity, items } = useActivityStore()
+  const { state, district } = useSettingsStore()
   const [scrollY, setScrollY] = React.useState(new Animated.Value(0))
   const navigation = useNavigation()
 
   function loadData(reset = true) {
-    if (loadActivity) {
-      loadActivity({ reset })
-    }
+    loadActivity({ reset, state, district })
   }
 
   function isCloseToBottom({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) {

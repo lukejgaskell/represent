@@ -1,7 +1,7 @@
 import { Member } from "./types"
 import supabase from "../../lib/supabaseClient"
 
-export async function getMembers({ state, district }: { state: string | undefined; district: string | undefined }) {
+export async function getMembers({ state, district }: { state?: string; district?: string }) {
   let query = supabase
     .from<Member>("members")
     .select(

@@ -3,7 +3,6 @@ import * as React from "react"
 import { Activity, ActivityType } from "./types"
 import { ActivityIndicator, Text } from "react-native-paper"
 
-import { ActivityContext } from "./ActivityProvider"
 import { ActivityStackParamList } from "../../types"
 import Colors from "../../constants/Colors"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
@@ -12,7 +11,9 @@ import { Statement } from "./statements/types"
 import StatementDetailsComponent from "./statements/StatementDetails"
 import { Vote } from "./votes/types"
 import VoteDetailsComponent from "./votes/VoteDetails"
+import { useActivityStore } from "./useActivityStore"
 import useColorScheme from "../../hooks/useColorScheme"
+import { useSettingsStore } from "../../stores/useSettingsStore"
 
 export type IOwnProps = {
   id: string
@@ -29,15 +30,14 @@ function renderCard(activity: Activity) {
 export default function ActivityDetailsScreenC({ route }: IProps) {
   const { id, type } = route.params
 
-  const { isLoadingItem, loadSelectedActivity, unloadSelectedActvitity, selectedItem } =
-    React.useContext(ActivityContext)
+  const { isLoadingItem, loadSelectedActivity, unloadSelectedActvitity, selectedItem } = useActivityStore()
+  const { state, district } = useSettingsStore()
   const colorScheme = useColorScheme()
   const colors = Colors[colorScheme]
 
   React.useEffect(() => {
-    if (loadSelectedActivity) {
-      loadSelectedActivity(id, type)
-    }
+    loadSelectedActivity({ id, type, state, district })
+
     return unloadSelectedActvitity
   }, [id, type])
 

@@ -1,18 +1,16 @@
-import { MembersContext, MembersProvider } from "./MembersProvider"
 import React, { useContext, useEffect } from "react"
 import { RefreshControl, ScrollView, StyleSheet } from "react-native"
 
-import { AppContext } from "../../stores/user/AppProvider"
 import { MemberCard } from "./MemberCard"
+import { useMembersStore } from "./useMemberStore"
+import { useSettingsStore } from "../../stores/useSettingsStore"
 
-function RepresentitivesScreenC() {
-  const { settings } = useContext(AppContext)
-  const { items, isLoading, loadMembers } = useContext(MembersContext)
+export default function RepresentitivesScreen() {
+  const { district, state } = useSettingsStore()
+  const { items, isLoading, loadMembers } = useMembersStore()
 
   function loadData() {
-    if (settings?.district && settings.state && loadMembers) {
-      loadMembers({ state: settings?.state, district: settings?.district })
-    }
+    loadMembers({ state, district })
   }
 
   useEffect(() => {
@@ -24,13 +22,5 @@ function RepresentitivesScreenC() {
         <MemberCard {...m} key={index} />
       ))}
     </ScrollView>
-  )
-}
-
-export default function RepresentitivesScreen() {
-  return (
-    <MembersProvider>
-      <RepresentitivesScreenC />
-    </MembersProvider>
   )
 }

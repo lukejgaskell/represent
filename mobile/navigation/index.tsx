@@ -4,15 +4,12 @@ import { Animated, ColorSchemeName, View } from "react-native"
 import { DarkTheme, DefaultTheme, NavigationContainer, useNavigation } from "@react-navigation/native"
 
 import ActivityDetailsScreen from "../modules/activity/ActivityDetailsScreen"
-import { ActivityProvider } from "../modules/activity/ActivityProvider"
 import ActivityScreen from "../modules/activity/ActivityScreen"
 import AddDistrictScreen from "../screens/AddDistrictScreen"
-import { AppContext } from "../stores/user/AppProvider"
 import Colors from "../constants/Colors"
 import DarkLogoNoText from "../components/images/DarkLogoNoText"
 import { FontAwesome } from "@expo/vector-icons"
 import { IconButton } from "react-native-paper"
-import LoadingScreen from "../screens/LoadingScreen"
 import RepresentativesScreen from "../modules/representatives/RepresentativesScreen"
 import SettingsScreen from "../modules/settings/SettingsScreen"
 import Toast from "react-native-toast-message"
@@ -21,6 +18,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import useCachedResources from "../hooks/useCachedResources"
 import useColorScheme from "../hooks/useColorScheme"
+import { useSettingsStore } from "../stores/useSettingsStore"
 import { useState } from "react"
 
 function UserHeaderButton() {
@@ -44,20 +42,18 @@ const ActivityStack = createNativeStackNavigator()
 
 function ActivityNavigator() {
   return (
-    <ActivityProvider>
-      <ActivityStack.Navigator initialRouteName="List">
-        <ActivityStack.Screen
-          name="List"
-          options={{ title: "Activity", headerRight: () => <UserHeaderButton /> }}
-          component={ActivityScreen}
-        />
-        <ActivityStack.Screen
-          name="Details"
-          options={{ title: "Details", headerRight: () => <UserHeaderButton /> }}
-          component={ActivityDetailsScreen}
-        />
-      </ActivityStack.Navigator>
-    </ActivityProvider>
+    <ActivityStack.Navigator initialRouteName="List">
+      <ActivityStack.Screen
+        name="List"
+        options={{ title: "Activity", headerRight: () => <UserHeaderButton /> }}
+        component={ActivityScreen}
+      />
+      <ActivityStack.Screen
+        name="Details"
+        options={{ title: "Details", headerRight: () => <UserHeaderButton /> }}
+        component={ActivityDetailsScreen}
+      />
+    </ActivityStack.Navigator>
   )
 }
 
@@ -186,17 +182,14 @@ function RootNavigator() {
 }
 
 function LoggedInNavigator() {
-  const { settings, isLoading } = React.useContext(AppContext)
+  const { state, district, hasSeenWelcome } = useSettingsStore()
 
   return (
     <Stack.Navigator>
-      {isLoading && (
-        <Stack.Screen name="loading" component={LoadingScreen} options={{ headerShown: false, animation: "none" }} />
-      )}
-      {!settings?.hasSeenWelcome && (
+      {!hasSeenWelcome && (
         <Stack.Screen name="welcome" component={WelcomeScreen} options={{ headerShown: false, animation: "none" }} />
       )}
-      {(!settings?.district || !settings?.state) && (
+      {(!district || !state) && (
         <Stack.Screen
           name="add-district"
           component={AddDistrictScreen}
