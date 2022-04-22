@@ -133,7 +133,7 @@ export default function AddDistrictScreen() {
             </Button>
             <Button
               mode="contained"
-              style={styles.button}
+              style={styles.continueButton}
               disabled={!canContinue || isTimerRunning}
               loading={isTimerRunning}
               onPress={handleContinue}
@@ -152,7 +152,7 @@ const createStyles = (colors: IColors) =>
     container: {
       paddingRight: 25,
       paddingLeft: 25,
-      top: 40,
+      paddingTop: 40,
     },
     title: {
       fontSize: 24,
@@ -164,8 +164,8 @@ const createStyles = (colors: IColors) =>
     },
     switchButton: { marginTop: 20 },
     buttonText: { lineHeight: 40 },
-    button: {
-      marginTop: 50,
+    continueButton: {
+      marginTop: 20,
     },
     row: {
       width: "100%",
