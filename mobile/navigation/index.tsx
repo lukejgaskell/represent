@@ -10,9 +10,9 @@ import Colors from "../constants/Colors"
 import DarkLogoNoText from "../components/images/DarkLogoNoText"
 import { FontAwesome } from "@expo/vector-icons"
 import { IconButton } from "react-native-paper"
+import ReportScreen from "../modules/settings/ReportScreen"
 import RepresentativesScreen from "../modules/representatives/RepresentativesScreen"
 import SettingsScreen from "../modules/settings/SettingsScreen"
-import Toast from "react-native-toast-message"
 import WelcomeScreen from "../screens/WelcomeScreen"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
@@ -88,6 +88,7 @@ function SettingsNavigator() {
         component={SettingsScreen}
       />
       <SettingsStack.Screen name="AddDistrict" options={{ title: "State | District" }} component={AddDistrictScreen} />
+      <SettingsStack.Screen name="Report" options={{ title: "Feedback" }} component={ReportScreen} />
     </SettingsStack.Navigator>
   )
 }
@@ -213,7 +214,6 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   return (
     <NavigationContainer theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <RootNavigator />
-      <Toast ref={ref => Toast.setRef(ref)} />
     </NavigationContainer>
   )
 }

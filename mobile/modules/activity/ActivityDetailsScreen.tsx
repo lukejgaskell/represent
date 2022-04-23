@@ -3,7 +3,7 @@ import * as React from "react"
 import { Activity, ActivityType } from "./types"
 import { ActivityIndicator, Text } from "react-native-paper"
 
-import { ActivityStackParamList } from "../../types"
+import { ActivityStackParamList } from "../../navigation/types"
 import Colors from "../../constants/Colors"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { ScrollView } from "react-native-gesture-handler"

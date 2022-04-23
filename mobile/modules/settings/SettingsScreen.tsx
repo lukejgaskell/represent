@@ -4,7 +4,6 @@ import { Linking, StyleSheet, View } from "react-native"
 
 import React from "react"
 import { SafeAreaView } from "react-native-safe-area-context"
-import supabaseClient from "../../lib/supabaseClient"
 import useColorScheme from "../../hooks/useColorScheme"
 import { useNavigation } from "@react-navigation/native"
 import { useSettingsStore } from "../../stores/useSettingsStore"
@@ -42,6 +41,20 @@ export default function SettingsScreen() {
         <List.Subheader>About</List.Subheader>
         <List.Item
           style={styles.item}
+          title="Report an Issue"
+          onPress={() => {
+            navigation.navigate("Settings", { screen: "Report", params: { type: "bug" } })
+          }}
+        />
+        <List.Item
+          style={styles.item}
+          title="Feature Request"
+          onPress={() => {
+            navigation.navigate("Settings", { screen: "Report", params: { type: "feature" } })
+          }}
+        />
+        <List.Item
+          style={styles.item}
           title="Privacy Policy"
           onPress={() => {
             Linking.canOpenURL(PRIVACY_POLICY_URL).then(() => Linking.openURL(PRIVACY_POLICY_URL))
@@ -61,8 +74,6 @@ const createStyles = (colors: IColors) =>
     text: {
       paddingTop: 8,
       paddingRight: 10,
-      // height: "100%",
-      // textAlign: "center",
     },
     item: {
       justifyContent: "center",
