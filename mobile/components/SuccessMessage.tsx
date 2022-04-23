@@ -1,9 +1,10 @@
 import Colors, { IColors } from "../constants/Colors"
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 
 import LottieView from "lottie-react-native"
 import { StyleSheet } from "react-native"
 import { Text } from "react-native-paper"
+import successCheck from "../assets/animations/success-check.json"
 import useColorScheme from "../hooks/useColorScheme"
 
 export type IProps = {
@@ -25,7 +26,7 @@ export default function SuccessMessage({ message, action }: IProps) {
           height: 300,
           alignSelf: "center",
         }}
-        source={require("../assets/animations/success-check.json")}
+        source={successCheck}
         autoPlay
         loop={false}
       />
