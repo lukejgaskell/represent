@@ -1,14 +1,16 @@
 import { Button, Card, Divider, Text, Title } from "react-native-paper"
-import { Linking, StyleSheet, View } from "react-native"
+import { Image, Linking, StyleSheet, View } from "react-native"
 
-import Colors from "../../constants/Colors"
-import { Member } from "./types"
+import Colors from "../../../constants/Colors"
 import React from "react"
-import useColorScheme from "../../hooks/useColorScheme"
+import { Representative } from "../types"
+import { abvToState } from "../../../lib/stateHelper"
+import { letterToParty } from "../../../lib/partyHelper"
+import useColorScheme from "../../../hooks/useColorScheme"
 
-type IProps = Member
+type IProps = Representative
 
-export function MemberCard({
+export function RepresentativeDetailsView({
   party,
   first_name,
   last_name,
@@ -21,6 +23,7 @@ export function MemberCard({
   facebook_account,
   contact_form,
   next_election,
+  id,
 }: IProps) {
   const colorScheme = useColorScheme()
 
@@ -31,18 +34,22 @@ export function MemberCard({
       <Card.Content>
         <View>
           <View style={styles.row}>
-            <View style={styles.column}>
-              <Title>{`${first_name} ${last_name}`}</Title>
+            <View style={styles.leftColumn}>
+              <Image
+                style={styles.image}
+                source={{
+                  uri: `https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/225x275/${id}.jpg`,
+                }}
+              />
             </View>
-            <View style={styles.column}>
-              <Text>{`${state} | ${title}`}</Text>
+            <View style={styles.rightColumn}>
+              <Title style={styles.name}>{`${first_name} ${last_name}`}</Title>
+              <Text style={styles.subtext}>{`${letterToParty.get(party)} ${title}`}</Text>
+              <Text style={styles.subtext}>{`Representing ${abvToState.get(state)}`}</Text>
             </View>
           </View>
           <Divider style={styles.rowMargin} />
           <View style={styles.row}>
-            <View style={styles.column}>
-              <Text>{`Party: ${party}`}</Text>
-            </View>
             <View style={styles.column}>
               <Text>{`With Party %: ${votes_with_party_pct}`}</Text>
             </View>
@@ -60,7 +67,11 @@ export function MemberCard({
                 <Button
                   style={styles.facebook_button}
                   mode="contained"
-                  onPress={() => Linking.canOpenURL(`https://www.facebook.com/${facebook_account}`).then(() => Linking.openURL(`https://www.facebook.com/${facebook_account}`))}
+                  onPress={() =>
+                    Linking.canOpenURL(`https://www.facebook.com/${facebook_account}`).then(() =>
+                      Linking.openURL(`https://www.facebook.com/${facebook_account}`)
+                    )
+                  }
                 >
                   Facebook
                 </Button>
@@ -71,7 +82,11 @@ export function MemberCard({
                 <Button
                   style={styles.twitter_button}
                   mode="contained"
-                  onPress={() => Linking.canOpenURL(`https://www.twitter.com/${twitter_account}`).then(() => Linking.openURL(`https://www.twitter.com/${twitter_account}`))}
+                  onPress={() =>
+                    Linking.canOpenURL(`https://www.twitter.com/${twitter_account}`).then(() =>
+                      Linking.openURL(`https://www.twitter.com/${twitter_account}`)
+                    )
+                  }
                 >
                   Twitter
                 </Button>
@@ -82,7 +97,11 @@ export function MemberCard({
                 <Button
                   style={styles.youtube_button}
                   mode="contained"
-                  onPress={() => Linking.canOpenURL(`https://www.youtube.com/${youtube_account}`).then(() => Linking.openURL(`https://www.youtube.com/${youtube_account}`))}
+                  onPress={() =>
+                    Linking.canOpenURL(`https://www.youtube.com/${youtube_account}`).then(() =>
+                      Linking.openURL(`https://www.youtube.com/${youtube_account}`)
+                    )
+                  }
                 >
                   Youtube
                 </Button>
@@ -90,7 +109,11 @@ export function MemberCard({
             )}
             {contact_form && (
               <View style={styles.column}>
-                <Button style={styles.contact_button} mode="contained" onPress={() => Linking.canOpenURL(`${contact_form}`).then(() => Linking.openURL(`${contact_form}`))}>
+                <Button
+                  style={styles.contact_button}
+                  mode="contained"
+                  onPress={() => Linking.canOpenURL(`${contact_form}`).then(() => Linking.openURL(`${contact_form}`))}
+                >
                   Contact
                 </Button>
               </View>
@@ -109,6 +132,27 @@ const getStyles = (mode: "light" | "dark") =>
       alignItems: "center",
       justifyContent: "center",
     },
+    leftColumn: {
+      paddingTop: 10,
+      width: "40%",
+    },
+    rightColumn: {
+      paddingTop: 10,
+      width: "60%",
+    },
+    name: {
+      fontSize: 24,
+      fontWeight: "bold",
+      paddingBottom: 15,
+    },
+    subtext: {
+      fontSize: 16,
+    },
+    image: {
+      height: 120,
+      width: 120,
+      borderRadius: 10,
+    },
     title: {
       fontSize: 20,
       fontWeight: "bold",
@@ -116,7 +160,6 @@ const getStyles = (mode: "light" | "dark") =>
     card: {
       width: "100%",
       backgroundColor: Colors[mode].cardBackground,
-      marginTop: 5,
       marginBottom: 5,
     },
     rowMargin: {

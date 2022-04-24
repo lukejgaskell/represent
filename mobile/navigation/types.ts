@@ -7,6 +7,7 @@ import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/n
 
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs"
 import { IOwnProps as IActivityDetailsProps } from "../modules/activity/ActivityDetailsScreen"
+import { IOwnProps as IRepresentativeDetailsProps } from "../modules/representatives/details/RepresentativeDetailsScreen"
 import { IOwnProps as ISettingsReportProps } from "../modules/settings/ReportScreen"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 
@@ -38,9 +39,14 @@ export type SettingsStackParamList = {
   Report: ISettingsReportProps
 }
 
+export type RepresentativeStackParamList = {
+  List: undefined
+  Details: IRepresentativeDetailsProps
+}
+
 export type RootTabParamList = {
   Activity: NavigatorScreenParams<ActivityStackParamList>
-  Representatives: undefined
+  Representatives: NavigatorScreenParams<RepresentativeStackParamList>
   Settings: NavigatorScreenParams<SettingsStackParamList>
 }
 

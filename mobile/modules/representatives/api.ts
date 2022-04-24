@@ -1,9 +1,9 @@
-import { Member } from "./types"
+import { Representative } from "./types"
 import supabase from "../../lib/supabaseClient"
 
 export async function getMembers({ state, district }: { state?: string; district?: string }) {
   let query = supabase
-    .from<Member>("members")
+    .from<Representative>("members")
     .select(
       `id, metadata->first_name, metadata->last_name, metadata->title, metadata->party, metadata->votes_with_party_pct, metadata->missed_votes_pct, metadata->state, metadata->facebook_account, metadata->youtube_account, metadata->twitter_account, metadata->contact_form, metadata->next_election`
     )
