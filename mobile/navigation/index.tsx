@@ -1,7 +1,8 @@
 import * as React from "react"
 
 import { Animated, ColorSchemeName, View } from "react-native"
-import { DarkTheme, DefaultTheme, NavigationContainer, useNavigation } from "@react-navigation/native"
+import { NavigationContainer, useNavigation } from "@react-navigation/native"
+import { navigationLightTheme, navigiationDarkTheme } from "../constants/Themes"
 
 import ActivityDetailsScreen from "../modules/activity/ActivityDetailsScreen"
 import ActivityScreen from "../modules/activity/ActivityScreen"
@@ -20,6 +21,10 @@ import useCachedResources from "../hooks/useCachedResources"
 import useColorScheme from "../hooks/useColorScheme"
 import { useSettingsStore } from "../stores/useSettingsStore"
 import { useState } from "react"
+
+const headerStyle = (colorScheme: "dark" | "light") => ({
+  backgroundColor: Colors[colorScheme].cardBackground,
+})
 
 function UserHeaderButton() {
   const navigation = useNavigation()
@@ -41,16 +46,27 @@ function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>["nam
 const ActivityStack = createNativeStackNavigator()
 
 function ActivityNavigator() {
+  const colorScheme = useColorScheme()
   return (
     <ActivityStack.Navigator initialRouteName="List">
       <ActivityStack.Screen
         name="List"
-        options={{ title: "Activity", headerRight: () => <UserHeaderButton /> }}
+        options={{
+          title: "Activity",
+          headerStyle: headerStyle(colorScheme),
+          headerRight: () => <UserHeaderButton />,
+        }}
         component={ActivityScreen}
       />
       <ActivityStack.Screen
         name="Details"
-        options={{ title: "Details", headerRight: () => <UserHeaderButton /> }}
+        options={{
+          title: "Details",
+          headerStyle: headerStyle(colorScheme),
+          headerRight: () => <UserHeaderButton />,
+
+          headerShadowVisible: false,
+        }}
         component={ActivityDetailsScreen}
       />
     </ActivityStack.Navigator>
@@ -60,11 +76,16 @@ function ActivityNavigator() {
 const MembersStack = createNativeStackNavigator()
 
 function MembersNavigator() {
+  const colorScheme = useColorScheme()
   return (
     <MembersStack.Navigator initialRouteName="List">
       <MembersStack.Screen
         name="List"
-        options={{ title: "Representatives", headerRight: () => <UserHeaderButton /> }}
+        options={{
+          title: "Representatives",
+          headerStyle: headerStyle(colorScheme),
+          headerRight: () => <UserHeaderButton />,
+        }}
         component={RepresentativesScreen}
       />
     </MembersStack.Navigator>
@@ -75,20 +96,36 @@ const SettingsStack = createNativeStackNavigator()
 
 function SettingsNavigator() {
   const navigation = useNavigation()
+  const colorScheme = useColorScheme()
   return (
     <SettingsStack.Navigator initialRouteName="List">
       <SettingsStack.Screen
         name="List"
         options={{
           title: "Settings",
+          headerStyle: headerStyle(colorScheme),
           headerLeft: () => (
             <IconButton icon="window-close" style={{ marginLeft: -10 }} onPress={() => navigation.navigate("Root")} />
           ),
         }}
         component={SettingsScreen}
       />
-      <SettingsStack.Screen name="AddDistrict" options={{ title: "State | District" }} component={AddDistrictScreen} />
-      <SettingsStack.Screen name="Report" options={{ title: "Feedback" }} component={ReportScreen} />
+      <SettingsStack.Screen
+        name="AddDistrict"
+        options={{
+          headerStyle: headerStyle(colorScheme),
+          title: "State | District",
+        }}
+        component={AddDistrictScreen}
+      />
+      <SettingsStack.Screen
+        name="Report"
+        options={{
+          headerStyle: headerStyle(colorScheme),
+          title: "Feedback",
+        }}
+        component={ReportScreen}
+      />
     </SettingsStack.Navigator>
   )
 }
@@ -104,6 +141,8 @@ function BottomTabNavigator() {
         initialRouteName="Activity"
         screenOptions={{
           tabBarActiveTintColor: Colors[colorScheme].actionText,
+          tabBarActiveBackgroundColor: Colors[colorScheme].cardBackground,
+          tabBarInactiveBackgroundColor: Colors[colorScheme].cardBackground,
         }}
       >
         <BottomTab.Screen
@@ -112,6 +151,9 @@ function BottomTabNavigator() {
           options={{
             headerShown: false,
             tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+            tabBarStyle: {
+              backgroundColor: Colors[colorScheme].cardBackground,
+            },
           }}
         />
         <BottomTab.Screen
@@ -120,6 +162,9 @@ function BottomTabNavigator() {
           options={{
             headerShown: false,
             tabBarIcon: ({ color }) => <TabBarIcon name="users" color={color} />,
+            tabBarStyle: {
+              backgroundColor: Colors[colorScheme].cardBackground,
+            },
           }}
         />
       </BottomTab.Navigator>
@@ -212,7 +257,7 @@ function LoggedInNavigator() {
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
-    <NavigationContainer theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    <NavigationContainer theme={colorScheme === "dark" ? navigiationDarkTheme : navigationLightTheme}>
       <RootNavigator />
     </NavigationContainer>
   )

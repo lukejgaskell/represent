@@ -147,17 +147,12 @@ const createStyles = (colors: IColors) =>
     },
     container: {
       backgroundColor: colors.cardBackground,
-
-      marginTop: 10,
-      marginBottom: 10,
-      marginRight: 5,
-      marginLeft: 5,
+      borderWidth: 0,
 
       paddingRight: 20,
       paddingLeft: 20,
       paddingTop: 10,
       paddingBottom: 10,
-      borderRadius: 5,
     },
     getStartedContainer: {
       alignItems: "center",

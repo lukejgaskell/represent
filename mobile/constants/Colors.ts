@@ -19,7 +19,7 @@ const colors = {
     tint: tintColorDark,
     tabIconDefault: "#ccc",
     tabIconSelected: tintColorDark,
-    cardBackground: "rgb(26, 26, 27)",
+    cardBackground: "#1a1a1b",
     actionText: "#3F50B4",
   },
 }
