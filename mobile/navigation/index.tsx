@@ -62,7 +62,7 @@ function ActivityNavigator() {
       <ActivityStack.Screen
         name="Details"
         options={{
-          title: "Details",
+          title: "",
           headerStyle: headerStyle(colorScheme),
           headerRight: () => <UserHeaderButton />,
           headerShadowVisible: false,
@@ -91,7 +91,7 @@ function MembersNavigator() {
       <MembersStack.Screen
         name="Details"
         options={{
-          title: "Details",
+          title: "",
           headerStyle: headerStyle(colorScheme),
           headerRight: () => <UserHeaderButton />,
           headerShadowVisible: false,
