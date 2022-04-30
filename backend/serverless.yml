@@ -2,7 +2,7 @@ org: lukejgaskell
 app: represent
 service: backend
 
-frameworkVersion: "2"
+frameworkVersion: "3"
 
 plugins:
   - serverless-offline
@@ -16,7 +16,7 @@ provider:
   environment:
     SUPABASE_SERVICE_KEY: ${param:supabaseServiceKey}
     API_KEY: ${param:proPublicaAPIKey}
-    # GEOCODIO_TOKEN: ${param:geocodioAPIKey}
+    GEOCODIO_TOKEN: ${param:geocodioAPIKey}
 
 functions:
   syncVotes:
