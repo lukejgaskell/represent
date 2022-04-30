@@ -1,11 +1,12 @@
 import { Button, Text, TextInput, Title } from "react-native-paper"
 import Colors, { IColors } from "../../constants/Colors"
 import React, { useState } from "react"
+import { StyleSheet, View } from "react-native"
 
+import { DismissKeyboard } from "../../components/DismissKeyboard"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { SettingsStackParamList } from "../../navigation/types"
-import { StyleSheet } from "react-native"
 import SuccessMessage from "../../components/SuccessMessage"
 import { createFeedback } from "./api"
 import useColorScheme from "../../hooks/useColorScheme"
@@ -57,30 +58,41 @@ export default function ReportScreen({ route }: IProps) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Title style={styles.titleOne}>{getTitle()}</Title>
-      {success ? (
-        <SuccessMessage
-          message="Thank you for your feedback!"
-          action={() => {
-            navigation.goBack()
-          }}
-        />
-      ) : (
-        <>
-          <TextInput
-            style={styles.input}
-            multiline={true}
-            mode="outlined"
-            value={text}
-            onChangeText={val => setText(val)}
-          />
-          <Text style={styles.errorMessage}>{errorMessage}</Text>
-          <Button style={styles.button} mode="contained" disabled={text.length < 5} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>{getButtonText()}</Text>
-          </Button>
-        </>
-      )}
+    <SafeAreaView>
+      <DismissKeyboard>
+        <View style={styles.container}>
+          {success ? (
+            <>
+              <Title style={styles.titleOne}>{getTitle()}</Title>
+              <SuccessMessage
+                message="Thank you for your feedback!"
+                action={() => {
+                  navigation.goBack()
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <View>
+                <Title style={styles.titleOne}>{getTitle()}</Title>
+                <TextInput
+                  style={styles.input}
+                  multiline={true}
+                  mode="outlined"
+                  value={text}
+                  onChangeText={val => setText(val)}
+                />
+              </View>
+              <View style={styles.buttonContainer}>
+                <Text style={styles.errorMessage}>{errorMessage}</Text>
+                <Button style={styles.button} mode="contained" disabled={text.length < 5} onPress={handleSubmit}>
+                  <Text style={styles.buttonText}>{getButtonText()}</Text>
+                </Button>
+              </View>
+            </>
+          )}
+        </View>
+      </DismissKeyboard>
     </SafeAreaView>
   )
 }
@@ -88,8 +100,14 @@ export default function ReportScreen({ route }: IProps) {
 const createStyles = (colors: IColors) =>
   StyleSheet.create({
     container: {
-      paddingRight: 10,
-      paddingLeft: 10,
+      paddingRight: 25,
+      paddingLeft: 25,
+      paddingTop: "15%",
+      height: "100%",
+      width: "100%",
+      flexDirection: "column",
+      display: "flex",
+      justifyContent: "space-between",
     },
     errorMessage: {
       marginTop: 5,
@@ -111,5 +129,8 @@ const createStyles = (colors: IColors) =>
       fontSize: 16,
       lineHeight: 32,
       color: colors.text,
+    },
+    buttonContainer: {
+      paddingBottom: "5%",
     },
   })

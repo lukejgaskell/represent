@@ -3,6 +3,7 @@ import Colors, { IColors } from "../constants/Colors"
 import React, { useEffect, useState } from "react"
 import { SafeAreaView, StyleSheet, View } from "react-native"
 
+import { DismissKeyboard } from "../components/DismissKeyboard"
 import { getAddressInfo } from "../apis/getDistrict"
 import { states } from "../lib/stateHelper"
 import { style } from "styled-system"
@@ -72,72 +73,78 @@ export default function AddDistrictScreen() {
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        <View>
+      <DismissKeyboard>
+        <View style={styles.container}>
           <View>
-            <Title style={styles.title}>Help us find your representatives!</Title>
-            <Paragraph style={styles.description}>
-              Please enter your address or your state and congressional district
-            </Paragraph>
+            <View>
+              <Title style={styles.title}>Help us find your representatives!</Title>
+              <Paragraph style={styles.description}>
+                Please enter your address or your state and congressional district
+              </Paragraph>
+            </View>
+            <View>
+              {!isShowingDistrict && (
+                <View>
+                  <View>
+                    <TextInput mode="outlined" label="Address" value={address} onChangeText={val => setAddress(val)} />
+                  </View>
+                  <View style={styles.row}>
+                    <View style={styles.column}>
+                      <TextInput mode="outlined" label="City" value={city} onChangeText={val => setCity(val)} />
+                    </View>
+                    <View style={styles.column}>
+                      <TextInput mode="outlined" label="State" value={state} onChangeText={val => setState(val)} />
+                    </View>
+                  </View>
+                </View>
+              )}
+              {isShowingDistrict && (
+                <View>
+                  <View>
+                    <TextInput
+                      mode="outlined"
+                      label="State Abbreviation"
+                      value={stateAbv}
+                      error={stateAbv.length > 0 && !isValidStateAbreviation(stateAbv)}
+                      onChangeText={val => setStateAbv(val.toUpperCase())}
+                    />
+                  </View>
+                  <View>
+                    <TextInput
+                      mode="outlined"
+                      label="Congressional District"
+                      value={district}
+                      error={district.length > 0 && !isValidDistrict(district)}
+                      onChangeText={val => setDistrict(val)}
+                    />
+                  </View>
+                </View>
+              )}
+            </View>
           </View>
-          <View>
-            {!isShowingDistrict && (
-              <View>
-                <View>
-                  <TextInput mode="outlined" label="Address" value={address} onChangeText={val => setAddress(val)} />
-                </View>
-                <View style={styles.row}>
-                  <View style={styles.column}>
-                    <TextInput mode="outlined" label="City" value={city} onChangeText={val => setCity(val)} />
-                  </View>
-                  <View style={styles.column}>
-                    <TextInput mode="outlined" label="State" value={state} onChangeText={val => setState(val)} />
-                  </View>
-                </View>
-              </View>
-            )}
-            {isShowingDistrict && (
-              <View>
-                <View>
-                  <TextInput
-                    mode="outlined"
-                    label="State Abbreviation"
-                    value={stateAbv}
-                    error={stateAbv.length > 0 && !isValidStateAbreviation(stateAbv)}
-                    onChangeText={val => setStateAbv(val.toUpperCase())}
-                  />
-                </View>
-                <View>
-                  <TextInput
-                    mode="outlined"
-                    label="Congressional District"
-                    value={district}
-                    error={district.length > 0 && !isValidDistrict(district)}
-                    onChangeText={val => setDistrict(val)}
-                  />
-                </View>
-              </View>
-            )}
+          <View style={styles.buttonContainer}>
+            <Text style={styles.errorMessage}>{errorMessage}</Text>
+            <Button
+              mode="outlined"
+              style={styles.switchButton}
+              onPress={() => setIsShowingDistrict(!isShowingDistrict)}
+            >
+              <Text style={styles.buttonText}>
+                {isShowingDistrict ? "Enter Address Instead" : "Enter District Instead"}
+              </Text>
+            </Button>
+            <Button
+              mode="contained"
+              style={styles.continueButton}
+              disabled={!canContinue || isTimerRunning}
+              loading={isTimerRunning}
+              onPress={handleContinue}
+            >
+              <Text style={styles.buttonText}>Continue</Text>
+            </Button>
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <Text style={styles.errorMessage}>{errorMessage}</Text>
-          <Button mode="outlined" style={styles.switchButton} onPress={() => setIsShowingDistrict(!isShowingDistrict)}>
-            <Text style={styles.buttonText}>
-              {isShowingDistrict ? "Enter Address Instead" : "Enter District Instead"}
-            </Text>
-          </Button>
-          <Button
-            mode="contained"
-            style={styles.continueButton}
-            disabled={!canContinue || isTimerRunning}
-            loading={isTimerRunning}
-            onPress={handleContinue}
-          >
-            <Text style={styles.buttonText}>Continue</Text>
-          </Button>
-        </View>
-      </View>
+      </DismissKeyboard>
     </SafeAreaView>
   )
 }
