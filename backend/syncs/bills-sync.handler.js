@@ -19,7 +19,7 @@ module.exports.run = async (event, context) => {
       metadata: { ...b },
       id: b.bill_id,
     }))
-    const { data, error } = await supabase.from("bills").upsert(bills, { returning: "minimal" })
+    const { error } = await supabase.from("bills").upsert(bills, { returning: "minimal" })
 
     if (error) {
       console.error(`error while saving bills to db`, error)

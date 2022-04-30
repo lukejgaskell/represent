@@ -5,24 +5,17 @@ const { createClient } = require("@supabase/supabase-js")
 const supabase = createClient("https://ijxfwjuurxppacepegmf.supabase.in", process.env.SUPABASE_SERVICE_KEY)
 
 const votesUrl = "https://api.propublica.org/congress/v1/both/votes/recent.json"
-const getVoteUrl = (congress, chamber, session, rollCallNumber) => `https://api.propublica.org/congress/v1/${congress}/${chamber}/sessions/${session}/votes/${rollCallNumber}.json`
+const getVoteUrl = (congress, chamber, session, rollCallNumber) =>
+  `https://api.propublica.org/congress/v1/${congress}/${chamber}/sessions/${session}/votes/${rollCallNumber}.json`
 
 const API_KEY = process.env.API_KEY
-
-function unique(key) {
-  const table = new Map()
-  return (acc, val) => {
-    if (table.has(val[key])) return acc
-
-    table.set(val[key], true)
-    return [...acc, val]
-  }
-}
 
 async function syncMemberVotes(votes) {
   const votesResponses = votes.map(v =>
     axios
-      .get(getVoteUrl(v.metadata.congress, v.metadata.chamber, v.metadata.session, v.metadata.roll_call), { headers: { "X-API-Key": API_KEY } })
+      .get(getVoteUrl(v.metadata.congress, v.metadata.chamber, v.metadata.session, v.metadata.roll_call), {
+        headers: { "X-API-Key": API_KEY },
+      })
       .then(r => r.data.results.votes.vote)
   )
 
@@ -43,7 +36,7 @@ async function syncMemberVotes(votes) {
     return [...acc, ...pos]
   }, [])
 
-  const { data, error } = await supabase.from("memberVotes").upsert(items, { returning: "minimal" })
+  const { error } = await supabase.from("memberVotes").upsert(items, { returning: "minimal" })
 
   if (error) {
     console.error(`error while saving member votes to db`, error)
@@ -66,7 +59,7 @@ module.exports.run = async (event, context) => {
     }))
 
     console.info(`saving votes`)
-    const { data, error } = await supabase.from("votes").upsert(votes, { returning: "minimal" })
+    const { error } = await supabase.from("votes").upsert(votes, { returning: "minimal" })
 
     if (error) {
       console.error(`error while saving votes to db`, error)

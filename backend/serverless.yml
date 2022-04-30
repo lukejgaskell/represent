@@ -16,7 +16,7 @@ provider:
   environment:
     SUPABASE_SERVICE_KEY: ${param:supabaseServiceKey}
     API_KEY: ${param:proPublicaAPIKey}
-    GEOCODIO_TOKEN: ${param:geocodioAPIKey}
+    # GEOCODIO_TOKEN: ${param:geocodioAPIKey}
 
 functions:
   syncVotes:
@@ -43,6 +43,12 @@ functions:
     timeout: 30
     events:
       - schedule: cron(0 12,20 ? * * *)
+  syncMemberExpenses:
+    runtime: nodejs14.x
+    handler: ./syncs/member-expenses-sync.handler.run
+    timeout: 60
+    events:
+      - schedule: cron(0 0 0 15 * *) # run 15th of every month at 12:00am
   getDistrict:
     runtime: nodejs14.x
     handler: ./api/find-district.handler.run
