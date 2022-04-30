@@ -5,6 +5,7 @@ import { SafeAreaView, StyleSheet, View } from "react-native"
 
 import { getAddressInfo } from "../apis/getDistrict"
 import { states } from "../lib/stateHelper"
+import { style } from "styled-system"
 import useColorScheme from "../hooks/useColorScheme"
 import { useNavigation } from "@react-navigation/native"
 import { useSettingsStore } from "../stores/useSettingsStore"
@@ -74,73 +75,67 @@ export default function AddDistrictScreen() {
       <View style={styles.container}>
         <View>
           <View>
-            <View>
-              <Title style={styles.title}>Help us find your representatives!</Title>
-              <Paragraph style={styles.description}>
-                Please enter your address or your state and congressional district
-              </Paragraph>
-            </View>
-            <View>
-              {!isShowingDistrict && (
-                <View>
-                  <View>
-                    <TextInput mode="outlined" label="Address" value={address} onChangeText={val => setAddress(val)} />
-                  </View>
-                  <View style={styles.row}>
-                    <View style={styles.column}>
-                      <TextInput mode="outlined" label="City" value={city} onChangeText={val => setCity(val)} />
-                    </View>
-                    <View style={styles.column}>
-                      <TextInput mode="outlined" label="State" value={state} onChangeText={val => setState(val)} />
-                    </View>
-                  </View>
-                </View>
-              )}
-              {isShowingDistrict && (
-                <View>
-                  <View>
-                    <TextInput
-                      mode="outlined"
-                      label="State Abbreviation"
-                      value={stateAbv}
-                      error={stateAbv.length > 0 && !isValidStateAbreviation(stateAbv)}
-                      onChangeText={val => setStateAbv(val.toUpperCase())}
-                    />
-                  </View>
-                  <View>
-                    <TextInput
-                      mode="outlined"
-                      label="Congressional District"
-                      value={district}
-                      error={district.length > 0 && !isValidDistrict(district)}
-                      onChangeText={val => setDistrict(val)}
-                    />
-                  </View>
-                </View>
-              )}
-            </View>
+            <Title style={styles.title}>Help us find your representatives!</Title>
+            <Paragraph style={styles.description}>
+              Please enter your address or your state and congressional district
+            </Paragraph>
           </View>
           <View>
-            <Text style={styles.errorMessage}>{errorMessage}</Text>
-            <Button
-              mode="contained"
-              style={styles.continueButton}
-              disabled={!canContinue || isTimerRunning}
-              loading={isTimerRunning}
-              onPress={handleContinue}
-            >
-              <Text style={styles.buttonText}>Continue</Text>
-            </Button>
-            <Button
-              mode="outlined"
-              style={styles.switchButton}
-              onPress={() => setIsShowingDistrict(!isShowingDistrict)}
-            >
-              <Text style={styles.buttonText}>
-                {isShowingDistrict ? "Enter Address Instead" : "Enter District Instead"}
-              </Text>
-            </Button>
+            {!isShowingDistrict && (
+              <View>
+                <View>
+                  <TextInput mode="outlined" label="Address" value={address} onChangeText={val => setAddress(val)} />
+                </View>
+                <View style={styles.row}>
+                  <View style={styles.column}>
+                    <TextInput mode="outlined" label="City" value={city} onChangeText={val => setCity(val)} />
+                  </View>
+                  <View style={styles.column}>
+                    <TextInput mode="outlined" label="State" value={state} onChangeText={val => setState(val)} />
+                  </View>
+                </View>
+              </View>
+            )}
+            {isShowingDistrict && (
+              <View>
+                <View>
+                  <TextInput
+                    mode="outlined"
+                    label="State Abbreviation"
+                    value={stateAbv}
+                    error={stateAbv.length > 0 && !isValidStateAbreviation(stateAbv)}
+                    onChangeText={val => setStateAbv(val.toUpperCase())}
+                  />
+                </View>
+                <View>
+                  <TextInput
+                    mode="outlined"
+                    label="Congressional District"
+                    value={district}
+                    error={district.length > 0 && !isValidDistrict(district)}
+                    onChangeText={val => setDistrict(val)}
+                  />
+                </View>
+              </View>
+            )}
           </View>
+        </View>
+        <View style={styles.buttonContainer}>
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+          <Button mode="outlined" style={styles.switchButton} onPress={() => setIsShowingDistrict(!isShowingDistrict)}>
+            <Text style={styles.buttonText}>
+              {isShowingDistrict ? "Enter Address Instead" : "Enter District Instead"}
+            </Text>
+          </Button>
+          <Button
+            mode="contained"
+            style={styles.continueButton}
+            disabled={!canContinue || isTimerRunning}
+            loading={isTimerRunning}
+            onPress={handleContinue}
+          >
+            <Text style={styles.buttonText}>Continue</Text>
+          </Button>
         </View>
       </View>
     </SafeAreaView>
@@ -152,7 +147,12 @@ const createStyles = (colors: IColors) =>
     container: {
       paddingRight: 25,
       paddingLeft: 25,
-      paddingTop: 40,
+      paddingTop: "15%",
+      height: "100%",
+      width: "100%",
+      flexDirection: "column",
+      display: "flex",
+      justifyContent: "space-between",
     },
     errorMessage: {
       marginTop: 10,
@@ -182,4 +182,5 @@ const createStyles = (colors: IColors) =>
       width: "49%",
     },
     spinner: {},
+    buttonContainer: { paddingBottom: "5%" },
   })
