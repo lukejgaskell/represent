@@ -13,21 +13,20 @@ const getMemberUrl = memberId => `https://api.propublica.org/congress/v1/members
 const API_KEY = process.env.API_KEY
 
 async function getMembersWithDistricts(members) {
-  const requests = members.map(m =>
-    axios
-      .get(getMemberUrl(m.id), { headers: { "X-API-Key": API_KEY } })
-      .then(r => ({ id: r.data.results[0].id, district: r.data.results[0].roles[0].district }))
-  )
-
   // request in batches
   const results = []
   let position = 0
   const batchSize = 25
 
-  while (position < requests.length) {
+  while (position <= members.length) {
     const batchEndPos = position + batchSize
-    const batch = requests.slice(position, batchEndPos)
-    results.push(...(await Promise.all(batch)))
+    const batch = members.slice(position, batchEndPos)
+    const batchRequests = batch.map(m =>
+      axios
+        .get(getMemberUrl(m.id), { headers: { "X-API-Key": API_KEY } })
+        .then(r => ({ id: r.data.results[0].id, district: r.data.results[0].roles[0].district }))
+    )
+    results.push(...(await Promise.all(batchRequests)))
 
     position = batchEndPos
   }
