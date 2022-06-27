@@ -21,12 +21,15 @@ async function getMembersWithDistricts(members) {
 
   // request in batches
   const results = []
-  const position = 0
+  let position = 0
   const batchSize = 25
 
-  while (postion < requests.length) {
-    const batch = requests.slice(position, position + batchSize)
+  while (position < requests.length) {
+    const batchEndPos = position + batchSize
+    const batch = requests.slice(position, batchEndPos)
     results.push(...(await Promise.all(batch)))
+
+    position = batchEndPos
   }
 
   await Promise.all(requests)
