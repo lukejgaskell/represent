@@ -12,7 +12,7 @@ export async function getVotes({ voteIds, state, district }: GetVotesProps) {
     .from<VoteResponse>("votes")
     .select(
       `id, metadata, bill_id, date,
-      memberVotes(state, district, metadata->name, metadata->vote_position),
+      memberVotes (state, district, metadata->name, metadata->vote_position),
       bill:bill_id (metadata->title, metadata->enacted,
         metadata->latest_major_action, metadata->latest_major_action_date,
         metadata->sponsor_name, metadata->introduced_date, metadata->primary_subject, 
@@ -24,6 +24,8 @@ export async function getVotes({ voteIds, state, district }: GetVotesProps) {
     .or(`district.eq.${district},district.is.null`, {
       foreignTable: "memberVotes",
     })
+
+  console.log("votes1", data)
 
   if (error) return { error }
 

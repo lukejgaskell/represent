@@ -12,8 +12,8 @@ import DarkLogoNoText from "../components/images/DarkLogoNoText"
 import { FontAwesome } from "@expo/vector-icons"
 import { IconButton } from "react-native-paper"
 import ReportScreen from "../modules/settings/ReportScreen"
-import RepresentativeDetailsScreen from "../modules/representatives/details/RepresentativeDetailsScreen"
-import RepresentativesScreen from "../modules/representatives/RepresentativesScreen"
+import { RepresentativeDetailsScreen } from "../modules/representatives/screens/Details"
+import { RepresentitivesScreen } from "../modules/representatives/screens/List"
 import SettingsScreen from "../modules/settings/SettingsScreen"
 import WelcomeScreen from "../screens/WelcomeScreen"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
@@ -86,7 +86,7 @@ function MembersNavigator() {
           headerStyle: headerStyle(colorScheme),
           headerRight: () => <UserHeaderButton />,
         }}
-        component={RepresentativesScreen}
+        component={RepresentitivesScreen}
       />
       <MembersStack.Screen
         name="Details"

@@ -1,0 +1,1 @@
+export { SentatorDetails } from './SenatorDetails'

@@ -3,11 +3,11 @@ import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handl
 
 import { MemberCard } from "./RepresentativeCard"
 import { RefreshControl } from "react-native"
-import { useMembersStore } from "./useMemberStore"
+import { useMembersStore } from "../../useMemberStore"
 import { useNavigation } from "@react-navigation/native"
-import { useSettingsStore } from "../../stores/useSettingsStore"
+import { useSettingsStore } from "../../../../stores/useSettingsStore"
 
-export default function RepresentitivesScreen() {
+export function RepresentitivesScreen() {
   const { district, state } = useSettingsStore()
   const { items, isLoading, loadMembers } = useMembersStore()
   const navigation = useNavigation()

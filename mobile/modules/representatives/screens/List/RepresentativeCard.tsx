@@ -1,12 +1,12 @@
 import { Card, Text, Title } from "react-native-paper"
 import { Image, StyleSheet, View } from "react-native"
 
-import Colors from "../../constants/Colors"
+import Colors from "../../../../constants/Colors"
 import React from "react"
-import { Representative } from "./types"
-import { abvToState } from "../../lib/stateHelper"
-import { letterToParty } from "../../lib/partyHelper"
-import useColorScheme from "../../hooks/useColorScheme"
+import { Representative } from "../../types"
+import { abvToState } from "../../../../lib/stateHelper"
+import { letterToParty } from "../../../../lib/partyHelper"
+import useColorScheme from "../../../../hooks/useColorScheme"
 
 type IProps = Representative
 

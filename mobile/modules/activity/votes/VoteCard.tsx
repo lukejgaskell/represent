@@ -8,17 +8,7 @@ import { Vote } from "./types"
 import { displayDate } from "../../../lib/dateUtils"
 import useColorScheme from "../../../hooks/useColorScheme"
 
-export default function VoteCard({
-  id,
-  result,
-  description,
-  total,
-  date,
-  chamber,
-  question,
-  memberVotes,
-  bill_id,
-}: Vote) {
+export default function VoteCard({ result, description, total, date, chamber, question, memberVotes, bill_id }: Vote) {
   const colorScheme = useColorScheme()
   const styles = getStyles(colorScheme)
 

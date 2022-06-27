@@ -2,14 +2,14 @@ import * as React from "react"
 
 import { ActivityIndicator, Text } from "react-native-paper"
 
-import Colors from "../../../constants/Colors"
+import Colors from "../../../../constants/Colors"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RepresentativeDetailsView } from "./RepresentativeDetailsView"
-import { RepresentativeStackParamList } from "../../../navigation/types"
+import { RepresentativeStackParamList } from "../../../../navigation/types"
 import { ScrollView } from "react-native-gesture-handler"
-import useColorScheme from "../../../hooks/useColorScheme"
-import { useMembersStore } from "../useMemberStore"
-import { useSettingsStore } from "../../../stores/useSettingsStore"
+import useColorScheme from "../../../../hooks/useColorScheme"
+import { useMembersStore } from "../../useMemberStore"
+import { HouseDetails } from "./components/HouseDetails"
+import { SentatorDetails } from "./components/SenatorDetails"
 
 export type IOwnProps = {
   id: string
@@ -17,7 +17,15 @@ export type IOwnProps = {
 
 type IProps = NativeStackScreenProps<RepresentativeStackParamList, "Details">
 
-export default function RepresentativeDetailsScreen({ route }: IProps) {
+function getMemberDetails(type?: 'house' | 'senate') {
+  switch (type) {
+    case 'house': return HouseDetails;
+    case 'senate': return SentatorDetails;
+    default: return () => null;
+  }
+}
+
+export function Details({ route }: IProps) {
   const { id } = route.params
 
   const { isLoadingSelectedItem, loadSelectedMember, unloadSelectedItem, selectedItem } = useMembersStore()
@@ -30,10 +38,12 @@ export default function RepresentativeDetailsScreen({ route }: IProps) {
     return unloadSelectedItem
   }, [id])
 
+
+  const DetailsComponent = getMemberDetails(selectedItem?.type)
   return (
     <ScrollView>
       {isLoadingSelectedItem && !selectedItem && <ActivityIndicator size="large" color={colors.text} />}
-      {!isLoadingSelectedItem && selectedItem && <RepresentativeDetailsView {...selectedItem} />}
+      {!isLoadingSelectedItem && selectedItem && <DetailsComponent {...selectedItem} />}
       {!isLoadingSelectedItem && !selectedItem && <Text>Could not find selected member</Text>}
     </ScrollView>
   )

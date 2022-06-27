@@ -14,10 +14,22 @@ const API_KEY = process.env.API_KEY
 
 async function getMembersWithDistricts(members) {
   const requests = members.map(m =>
-    axios.get(getMemberUrl(m.id), { headers: { "X-API-Key": API_KEY } }).then(r => ({ id: r.data.results[0].id, district: r.data.results[0].roles[0].district }))
+    axios
+      .get(getMemberUrl(m.id), { headers: { "X-API-Key": API_KEY } })
+      .then(r => ({ id: r.data.results[0].id, district: r.data.results[0].roles[0].district }))
   )
 
-  const results = await Promise.all(requests)
+  // request in batches
+  const results = []
+  const position = 0
+  const batchSize = 25
+
+  while (postion < requests.length) {
+    const batch = requests.slice(position, position + batchSize)
+    results.push(await Promise.all(batch))
+  }
+
+  await Promise.all(requests)
   return members.map(m => ({ ...m, district: results.find(r => r.id === m.id).district }))
 }
 
@@ -25,9 +37,13 @@ module.exports.run = async (event, context) => {
   console.info(`Cron function "${context.functionName}" is starting`)
 
   try {
-    const houseMembers = await axios.get(getMembersUrl("house"), { headers: { "X-API-Key": API_KEY } }).then(r => r.data.results[0].members.map(m => ({ ...m, type: "house" })))
+    const houseMembers = await axios
+      .get(getMembersUrl("house"), { headers: { "X-API-Key": API_KEY } })
+      .then(r => r.data.results[0].members.map(m => ({ ...m, type: "house" })))
 
-    const senateMembers = await axios.get(getMembersUrl("senate"), { headers: { "X-API-Key": API_KEY } }).then(r => r.data.results[0].members.map(m => ({ ...m, type: "senate" })))
+    const senateMembers = await axios
+      .get(getMembersUrl("senate"), { headers: { "X-API-Key": API_KEY } })
+      .then(r => r.data.results[0].members.map(m => ({ ...m, type: "senate" })))
 
     const houseMembersWithDistrict = await getMembersWithDistricts(houseMembers)
 

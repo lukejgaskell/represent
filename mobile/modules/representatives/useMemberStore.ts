@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { Representative } from "./types"
+import { Representative, RepresentativeDetails } from "./types"
 import create from "zustand"
-import { getMembers } from "./api"
+import { getMemberExpenses, getMembers } from "./api"
 import { persist } from "zustand/middleware"
 
 type ILoadListProps = {
@@ -13,7 +13,7 @@ type IStore = {
   items: Representative[]
   isLoading: boolean
   isLoadingSelectedItem: boolean
-  selectedItem: Representative | null
+  selectedItem: RepresentativeDetails | null
   loadMembers: (props: ILoadListProps) => Promise<void>
   loadSelectedMember: (id: string) => void
   unloadSelectedItem: () => void
@@ -36,10 +36,12 @@ export const useMembersStore = create<IStore>(
         }
         set({ items: data, isLoading: false })
       },
-      loadSelectedMember: function (id: string) {
+      loadSelectedMember: async function (id: string) {
         const { items } = get()
         const member = items.find(m => m.id === id) || null
-        set({ selectedItem: member, isLoadingSelectedItem: false })
+        const { data } = await getMemberExpenses(member?.id)
+
+        set({ selectedItem: { ...member!, memberExpenses: data }, isLoadingSelectedItem: false })
       },
       unloadSelectedItem: function () {
         set({ selectedItem: null, isLoadingSelectedItem: true })
