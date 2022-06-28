@@ -25,8 +25,6 @@ export async function getVotes({ voteIds, state, district }: GetVotesProps) {
       foreignTable: "memberVotes",
     })
 
-  console.log("votes1", data)
-
   if (error) return { error }
 
   const result = data.map(d => ({

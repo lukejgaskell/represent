@@ -9,7 +9,7 @@ import ActivityScreen from "../modules/activity/ActivityScreen"
 import AddDistrictScreen from "../screens/AddDistrictScreen"
 import Colors from "../constants/Colors"
 import DarkLogoNoText from "../components/images/DarkLogoNoText"
-import { FontAwesome } from "@expo/vector-icons"
+import { FontAwesome5 } from "@expo/vector-icons"
 import { IconButton } from "react-native-paper"
 import ReportScreen from "../modules/settings/ReportScreen"
 import { RepresentativeDetailsScreen } from "../modules/representatives/screens/Details"
@@ -22,6 +22,8 @@ import useCachedResources from "../hooks/useCachedResources"
 import useColorScheme from "../hooks/useColorScheme"
 import { useSettingsStore } from "../stores/useSettingsStore"
 import { useState } from "react"
+import { BillsScreen } from "../modules/bills/screens/List"
+import { BillDetailsScreen } from "../modules/bills/screens/Details"
 
 const headerStyle = (colorScheme: "dark" | "light") => ({
   backgroundColor: Colors[colorScheme].cardBackground,
@@ -40,8 +42,37 @@ function UserHeaderButton() {
   )
 }
 
-function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>["name"]; color: string }) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />
+function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome5>["name"]; color: string }) {
+  return <FontAwesome5 size={25} style={{ marginBottom: -3 }} {...props} />
+}
+
+const BillsStack = createNativeStackNavigator()
+
+function BillsNavigator() {
+  const colorScheme = useColorScheme()
+  return (
+    <BillsStack.Navigator initialRouteName="List">
+      <BillsStack.Screen
+        name="List"
+        options={{
+          title: "Bills",
+          headerStyle: headerStyle(colorScheme),
+          headerRight: () => <UserHeaderButton />,
+        }}
+        component={BillsScreen}
+      />
+      <BillsStack.Screen
+        name="Details"
+        options={{
+          title: "",
+          headerStyle: headerStyle(colorScheme),
+          headerRight: () => <UserHeaderButton />,
+          headerShadowVisible: false,
+        }}
+        component={BillDetailsScreen}
+      />
+    </BillsStack.Navigator>
+  )
 }
 
 const ActivityStack = createNativeStackNavigator()
@@ -161,6 +192,17 @@ function BottomTabNavigator() {
           options={{
             headerShown: false,
             tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+            tabBarStyle: {
+              backgroundColor: Colors[colorScheme].cardBackground,
+            },
+          }}
+        />
+        <BottomTab.Screen
+          name="Bills"
+          component={BillsNavigator}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color }) => <TabBarIcon name="scroll" color={color} />,
             tabBarStyle: {
               backgroundColor: Colors[colorScheme].cardBackground,
             },

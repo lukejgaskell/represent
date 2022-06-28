@@ -9,6 +9,7 @@ import { BottomTabScreenProps } from "@react-navigation/bottom-tabs"
 import { IOwnProps as IActivityDetailsProps } from "../modules/activity/ActivityDetailsScreen"
 import { RepresentativeDetailsProps } from "../modules/representatives/screens/Details"
 import { IOwnProps as ISettingsReportProps } from "../modules/settings/ReportScreen"
+import { IBillsDetailsProps } from "../modules/bills/screens/Details"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 
 declare global {
@@ -44,9 +45,15 @@ export type RepresentativeStackParamList = {
   Details: RepresentativeDetailsProps
 }
 
+export type BillsStackParamList = {
+  List: undefined
+  Details: IBillsDetailsProps
+}
+
 export type RootTabParamList = {
   Activity: NavigatorScreenParams<ActivityStackParamList>
   Representatives: NavigatorScreenParams<RepresentativeStackParamList>
+  Bills: NavigatorScreenParams<BillsStackParamList>
   Settings: NavigatorScreenParams<SettingsStackParamList>
 }
 
