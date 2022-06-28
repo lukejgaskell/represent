@@ -12,26 +12,35 @@ const getMemberUrl = memberId => `https://api.propublica.org/congress/v1/members
 
 const API_KEY = process.env.API_KEY
 
+async function makeSafeRequest(url) {
+  try {
+    const result = await axios.get(url, { headers: { "X-API-Key": API_KEY } })
+
+    return result.data
+  } catch (e) {
+    console.log(`req failed url: ${url} error: ${e}`)
+  }
+}
+
 async function getMembersWithDistricts(members) {
   // request in batches
   const results = []
   let position = 0
-  const batchSize = 25
-
+  const batchSize = 50
   while (position <= members.length) {
     const batchEndPos = position + batchSize
     const batch = members.slice(position, batchEndPos)
     const batchRequests = batch.map(m =>
-      axios
-        .get(getMemberUrl(m.id), { headers: { "X-API-Key": API_KEY } })
-        .then(r => ({ id: r.data.results[0].id, district: r.data.results[0].roles[0].district }))
+      makeSafeRequest(getMemberUrl(m.id)).then(r => ({
+        id: r.results[0].id,
+        district: r.results[0].roles[0].district,
+      }))
     )
     results.push(...(await Promise.all(batchRequests)))
 
     position = batchEndPos
   }
 
-  await Promise.all(requests)
   return members.map(m => ({ ...m, district: results.find(r => r.id === m.id).district }))
 }
 
@@ -39,13 +48,13 @@ module.exports.run = async (event, context) => {
   console.info(`Cron function "${context.functionName}" is starting`)
 
   try {
-    const houseMembers = await axios
-      .get(getMembersUrl("house"), { headers: { "X-API-Key": API_KEY } })
-      .then(r => r.data.results[0].members.map(m => ({ ...m, type: "house" })))
+    const houseMembers = await makeSafeRequest(getMembersUrl("house")).then(r =>
+      r.results[0].members.map(m => ({ ...m, type: "house" }))
+    )
 
-    const senateMembers = await axios
-      .get(getMembersUrl("senate"), { headers: { "X-API-Key": API_KEY } })
-      .then(r => r.data.results[0].members.map(m => ({ ...m, type: "senate" })))
+    const senateMembers = await makeSafeRequest(getMembersUrl("senate")).then(r =>
+      r.results[0].members.map(m => ({ ...m, type: "senate" }))
+    )
 
     const houseMembersWithDistrict = await getMembersWithDistricts(houseMembers)
 
