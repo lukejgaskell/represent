@@ -6,19 +6,23 @@ import React from "react"
 import { Representative } from "../../../../types"
 import useColorScheme from "../../../../../../hooks/useColorScheme"
 
-type ButtonType = 'facebook' | 'twitter' | 'contact' | 'youtube'
+type ButtonType = "facebook" | "twitter" | "contact" | "youtube"
 type IProps = {
-    type: ButtonType
-    path: string
+  type: ButtonType
+  path: string
 }
 
 function getBasePath(type: ButtonType) {
-    switch(type) {
-        case 'contact': return ''
-        case 'facebook': return 'https://www.facebook.com/'
-        case 'twitter': return 'https://www.twitter.com/'
-        case 'youtube': return 'https://youtube.com/'
-    }
+  switch (type) {
+    case "contact":
+      return ""
+    case "facebook":
+      return "https://www.facebook.com/"
+    case "twitter":
+      return "https://www.twitter.com/"
+    case "youtube":
+      return "https://youtube.com/"
+  }
 }
 
 export function SocialButton(props: IProps) {
@@ -31,11 +35,11 @@ export function SocialButton(props: IProps) {
 
   return (
     <Button
-        style={styles[`${type}_button`]}
-        mode="contained"
-        onPress={() => Linking.canOpenURL(url).then(() => Linking.openURL(url))}
+      style={styles[`${type}_button`]}
+      mode="contained"
+      onPress={() => Linking.canOpenURL(url).then(() => Linking.openURL(url))}
     >
-        Twitter
+      {type}
     </Button>
   )
 }
