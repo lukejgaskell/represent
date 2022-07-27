@@ -4,11 +4,11 @@ import { ScrollView, TouchableWithoutFeedback } from "react-native-gesture-handl
 
 import { useBillsStore } from "../../useBillsStore"
 import { useNavigation } from "@react-navigation/core"
-import BillCard from "../../components/BillCard/BillCard"
+import { BillCard } from "../../components/BillCard"
 
 export function BillsScreen() {
   const { isLoadingList, loadBills, items } = useBillsStore()
-  const [scrollY, setScrollY] = React.useState(new Animated.Value(0))
+  const [scrollY] = React.useState(new Animated.Value(0))
   const navigation = useNavigation()
 
   function loadData(reset = true) {

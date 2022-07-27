@@ -1,15 +1,14 @@
-import { AntDesign, Feather, FontAwesome5, MaterialIcons } from "@expo/vector-icons"
-import { Button, Card, Divider, Paragraph, Title } from "react-native-paper"
+import { FontAwesome5 } from "@expo/vector-icons"
+import { Card, Paragraph, Title } from "react-native-paper"
 import { StyleSheet, View } from "react-native"
-import React, { useState } from "react"
+import React from "react"
 import useColorScheme from "../../../../hooks/useColorScheme"
 import { Bill } from "../../types"
 import { displayDate } from "../../../../lib/dateUtils"
 import Colors from "../../../../constants/Colors"
 
-export default function BillCard(props: Bill) {
-  const { latest_major_action_date, summary_short, summary, bill_id } = props
-  const [showMore, setShowMore] = useState(false)
+export function BillCard(props: Bill) {
+  const { number, introduced_date, short_title } = props
   const colorScheme = useColorScheme()
   const styles = getStyles(colorScheme)
 
@@ -25,20 +24,12 @@ export default function BillCard(props: Bill) {
               color={colorScheme === "light" ? "black" : "white"}
             />
             <View>
-              <Paragraph>{displayDate(latest_major_action_date)}</Paragraph>
+              <Paragraph>{displayDate(introduced_date)}</Paragraph>
+              <Paragraph>{number}</Paragraph>
             </View>
           </View>
         </View>
-        {summary_short ? (
-          <>
-            <Divider style={styles.rowMargin} />
-            <Title style={styles.rowMargin}>Summary</Title>
-            <Paragraph style={styles.rowMargin}>{showMore ? summary : summary_short}</Paragraph>
-            {summary && summary !== summary_short && (
-              <Button onPress={() => setShowMore(!showMore)}>{showMore ? "Show Less" : "Show More"}</Button>
-            )}
-          </>
-        ) : null}
+        <Title style={styles.rowMargin}>{short_title}</Title>
       </Card.Content>
     </Card>
   )
