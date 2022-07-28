@@ -7,6 +7,14 @@ frameworkVersion: "3"
 
 plugins:
   - serverless-offline
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: api-represent.gaskellsolutions.com
+    basePath: ${self:provider.stage}
+    stage: ${self:provider.stage}
+    createRoute53Record: true
 
 provider:
   name: aws
