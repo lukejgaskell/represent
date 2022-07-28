@@ -12,7 +12,7 @@ plugins:
 custom:
   customDomain:
     domainName: api-represent.gaskellsolutions.com
-    basePath: ${self:provider.stage}
+    basePath: ""
     stage: ${self:provider.stage}
     createRoute53Record: true
 
